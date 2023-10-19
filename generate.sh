@@ -1,0 +1,1 @@
+gq http://localhost:8080/v1/graphql --introspect > school_track_front/lib/graphql/schema.graphql

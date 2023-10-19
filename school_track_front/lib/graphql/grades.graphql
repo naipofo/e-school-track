@@ -1,0 +1,15 @@
+query GetGrades {
+  grades {
+    value
+    weight
+    comment
+    teacher {
+      first_name
+    }
+    class {
+      subject {
+        title
+      }
+    }
+  }
+}

@@ -7,14 +7,18 @@ environment:
   sdk: ">=3.0.5 <4.0.0"
 
 dependencies:
+  ferry: ^0.14.2+1
   flutter:
     sdk: flutter
   go_router: ^12.0.0
+  gql_http_link: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  ferry_generator: ^0.8.1
+  build_runner: ^2.4.6
 
 flutter:
   uses-material-design: true

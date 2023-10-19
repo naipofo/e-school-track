@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# generated graphQL schema
+/lib/graphql/schema.graphql
+# for now (?)
+/lib/graphql/generated

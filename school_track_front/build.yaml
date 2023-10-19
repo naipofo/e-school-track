@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      ferry_generator|graphql_builder:
+        enabled: true
+        options:
+          schema: school_track_front|lib/graphql/schema.graphql
+          output_dir: "generated"
+      ferry_generator|serializer_builder:
+        enabled: true
+        options:
+          schema: school_track_front|lib/graphql/schema.graphql
+          output_dir: "generated"
