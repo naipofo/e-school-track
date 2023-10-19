@@ -1,0 +1,10 @@
+table:
+  name: grades
+  schema: public
+object_relationships:
+  - name: class
+    using:
+      foreign_key_constraint_on: class_id
+  - name: teacher
+    using:
+      foreign_key_constraint_on: teacher_id
