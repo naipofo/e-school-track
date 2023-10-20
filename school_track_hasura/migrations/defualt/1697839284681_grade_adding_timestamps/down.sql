@@ -1,0 +1,1 @@
+ALTER TABLE public.grades DROP COLUMN added_on;

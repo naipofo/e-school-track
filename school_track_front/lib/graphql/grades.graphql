@@ -8,6 +8,11 @@ query GetGrades {
       id
       value
       weight
+      added_on
+      comment
+      teacher {
+        full_name
+      }
     }
   }
 }
