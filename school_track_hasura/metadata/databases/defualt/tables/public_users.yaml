@@ -1,3 +1,9 @@
 table:
   name: users
   schema: public
+computed_fields:
+  - name: full_name
+    definition:
+      function:
+        name: user_full_name
+        schema: public

@@ -30,7 +30,7 @@ class SingleGradeScreen extends StatelessWidget {
               ),
               if (data.comment != null) Text(data.comment!),
               Text(
-                "Given by: ${data.teacher.first_name} ${data.teacher.last_name}",
+                "Given by: ${data.teacher.full_name}",
               )
             ],
           ),

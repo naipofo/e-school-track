@@ -20,8 +20,7 @@ query ClassGrades($id: Int!) {
       weight
       comment
       teacher {
-        first_name
-        last_name
+        full_name
       }
     }
     subject {
@@ -36,8 +35,7 @@ query GradeDetail($id: Int!) {
     weight
     comment
     teacher {
-      first_name
-      last_name
+      full_name
     }
     class {
       subject {

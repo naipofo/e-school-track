@@ -1,0 +1,1 @@
+DROP FUNCTION user_full_name;
