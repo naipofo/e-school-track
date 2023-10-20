@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   ferry: ^0.14.2+1
+  ferry_flutter: ^0.8.1
   flutter:
     sdk: flutter
   go_router: ^12.0.0

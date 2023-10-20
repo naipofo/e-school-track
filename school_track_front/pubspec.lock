@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
+  ferry_flutter:
+    dependency: "direct main"
+    description:
+      name: ferry_flutter
+      sha256: "57c0f441bda868107dfdd7c18491286bbb3b3e5cf6c668f175bde7379b62a537"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   ferry_generator:
     dependency: "direct dev"
     description:

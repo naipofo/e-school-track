@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:ferry/ferry.dart';
-import 'package:school_track_front/graphql/generated/grades.req.gql.dart';
 import 'package:school_track_front/router/routes.dart';
+
+import 'gql_client.dart';
 
 final link = HttpLink("http://localhost:8080/v1/graphql");
 
 void main() async {
-  final client = Client(link: link);
-
-  client.request(GGetGradesReq()).listen((event) {
-    print(event.data?.classes[0].grades[0].value);
-  });
-
   runApp(
-    const MainApp(),
+    ClientProvider(
+      client: Client(link: link),
+      child: const MainApp(),
+    ),
   );
 }
 

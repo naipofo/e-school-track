@@ -1,5 +1,6 @@
 query GetGrades {
   classes {
+    id
     subject {
       title
     }
@@ -7,6 +8,41 @@ query GetGrades {
       id
       value
       weight
+    }
+  }
+}
+
+query ClassGrades($id: Int!) {
+  class: classes_by_pk(id: $id) {
+    grades {
+      id
+      value
+      weight
+      comment
+      teacher {
+        first_name
+        last_name
+      }
+    }
+    subject {
+      title
+    }
+  }
+}
+
+query GradeDetail($id: Int!) {
+  grade: grades_by_pk(id: $id) {
+    value
+    weight
+    comment
+    teacher {
+      first_name
+      last_name
+    }
+    class {
+      subject {
+        title
+      }
     }
   }
 }

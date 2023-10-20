@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:school_track_front/pages/class_grades.dart';
-import 'package:school_track_front/pages/grades.dart';
 import 'package:school_track_front/pages/dashboard.dart';
+import 'package:school_track_front/pages/grades/single_grade.dart';
+
+import '../pages/grades/class_grades.dart';
+import '../pages/grades/grades.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -34,18 +36,25 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-                name: 'grades',
-                path: '/grades',
-                builder: (BuildContext context, GoRouterState state) =>
-                    const GradesScreen(),
-                routes: [
-                  GoRoute(
-                    path: ":id",
-                    builder: (context, state) => ClassGradesScreen(
-                      id: int.parse(state.pathParameters["id"]!),
-                    ),
+              name: 'grades',
+              path: '/grades',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const GradesScreen(),
+              routes: [
+                GoRoute(
+                  path: "class/:id",
+                  builder: (context, state) => ClassGradesScreen(
+                    id: int.parse(state.pathParameters["id"]!),
                   ),
-                ]),
+                ),
+                GoRoute(
+                  path: "grade/:id",
+                  builder: (context, state) => SingleGradeScreen(
+                    id: int.parse(state.pathParameters["id"]!),
+                  ),
+                ),
+              ],
+            ),
           ],
         )
       ],
@@ -72,7 +81,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(children);
     return Scaffold(
       body: SafeArea(
         child: Row(
