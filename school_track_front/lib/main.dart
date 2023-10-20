@@ -10,7 +10,7 @@ void main() async {
   final client = Client(link: link);
 
   client.request(GGetGradesReq()).listen((event) {
-    print(event.data?.grades[0].comment);
+    print(event.data?.classes[0].grades[0].value);
   });
 
   runApp(

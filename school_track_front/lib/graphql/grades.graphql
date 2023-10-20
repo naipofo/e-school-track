@@ -1,15 +1,12 @@
 query GetGrades {
-  grades {
-    value
-    weight
-    comment
-    teacher {
-      first_name
+  classes {
+    subject {
+      title
     }
-    class {
-      subject {
-        title
-      }
+    grades {
+      id
+      value
+      weight
     }
   }
 }

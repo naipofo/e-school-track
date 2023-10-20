@@ -5,3 +5,11 @@ object_relationships:
   - name: subject
     using:
       foreign_key_constraint_on: subject_id
+array_relationships:
+  - name: grades
+    using:
+      foreign_key_constraint_on:
+        column: class_id
+        table:
+          name: grades
+          schema: public
