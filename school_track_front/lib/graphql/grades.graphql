@@ -39,6 +39,7 @@ query GradeDetail($id: Int!) {
     value
     weight
     comment
+    added_on
     teacher {
       full_name
     }

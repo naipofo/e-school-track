@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:school_track_front/graphql/generated/grades.data.gql.dart';
+import 'package:school_track_front/util/dates.dart';
 
 import '../../gql_client.dart';
 import '../../graphql/generated/grades.req.gql.dart';
@@ -80,9 +80,7 @@ class GradeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = DateFormat('yyyy-MM-dd').format(
-      DateTime.parse(data.added_on.value),
-    );
+    final date = formatFromTimestamp(data.added_on.value);
     return Tooltip(
       message: "Date: $date\n"
           "Teacher: ${data.teacher.full_name}\n"
