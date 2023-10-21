@@ -10,8 +10,12 @@ List<String> daysOfWeek = [
   "Tuesday",
   "Wednesday",
   "Thursday",
-  "Friday"
+  "Friday",
+  "Saturday",
+  "Sunday"
 ];
+
+List<String> workingDaysOfWeek = daysOfWeek.sublist(0, 5);
 
 class TimetableScreen extends StatelessWidget {
   const TimetableScreen({super.key});
@@ -45,7 +49,7 @@ class TimetableDataTable extends StatelessWidget {
     return DataTable(
       columns: [
         const DataColumn(label: Text('')),
-        ...daysOfWeek.map((e) => DataColumn(label: Text(e)))
+        ...workingDaysOfWeek.map((e) => DataColumn(label: Text(e)))
       ],
       rows: data
           .asMap()
@@ -54,7 +58,7 @@ class TimetableDataTable extends StatelessWidget {
             (p) => DataRow(
               cells: [
                 DataCell(Text((p.key + 1).toString())),
-                ...daysOfWeek.asMap().entries.map(
+                ...workingDaysOfWeek.asMap().entries.map(
                   (e) {
                     final cClass = p.value.lessons
                         .where((l) => l.weekday == e.key)

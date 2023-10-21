@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/pages/attendance/attendance.dart';
+import 'package:school_track_front/pages/calendar/calendar.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
@@ -140,6 +141,15 @@ final router = GoRouter(
                   const AttendanceScreen(),
             ),
           ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/calendar',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const CalendarScreen(),
+            ),
+          ],
         )
       ],
     )
@@ -192,8 +202,8 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   label: Text('Classes'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.today_outlined),
-                  selectedIcon: Icon(Icons.today),
+                  icon: Icon(Icons.calendar_view_day_outlined),
+                  selectedIcon: Icon(Icons.calendar_view_day),
                   label: Text('Timetable'),
                 ),
                 NavigationRailDestination(
@@ -205,6 +215,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: Icon(Icons.event_available_outlined),
                   selectedIcon: Icon(Icons.event_available),
                   label: Text('Attendance'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.event_outlined),
+                  selectedIcon: Icon(Icons.event),
+                  label: Text('Calendar'),
                 ),
               ],
             ),
