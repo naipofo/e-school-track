@@ -1,0 +1,11 @@
+table:
+  name: lesson_periods
+  schema: public
+array_relationships:
+  - name: lessons
+    using:
+      foreign_key_constraint_on:
+        column: period_id
+        table:
+          name: lessons
+          schema: public

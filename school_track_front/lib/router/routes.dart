@@ -5,6 +5,7 @@ import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
 import 'package:school_track_front/pages/grades/add_grade.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
+import 'package:school_track_front/pages/timetable/timetable.dart';
 
 import '../pages/grades/class_grades.dart';
 import '../pages/grades/grades.dart';
@@ -85,6 +86,15 @@ final router = GoRouter(
                   )
                 ])
           ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/timetable',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const TimetableScreen(),
+            ),
+          ],
         )
       ],
     )
@@ -135,6 +145,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: Icon(Icons.groups_outlined),
                   selectedIcon: Icon(Icons.groups),
                   label: Text('Classes'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.today_outlined),
+                  selectedIcon: Icon(Icons.today),
+                  label: Text('Timetable'),
                 ),
               ],
             ),

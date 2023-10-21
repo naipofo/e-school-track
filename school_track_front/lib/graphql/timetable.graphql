@@ -1,0 +1,15 @@
+query GetTimetable {
+  lesson_periods {
+    start
+    length
+    lessons {
+      weekday
+      class {
+        id
+        subject {
+          title
+        }
+      }
+    }
+  }
+}
