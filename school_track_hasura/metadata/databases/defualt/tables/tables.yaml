@@ -1,5 +1,6 @@
 - "!include public_attendance.yaml"
 - "!include public_classes.yaml"
+- "!include public_events.yaml"
 - "!include public_grades.yaml"
 - "!include public_groups.yaml"
 - "!include public_lesson_periods.yaml"

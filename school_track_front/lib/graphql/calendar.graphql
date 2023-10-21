@@ -1,0 +1,15 @@
+query GetEvents {
+  events {
+    date
+    period_id
+    title
+    user {
+      full_name
+    }
+    class {
+      subject {
+        title
+      }
+    }
+  }
+}

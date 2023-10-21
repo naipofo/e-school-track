@@ -4,18 +4,7 @@ import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
 
 import '../../graphql/generated/timetable.data.gql.dart';
-
-List<String> daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday"
-];
-
-List<String> workingDaysOfWeek = daysOfWeek.sublist(0, 5);
+import '../../util/dates.dart';
 
 class TimetableScreen extends StatelessWidget {
   const TimetableScreen({super.key});
