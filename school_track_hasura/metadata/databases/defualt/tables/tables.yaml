@@ -3,6 +3,7 @@
 - "!include public_groups.yaml"
 - "!include public_lesson_periods.yaml"
 - "!include public_lessons.yaml"
+- "!include public_messages.yaml"
 - "!include public_subjects.yaml"
 - "!include public_user_group.yaml"
 - "!include public_users.yaml"

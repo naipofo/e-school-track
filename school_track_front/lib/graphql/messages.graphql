@@ -1,0 +1,52 @@
+subscription GetMessages($recipient_id: Int!) {
+  messages(
+    where: { recipient_id: { _eq: $recipient_id } }
+    order_by: { sent_on: desc }
+  ) {
+    id
+    title
+    read_receipt
+    sender {
+      full_name
+    }
+  }
+}
+
+mutation ReadMessage($id: Int!) {
+  message: update_messages_by_pk(
+    pk_columns: { id: $id }
+    _set: { read_receipt: true }
+  ) {
+    title
+    content
+    sender {
+      id
+      full_name
+    }
+  }
+}
+
+query GetPossibleRecipients {
+  users {
+    id
+    full_name
+  }
+}
+
+mutation SendMessage(
+  $sender_id: Int!
+  $recipient_id: Int!
+  $title: String!
+  $content: String!
+) {
+  insert_messages_one(
+    object: {
+      sender_id: $sender_id
+      recipient_id: $recipient_id
+      title: $title
+      content: $content
+    }
+  ) {
+    id
+  }
+}

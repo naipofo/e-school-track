@@ -1,0 +1,13 @@
+table:
+  name: messages
+  schema: public
+object_relationships:
+  - name: sender
+    using:
+      manual_configuration:
+        column_mapping:
+          sender_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public

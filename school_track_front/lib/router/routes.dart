@@ -5,6 +5,9 @@ import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
 import 'package:school_track_front/pages/grades/add_grade.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
+import 'package:school_track_front/pages/messages/compose.dart';
+import 'package:school_track_front/pages/messages/inbox.dart';
+import 'package:school_track_front/pages/messages/single_message.dart';
 import 'package:school_track_front/pages/timetable/timetable.dart';
 
 import '../pages/grades/class_grades.dart';
@@ -95,6 +98,38 @@ final router = GoRouter(
                   const TimetableScreen(),
             ),
           ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/messages',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const MessageInboxScreen(),
+              routes: [
+                GoRoute(
+                  path: 'view/:id',
+                  builder: (BuildContext context, GoRouterState state) =>
+                      SingleMessageScreen(
+                    id: int.parse(
+                      state.pathParameters["id"]!,
+                    ),
+                  ),
+                ),
+                GoRoute(
+                  path: 'compose',
+                  builder: (BuildContext context, GoRouterState state) =>
+                      MessageComposeScreen(
+                    title: state.uri.queryParameters["title"],
+                    recepient: state.uri.queryParameters["recepient"] != null
+                        ? int.tryParse(
+                            state.uri.queryParameters["recepient"]!,
+                          )
+                        : null,
+                  ),
+                ),
+              ],
+            ),
+          ],
         )
       ],
     )
@@ -150,6 +185,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: Icon(Icons.today_outlined),
                   selectedIcon: Icon(Icons.today),
                   label: Text('Timetable'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.mail_outlined),
+                  selectedIcon: Icon(Icons.mail),
+                  label: Text('Messages'),
                 ),
               ],
             ),
