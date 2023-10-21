@@ -1,0 +1,3 @@
+table:
+  name: attendance
+  schema: public

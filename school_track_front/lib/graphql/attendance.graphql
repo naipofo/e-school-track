@@ -1,0 +1,12 @@
+query GetAttendance {
+  classes {
+    attendances(where: { type: { _neq: "present" } }) {
+      type
+      date
+      period_id
+    }
+    subject {
+      title
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:school_track_front/pages/attendance/attendance.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
@@ -130,6 +131,15 @@ final router = GoRouter(
               ],
             ),
           ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/attendance',
+              builder: (BuildContext context, GoRouterState state) =>
+                  const AttendanceScreen(),
+            ),
+          ],
         )
       ],
     )
@@ -190,6 +200,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: Icon(Icons.mail_outlined),
                   selectedIcon: Icon(Icons.mail),
                   label: Text('Messages'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.event_available_outlined),
+                  selectedIcon: Icon(Icons.event_available),
+                  label: Text('Attendance'),
                 ),
               ],
             ),

@@ -1,3 +1,4 @@
+- "!include public_attendance.yaml"
 - "!include public_classes.yaml"
 - "!include public_grades.yaml"
 - "!include public_groups.yaml"
