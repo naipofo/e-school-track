@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:school_track_front/pages/classes/classes.dart';
+import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
+import 'package:school_track_front/pages/grades/add_grade.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
 
 import '../pages/grades/class_grades.dart';
@@ -53,8 +56,34 @@ final router = GoRouter(
                     id: int.parse(state.pathParameters["id"]!),
                   ),
                 ),
+                GoRoute(
+                  path: "add",
+                  builder: (context, state) => AddGradeScreen(
+                    cClass: int.tryParse(
+                      state.uri.queryParameters["class"]!,
+                    ),
+                    user: int.tryParse(
+                      state.uri.queryParameters["user"]!,
+                    ),
+                  ),
+                ),
               ],
             ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+                path: '/classes',
+                builder: (context, state) => const ClassesScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'class/:id',
+                    builder: (context, state) => SingleClassScreen(
+                      id: int.parse(state.pathParameters["id"]!),
+                    ),
+                  )
+                ])
           ],
         )
       ],
@@ -101,6 +130,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: Icon(Icons.grade_outlined),
                   selectedIcon: Icon(Icons.grade),
                   label: Text('Grades'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.groups_outlined),
+                  selectedIcon: Icon(Icons.groups),
+                  label: Text('Classes'),
                 ),
               ],
             ),

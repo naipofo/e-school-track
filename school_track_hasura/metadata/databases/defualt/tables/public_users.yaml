@@ -1,6 +1,14 @@
 table:
   name: users
   schema: public
+array_relationships:
+  - name: grades
+    using:
+      foreign_key_constraint_on:
+        column: student_id
+        table:
+          name: grades
+          schema: public
 computed_fields:
   - name: full_name
     definition:

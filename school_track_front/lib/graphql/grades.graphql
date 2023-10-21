@@ -50,3 +50,39 @@ query GradeDetail($id: Int!) {
     }
   }
 }
+
+query AddGradeData($userid: Int = 0, $classid: Int = 0) {
+  user: users_by_pk(id: $userid) {
+    full_name
+  }
+  class: classes_by_pk(id: $classid) {
+    subject {
+      title
+    }
+    group {
+      name
+    }
+  }
+}
+
+mutation AddGrade(
+  $class_id: Int!
+  $student_id: Int!
+  $teacher_id: Int!
+  $value: Int!
+  $weight: Int!
+  $comment: String!
+) {
+  insert_grades_one(
+    object: {
+      class_id: $class_id
+      student_id: $student_id
+      teacher_id: $teacher_id
+      value: $value
+      weight: $weight
+      comment: $comment
+    }
+  ) {
+    id
+  }
+}
