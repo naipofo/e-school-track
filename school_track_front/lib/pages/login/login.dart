@@ -5,8 +5,15 @@ import 'package:school_track_front/gql_client.dart';
 
 import '../../conf.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String currentJwt = "";
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +27,21 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              DropdownMenu(
+                dropdownMenuEntries: testJwts
+                    .map<DropdownMenuEntry>(
+                      (e) => DropdownMenuEntry<String>(
+                        value: e.$2,
+                        label: e.$1,
+                      ),
+                    )
+                    .toList(),
+                onSelected: (value) => currentJwt = value,
+              ),
               FilledButton(
                 onPressed: () {
-                  context.read<ClientModel>().login(jwt);
+                  if (currentJwt.isEmpty) return;
+                  context.read<ClientModel>().login(currentJwt);
                   context.go("/dashboard");
                 },
                 child: const Text('login'),

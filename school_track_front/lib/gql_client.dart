@@ -14,18 +14,26 @@ class ClientModel extends ChangeNotifier {
   Client client;
   AccountType type = AccountType.guest;
 
-  void login(String jwt) {
+  void login(String jwt, {AccountType? role}) {
     client = buildClient(url, jwt: jwt);
-    final role = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"]
-        ["x-hasura-default-role"];
-    type = switch (role) {
-      "student" => AccountType.student,
-      "teacher" => AccountType.teacher,
-      "admin" => AccountType.admin,
-      _ => AccountType.guest
-    };
+    final claims = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"];
+
+    type = typeFromString(claims["x-hasura-default-role"] as String);
+    if ((claims['x-hasura-allowed-roles'] as List<dynamic>)
+        .map((e) => typeFromString(e))
+        .contains(role)) {
+      type = role!;
+    }
+
     notifyListeners();
   }
+
+  static typeFromString(String type) => switch (type) {
+        "student" => AccountType.student,
+        "teacher" => AccountType.teacher,
+        "admin" => AccountType.admin,
+        _ => AccountType.guest
+      };
 
   static Client buildClient(String url, {String? jwt}) {
     return Client(

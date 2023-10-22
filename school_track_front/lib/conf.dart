@@ -1,1 +1,14 @@
-const jwt = "";
+const testJwts = [
+  (
+    "student",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InN0dWRlbnQiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInN0dWRlbnQiXSwiWC1IYXN1cmEtVXNlci1JZCI6IjEifX0.gLgwjsvLgyOmisOVqUkmNzcFKkMjwSLDlu9Vg27srd4"
+  ),
+  (
+    "teacher",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InRlYWNoZXIiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInRlYWNoZXIiXSwiWC1IYXN1cmEtVXNlci1JZCI6IjIifX0.BShhssxVn7zB340tPeSpxQHTa6XnUHVvbN09N3dPo8I"
+  ),
+  (
+    "admin",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJhZG1pbiJdLCJYLUhhc3VyYS1Vc2VyLUlkIjoiMiJ9fQ.ci_M8wv0OaJIdytkTSOUmnzCgr5BSXRfGeR4Ql7GxFY"
+  )
+];

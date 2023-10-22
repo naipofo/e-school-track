@@ -3,13 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/pages/dashboard/teacher.dart';
 import 'package:school_track_front/pages/login/login.dart';
 import 'package:school_track_front/pages/attendance/attendance.dart';
 import 'package:school_track_front/pages/calendar/calendar.dart';
 import 'package:school_track_front/pages/calendar/event.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/single_class.dart';
-import 'package:school_track_front/pages/dashboard.dart';
+import 'package:school_track_front/pages/dashboard/student.dart';
 import 'package:school_track_front/pages/grades/add_grade.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
@@ -24,9 +25,12 @@ part 'routes.freezed.dart';
 
 typedef PermissionCheck = bool Function(AccountType);
 
-bool alwaysTrue(_) => true;
+// bool alwaysTrue(_) => true;
 bool Function(AccountType) roleOnly(AccountType allowedRole) =>
     (role) => role == allowedRole;
+bool noGuests(AccountType role) => role != AccountType.guest;
+
+typedef RoleAwareRouteBuilder = List<RouteBase> Function(AccountType);
 
 @freezed
 class RouteInfo with _$RouteInfo {
@@ -34,8 +38,8 @@ class RouteInfo with _$RouteInfo {
     required String title,
     required IconData outlineIcon,
     required IconData filledIcon,
-    @Default(alwaysTrue) PermissionCheck check,
-    required List<RouteBase> routes,
+    @Default(noGuests) PermissionCheck check,
+    required RoleAwareRouteBuilder routes,
   }) = _RouteInfo;
 }
 
@@ -47,12 +51,14 @@ final routes = [
     title: 'dashboard',
     outlineIcon: Icons.dashboard_outlined,
     filledIcon: Icons.dashboard,
-    routes: [
+    routes: (role) => [
       GoRoute(
         name: 'dashboard',
         path: '/dashboard',
-        builder: (BuildContext context, GoRouterState state) =>
-            const DashboardScreen(),
+        builder: (BuildContext context, GoRouterState state) => switch (role) {
+          AccountType.student => const StudnetDashboardScreen(),
+          _ => const TeacherDashboardScreen(),
+        },
       )
     ],
   ),
@@ -60,7 +66,7 @@ final routes = [
     title: 'grades',
     outlineIcon: Icons.star_outline,
     filledIcon: Icons.star,
-    routes: [
+    routes: (_) => [
       GoRoute(
         name: 'grades',
         path: '/grades',
@@ -98,7 +104,7 @@ final routes = [
     title: 'timetable',
     outlineIcon: Icons.calendar_view_day_outlined,
     filledIcon: Icons.calendar_view_day,
-    routes: [
+    routes: (_) => [
       GoRoute(
         path: '/timetable',
         builder: (BuildContext context, GoRouterState state) =>
@@ -110,7 +116,7 @@ final routes = [
     title: 'calendar',
     outlineIcon: Icons.event_outlined,
     filledIcon: Icons.event,
-    routes: [
+    routes: (_) => [
       GoRoute(
         path: '/calendar',
         builder: (BuildContext context, GoRouterState state) =>
@@ -133,7 +139,7 @@ final routes = [
     title: 'messages',
     outlineIcon: Icons.mail_outline,
     filledIcon: Icons.mail,
-    routes: [
+    routes: (_) => [
       GoRoute(
         path: '/messages',
         builder: (BuildContext context, GoRouterState state) =>
@@ -168,7 +174,7 @@ final routes = [
     title: 'attendance',
     outlineIcon: Icons.event_available_outlined,
     filledIcon: Icons.event_available,
-    routes: [
+    routes: (_) => [
       GoRoute(
         path: '/attendance',
         builder: (BuildContext context, GoRouterState state) =>
@@ -181,7 +187,7 @@ final routes = [
     outlineIcon: Icons.groups_outlined,
     filledIcon: Icons.groups,
     check: roleOnly(AccountType.teacher),
-    routes: [
+    routes: (_) => [
       GoRoute(
         path: '/classes',
         builder: (context, state) => const ClassesScreen(),
@@ -217,18 +223,20 @@ class RouterConfigurator extends StatelessWidget {
           navigatorKey: _rootNavigatorKey,
           initialLocation: '/dashboard',
           routes: [
-            StatefulShellRoute(
-              builder: (context, state, navigationShell) => navigationShell,
-              navigatorContainerBuilder: (context, navigationShell, children) =>
-                  ScaffoldWithNavBar(
-                navigationShell: navigationShell,
-                routes: filteredRoutes.toList(),
-                children: children,
+            if (filteredRoutes.isNotEmpty)
+              StatefulShellRoute(
+                builder: (context, state, navigationShell) => navigationShell,
+                navigatorContainerBuilder:
+                    (context, navigationShell, children) => ScaffoldWithNavBar(
+                  navigationShell: navigationShell,
+                  routes: filteredRoutes.toList(),
+                  children: children,
+                ),
+                branches: filteredRoutes
+                    .map((e) =>
+                        StatefulShellBranch(routes: e.routes(value.type)))
+                    .toList(),
               ),
-              branches: filteredRoutes
-                  .map((e) => StatefulShellBranch(routes: e.routes))
-                  .toList(),
-            ),
             GoRoute(
               path: '/login',
               builder: (context, state) => const LoginScreen(),
