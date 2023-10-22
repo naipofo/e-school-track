@@ -5,3 +5,18 @@ object_relationships:
   - name: class
     using:
       foreign_key_constraint_on: class_id
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - class_id
+        - id
+        - period_id
+        - weekday
+      filter:
+        class:
+          group:
+            user_groups:
+              user_id:
+                _eq: X-Hasura-User-Id
+    comment: ""

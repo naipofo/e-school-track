@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/grades.req.gql.dart';
 
@@ -127,7 +128,8 @@ class _AddGradeFormState extends State<AddGradeForm> {
             child: FilledButton(
               onPressed: () {
                 context.pop();
-                ClientProvider.of(context)
+                context
+                    .read<ClientModel>()
                     .client
                     .request(
                       GAddGradeReq(

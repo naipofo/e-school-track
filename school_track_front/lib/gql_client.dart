@@ -1,23 +1,44 @@
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ferry/ferry.dart';
+import 'package:gql_websocket_link/gql_websocket_link.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 
-class ClientProvider extends InheritedWidget {
-  final Client client;
+enum AccountType { guest, student, teacher, admin }
 
-  const ClientProvider({
-    super.key,
-    required this.client,
-    required super.child,
-  });
+class ClientModel extends ChangeNotifier {
+  ClientModel({required this.url}) : client = buildClient(url);
 
-  static ClientProvider of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ClientProvider>()!;
+  final String url;
+  Client client;
+  AccountType type = AccountType.guest;
+
+  void login(String jwt) {
+    client = buildClient(url, jwt: jwt);
+    final role = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"]
+        ["x-hasura-default-role"];
+    type = switch (role) {
+      "student" => AccountType.student,
+      "teacher" => AccountType.teacher,
+      "admin" => AccountType.admin,
+      _ => AccountType.guest
+    };
+    notifyListeners();
   }
 
-  @override
-  bool updateShouldNotify(ClientProvider oldWidget) =>
-      oldWidget.client != client;
+  static Client buildClient(String url, {String? jwt}) {
+    return Client(
+      link: WebSocketLink(
+        "ws://localhost:8080/v1/graphql",
+        autoReconnect: true,
+        reconnectInterval: const Duration(seconds: 1),
+        initialPayload: {
+          if (jwt != null) 'headers': {'Authorization': "Bearer $jwt"}
+        },
+      ),
+    );
+  }
 }
 
 typedef GqlFetchBuilder<TData> = Widget Function(
@@ -49,7 +70,7 @@ class GqlFetch<TData, TVars> extends StatelessWidget {
           return ErrorWidget(FlutterError('Data is null'));
         }
       },
-      client: ClientProvider.of(context).client,
+      client: context.read<ClientModel>().client,
     );
   }
 }

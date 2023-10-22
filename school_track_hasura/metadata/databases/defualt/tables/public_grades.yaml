@@ -8,3 +8,19 @@ object_relationships:
   - name: teacher
     using:
       foreign_key_constraint_on: teacher_id
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - class_id
+        - id
+        - student_id
+        - teacher_id
+        - value
+        - weight
+        - comment
+        - added_on
+      filter:
+        student_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

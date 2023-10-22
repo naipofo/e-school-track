@@ -23,3 +23,13 @@ array_relationships:
         table:
           name: grades
           schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - group_id
+        - id
+        - subject_id
+        - teacher_id
+      filter: {}
+    comment: ""

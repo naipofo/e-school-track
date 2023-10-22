@@ -11,3 +11,43 @@ object_relationships:
         remote_table:
           name: users
           schema: public
+insert_permissions:
+  - role: student
+    permission:
+      check:
+        sender_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - read_receipt
+        - id
+        - recipient_id
+        - sender_id
+        - content
+        - title
+        - sent_on
+    comment: ""
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - content
+        - id
+        - read_receipt
+        - recipient_id
+        - sender_id
+        - sent_on
+        - title
+      filter:
+        recipient_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: student
+    permission:
+      columns:
+        - read_receipt
+      filter:
+        recipient_id:
+          _eq: X-Hasura-User-Id
+      check: null
+    comment: ""

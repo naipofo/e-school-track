@@ -11,10 +11,12 @@ dependencies:
   ferry_flutter: ^0.8.1
   flutter:
     sdk: flutter
+  freezed_annotation: ^2.4.1
   go_router: ^12.0.0
-  gql_http_link: ^1.0.1
   gql_websocket_link: ^1.1.0
   intl: ^0.18.1
+  jwt_decoder: ^2.0.1
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +24,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   ferry_generator: ^0.8.1
   build_runner: ^2.4.6
+  freezed: ^2.4.5
 
 flutter:
   uses-material-design: true

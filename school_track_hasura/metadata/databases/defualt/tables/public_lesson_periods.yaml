@@ -9,3 +9,12 @@ array_relationships:
         table:
           name: lessons
           schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - id
+        - length
+        - start
+      filter: {}
+    comment: ""

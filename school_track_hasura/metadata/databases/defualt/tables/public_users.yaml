@@ -15,3 +15,14 @@ computed_fields:
       function:
         name: user_full_name
         schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - id
+        - first_name
+        - last_name
+      computed_fields:
+        - full_name
+      filter: {}
+    comment: ""

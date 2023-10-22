@@ -1,3 +1,11 @@
 table:
   name: subjects
   schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - id
+        - title
+      filter: {}
+    comment: ""
