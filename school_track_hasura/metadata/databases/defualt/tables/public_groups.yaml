@@ -26,3 +26,11 @@ select_permissions:
             id:
               _eq: X-Hasura-User-Id
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - homeroom_teacher_id
+        - id
+        - name
+      filter: {}
+    comment: ""

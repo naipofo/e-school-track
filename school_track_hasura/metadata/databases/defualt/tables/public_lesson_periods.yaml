@@ -18,3 +18,11 @@ select_permissions:
         - start
       filter: {}
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - id
+        - length
+        - start
+      filter: {}
+    comment: ""

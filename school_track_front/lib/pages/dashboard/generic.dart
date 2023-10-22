@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:school_track_front/gql_client.dart';
 
 class GenericDashboard extends StatelessWidget {
   const GenericDashboard({super.key, this.name});
@@ -20,7 +21,7 @@ class GenericDashboard extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () => context.go('/dashboard'),
+            onPressed: () => context.read<ClientModel>().logOut(),
             child: const Text('Log out'),
           )
         ],

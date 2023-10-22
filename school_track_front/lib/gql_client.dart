@@ -28,6 +28,11 @@ class ClientModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void logOut() {
+    type = AccountType.guest;
+    notifyListeners();
+  }
+
   static typeFromString(String type) => switch (type) {
         "student" => AccountType.student,
         "teacher" => AccountType.teacher,

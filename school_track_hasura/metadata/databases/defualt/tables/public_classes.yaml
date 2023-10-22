@@ -33,3 +33,12 @@ select_permissions:
         - teacher_id
       filter: {}
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - group_id
+        - id
+        - subject_id
+        - teacher_id
+      filter: {}
+    comment: ""

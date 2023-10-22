@@ -26,3 +26,13 @@ select_permissions:
         - full_name
       filter: {}
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - id
+        - first_name
+        - last_name
+      computed_fields:
+        - full_name
+      filter: {}
+    comment: ""

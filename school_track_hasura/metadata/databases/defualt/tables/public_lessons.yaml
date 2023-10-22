@@ -20,3 +20,15 @@ select_permissions:
               user_id:
                 _eq: X-Hasura-User-Id
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - class_id
+        - id
+        - period_id
+        - weekday
+      filter:
+        class:
+          teacher_id:
+            _eq: X-Hasura-User-Id
+    comment: ""

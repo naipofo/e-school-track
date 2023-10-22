@@ -9,3 +9,10 @@ select_permissions:
         - title
       filter: {}
     comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - id
+        - title
+      filter: {}
+    comment: ""

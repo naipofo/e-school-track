@@ -8,6 +8,26 @@ object_relationships:
   - name: teacher
     using:
       foreign_key_constraint_on: teacher_id
+insert_permissions:
+  - role: teacher
+    permission:
+      check:
+        _and:
+          - class:
+              teacher_id:
+                _eq: X-Hasura-User-Id
+          - teacher_id:
+              _eq: X-Hasura-User-Id
+      columns:
+        - class_id
+        - id
+        - student_id
+        - teacher_id
+        - value
+        - weight
+        - comment
+        - added_on
+    comment: ""
 select_permissions:
   - role: student
     permission:
@@ -23,4 +43,41 @@ select_permissions:
       filter:
         student_id:
           _eq: X-Hasura-User-Id
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - class_id
+        - id
+        - student_id
+        - teacher_id
+        - value
+        - weight
+        - comment
+        - added_on
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: teacher
+    permission:
+      columns: []
+      filter:
+        _and:
+          - class:
+              teacher_id:
+                _eq: X-Hasura-User-Id
+          - teacher_id:
+              _eq: X-Hasura-User-Id
+      check: null
+    comment: ""
+delete_permissions:
+  - role: teacher
+    permission:
+      filter:
+        _and:
+          - class:
+              teacher_id:
+                _eq: X-Hasura-User-Id
+          - teacher_id:
+              _eq: X-Hasura-User-Id
     comment: ""
