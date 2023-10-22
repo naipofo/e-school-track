@@ -1,5 +1,5 @@
 query GetTimetable {
-  lesson_periods {
+  lesson_periods(order_by: { id: asc }) {
     start
     length
     lessons {
@@ -11,5 +11,23 @@ query GetTimetable {
         }
       }
     }
+  }
+}
+
+# Editing
+subscription GetLessonPeriods {
+  lesson_periods(order_by: { id: asc }) {
+    id
+    length
+    start
+  }
+}
+
+mutation SetPeriodStart($id: Int!, $start: time!) {
+  update_lesson_periods_by_pk(
+    pk_columns: { id: $id }
+    _set: { start: $start }
+  ) {
+    id
   }
 }

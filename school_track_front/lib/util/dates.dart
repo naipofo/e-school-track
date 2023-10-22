@@ -12,3 +12,5 @@ List<String> workingDaysOfWeek = daysOfWeek.sublist(0, 5);
 String formatFromTimestamp(String ts) => DateFormat('yyyy-MM-dd').format(
       DateTime.parse(ts),
     );
+
+DateFormat timeFormat = DateFormat("HH:mm:ss");

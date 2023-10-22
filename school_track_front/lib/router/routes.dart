@@ -20,7 +20,8 @@ import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
 import 'package:school_track_front/pages/messages/inbox.dart';
 import 'package:school_track_front/pages/messages/single_message.dart';
-import 'package:school_track_front/pages/timetable/timatable_dashboard.dart';
+import 'package:school_track_front/pages/timetable/admin_dashboard.dart';
+import 'package:school_track_front/pages/timetable/periods_editor.dart';
 import 'package:school_track_front/pages/timetable/timetable.dart';
 
 import '../pages/grades/class_grades.dart';
@@ -130,9 +131,15 @@ final routes = [
       GoRoute(
         path: '/timetable',
         builder: (BuildContext context, GoRouterState state) => switch (role) {
-          AccountType.admin => const TimeTableDashboardScreen(),
+          AccountType.admin => const TimeTableAdminDashboardScreen(),
           _ => const TimetableScreen()
         },
+        routes: [
+          GoRoute(
+            path: "periods",
+            builder: (context, state) => const PeriodEditorScreen(),
+          ),
+        ],
       )
     ],
   ),
