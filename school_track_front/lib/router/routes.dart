@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/pages/attendance/attendance.dart';
 import 'package:school_track_front/pages/calendar/calendar.dart';
+import 'package:school_track_front/pages/calendar/event.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/single_class.dart';
 import 'package:school_track_front/pages/dashboard.dart';
@@ -145,10 +146,20 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/calendar',
-              builder: (BuildContext context, GoRouterState state) =>
-                  const CalendarScreen(),
-            ),
+                path: '/calendar',
+                builder: (BuildContext context, GoRouterState state) =>
+                    const CalendarScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'event/:id',
+                    builder: (BuildContext context, GoRouterState state) =>
+                        SingleEventScreen(
+                      id: int.parse(
+                        state.pathParameters["id"]!,
+                      ),
+                    ),
+                  ),
+                ]),
           ],
         )
       ],

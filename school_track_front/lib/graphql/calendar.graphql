@@ -1,5 +1,6 @@
 query GetEvents {
   events {
+    id
     date
     period_id
     title
@@ -10,6 +11,17 @@ query GetEvents {
       subject {
         title
       }
+    }
+  }
+}
+
+query GetSingleEvent($id: Int!) {
+  events_by_pk(id: $id) {
+    title
+    date
+    comment
+    user {
+      full_name
     }
   }
 }

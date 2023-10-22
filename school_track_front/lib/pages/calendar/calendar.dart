@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:school_track_front/graphql/generated/calendar.data.gql.dart';
 import 'package:school_track_front/graphql/generated/calendar.req.gql.dart';
@@ -226,12 +227,16 @@ class DayCell extends StatelessWidget {
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(e.title),
+              clipBehavior: Clip.hardEdge,
+              child: InkWell(
+                onTap: () => context.go("/calendar/event/${e.id}"),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(e.title),
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
