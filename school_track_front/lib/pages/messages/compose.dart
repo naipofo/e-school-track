@@ -97,13 +97,12 @@ class _SendMessageFormState extends State<SendMessageForm> {
             child: FilledButton(
               onPressed: () {
                 context.go("/messages");
-                context
-                    .read<ClientModel>()
-                    .client
+                var clientModel = context.read<ClientModel>();
+                clientModel.client
                     .request(
                       GSendMessageReq(
                         (g) => g.vars
-                          ..sender_id = 2
+                          ..sender_id = clientModel.userId
                           ..recipient_id = recepient
                           ..title = title ?? widget.title
                           ..content = contentController.text,

@@ -13,6 +13,7 @@ class ClientModel extends ChangeNotifier {
   final String url;
   Client client;
   AccountType type = AccountType.guest;
+  int userId = 0;
 
   void login(String jwt, {AccountType? role}) {
     client = buildClient(url, jwt: jwt);
@@ -24,6 +25,8 @@ class ClientModel extends ChangeNotifier {
         .contains(role)) {
       type = role!;
     }
+
+    userId = int.parse(claims['X-Hasura-User-Id']);
 
     notifyListeners();
   }

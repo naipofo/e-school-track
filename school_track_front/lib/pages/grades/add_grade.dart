@@ -128,9 +128,8 @@ class _AddGradeFormState extends State<AddGradeForm> {
             child: FilledButton(
               onPressed: () {
                 context.pop();
-                context
-                    .read<ClientModel>()
-                    .client
+                var clientModel = context.read<ClientModel>();
+                clientModel.client
                     .request(
                       GAddGradeReq(
                         (g) => g.vars
@@ -141,7 +140,7 @@ class _AddGradeFormState extends State<AddGradeForm> {
                           ..comment = commentController.text.isNotEmpty
                               ? commentController.text
                               : null
-                          ..teacher_id = 2,
+                          ..teacher_id = clientModel.userId,
                       ),
                     )
                     .listen((event) {});

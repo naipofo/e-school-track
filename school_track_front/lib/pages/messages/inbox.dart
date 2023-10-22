@@ -16,7 +16,7 @@ class MessageInboxScreen extends StatelessWidget {
         child: const Icon(Icons.create),
       ),
       body: GqlFetch(
-        operationRequest: GGetMessagesReq((g) => g.vars..recipient_id = 1),
+        operationRequest: GGetMessagesReq(),
         builder: (context, data) => ListView(
           children: ListTile.divideTiles(
             context: context,

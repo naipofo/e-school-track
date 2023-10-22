@@ -1,8 +1,5 @@
-subscription GetMessages($recipient_id: Int!) {
-  messages(
-    where: { recipient_id: { _eq: $recipient_id } }
-    order_by: { sent_on: desc }
-  ) {
+subscription GetMessages {
+  messages(order_by: { sent_on: desc }) {
     id
     title
     read_receipt
