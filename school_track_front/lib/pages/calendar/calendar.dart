@@ -10,12 +10,23 @@ import '../../gql_client.dart';
 import '../../util/dates.dart';
 
 class CalendarScreen extends StatelessWidget {
-  const CalendarScreen({super.key});
+  const CalendarScreen({
+    super.key,
+    required this.canAdd,
+  });
+
+  final bool canAdd;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Calendar')),
+      floatingActionButton: canAdd
+          ? FloatingActionButton(
+              onPressed: () => context.go("/calendar/add"),
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: GqlFetch(
         operationRequest: GGetEventsReq(),
         builder: (context, data) => Center(
@@ -30,7 +41,8 @@ class CalendarScreen extends StatelessWidget {
                       minHeight: upperConstraints.maxHeight,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0)
+                          .copyWith(bottom: canAdd ? 64.0 : 8.0),
                       child: Calendar(
                         events: data.events.toList(),
                       ),

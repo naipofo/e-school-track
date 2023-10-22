@@ -4,8 +4,8 @@ import 'package:school_track_front/util/dates.dart';
 
 import '../../gql_client.dart';
 
-class AttendanceScreen extends StatelessWidget {
-  const AttendanceScreen({super.key});
+class StudentAttendanceScreen extends StatelessWidget {
+  const StudentAttendanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

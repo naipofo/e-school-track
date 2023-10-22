@@ -20,10 +20,6 @@ class MessageComposeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('New Message')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go("/messages/compose"),
-        child: const Icon(Icons.reply),
-      ),
       body: GqlFetch(
         operationRequest: GGetPossibleRecipientsReq(),
         builder: (context, data) => Padding(
@@ -100,7 +96,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: FilledButton(
               onPressed: () {
-                context.pop();
+                context.go("/messages");
                 context
                     .read<ClientModel>()
                     .client

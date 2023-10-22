@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:school_track_front/graphql/generated/grades.req.gql.dart';
 
 import '../../gql_client.dart';
 import '../../util/dates.dart';
 
 class SingleGradeScreen extends StatelessWidget {
-  const SingleGradeScreen({super.key, required this.id});
+  const SingleGradeScreen({
+    super.key,
+    required this.id,
+    this.canEdit = false,
+  });
 
   final int id;
+  final bool canEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +27,12 @@ class SingleGradeScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(title: Text(data.Gclass.subject.title)),
+          floatingActionButton: canEdit
+              ? FloatingActionButton(
+                  onPressed: () => context.push("/grades/grade/$id/edit"),
+                  child: const Icon(Icons.edit),
+                )
+              : null,
           body: ListView(
             children: [
               Center(

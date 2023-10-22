@@ -3,9 +3,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/pages/attendance/attendance_dashboard.dart';
+import 'package:school_track_front/pages/calendar/add_event.dart';
+import 'package:school_track_front/pages/dashboard/admin.dart';
 import 'package:school_track_front/pages/dashboard/teacher.dart';
+import 'package:school_track_front/pages/grades/edit_single_grade.dart';
 import 'package:school_track_front/pages/login/login.dart';
-import 'package:school_track_front/pages/attendance/attendance.dart';
+import 'package:school_track_front/pages/attendance/student_attendance.dart';
 import 'package:school_track_front/pages/calendar/calendar.dart';
 import 'package:school_track_front/pages/calendar/event.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
@@ -16,6 +20,7 @@ import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
 import 'package:school_track_front/pages/messages/inbox.dart';
 import 'package:school_track_front/pages/messages/single_message.dart';
+import 'package:school_track_front/pages/timetable/timatable_dashboard.dart';
 import 'package:school_track_front/pages/timetable/timetable.dart';
 
 import '../pages/grades/class_grades.dart';
@@ -46,6 +51,10 @@ class RouteInfo with _$RouteInfo {
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
+extension on AccountType {
+  bool get editAgent => this != AccountType.student;
+}
+
 final routes = [
   RouteInfo(
     title: 'dashboard',
@@ -56,8 +65,9 @@ final routes = [
         name: 'dashboard',
         path: '/dashboard',
         builder: (BuildContext context, GoRouterState state) => switch (role) {
-          AccountType.student => const StudnetDashboardScreen(),
-          _ => const TeacherDashboardScreen(),
+          AccountType.teacher => const TeacherDashboardScreen(),
+          AccountType.admin => const AdminDashboardScreen(),
+          _ => const StudnetDashboardScreen(),
         },
       )
     ],
@@ -66,7 +76,8 @@ final routes = [
     title: 'grades',
     outlineIcon: Icons.star_outline,
     filledIcon: Icons.star,
-    routes: (_) => [
+    check: roleOnly(AccountType.student),
+    routes: (role) => [
       GoRoute(
         name: 'grades',
         path: '/grades',
@@ -80,11 +91,22 @@ final routes = [
             ),
           ),
           GoRoute(
-            path: "grade/:id",
-            builder: (context, state) => SingleGradeScreen(
-              id: int.parse(state.pathParameters["id"]!),
-            ),
-          ),
+              path: "grade/:id",
+              builder: (context, state) => SingleGradeScreen(
+                    id: int.parse(state.pathParameters["id"]!),
+                    canEdit: role.editAgent,
+                  ),
+              routes: [
+                if (role.editAgent)
+                  GoRoute(
+                    path: 'edit',
+                    builder: (context, state) => EditSingleGradeScreen(
+                      id: int.parse(
+                        state.pathParameters["id"]!,
+                      ),
+                    ),
+                  )
+              ]),
           GoRoute(
             path: "add",
             builder: (context, state) => AddGradeScreen(
@@ -104,11 +126,13 @@ final routes = [
     title: 'timetable',
     outlineIcon: Icons.calendar_view_day_outlined,
     filledIcon: Icons.calendar_view_day,
-    routes: (_) => [
+    routes: (role) => [
       GoRoute(
         path: '/timetable',
-        builder: (BuildContext context, GoRouterState state) =>
-            const TimetableScreen(),
+        builder: (BuildContext context, GoRouterState state) => switch (role) {
+          AccountType.admin => const TimeTableDashboardScreen(),
+          _ => const TimetableScreen()
+        },
       )
     ],
   ),
@@ -116,11 +140,12 @@ final routes = [
     title: 'calendar',
     outlineIcon: Icons.event_outlined,
     filledIcon: Icons.event,
-    routes: (_) => [
+    routes: (role) => [
       GoRoute(
         path: '/calendar',
-        builder: (BuildContext context, GoRouterState state) =>
-            const CalendarScreen(),
+        builder: (BuildContext context, GoRouterState state) => CalendarScreen(
+          canAdd: role.editAgent,
+        ),
         routes: [
           GoRoute(
             path: 'event/:id',
@@ -130,6 +155,11 @@ final routes = [
                 state.pathParameters["id"]!,
               ),
             ),
+          ),
+          GoRoute(
+            path: 'add',
+            builder: (BuildContext context, GoRouterState state) =>
+                const AddEventScreen(),
           ),
         ],
       ),
@@ -174,11 +204,12 @@ final routes = [
     title: 'attendance',
     outlineIcon: Icons.event_available_outlined,
     filledIcon: Icons.event_available,
-    routes: (_) => [
+    routes: (role) => [
       GoRoute(
         path: '/attendance',
-        builder: (BuildContext context, GoRouterState state) =>
-            const AttendanceScreen(),
+        builder: (BuildContext context, GoRouterState state) => role.editAgent
+            ? const AttendanceDashboard()
+            : const StudentAttendanceScreen(),
       ),
     ],
   ),
@@ -240,7 +271,10 @@ class RouterConfigurator extends StatelessWidget {
             GoRoute(
               path: '/login',
               builder: (context, state) => const LoginScreen(),
-            )
+            ),
+            ...routes
+                .where((r) => !r.check(value.type))
+                .expand((e) => e.routes(value.type))
           ],
           errorPageBuilder: (context, state) => MaterialPage(
             key: state.pageKey,
