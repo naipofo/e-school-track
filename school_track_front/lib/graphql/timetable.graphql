@@ -29,5 +29,15 @@ mutation SetPeriodStart($id: Int!, $start: time!) {
     _set: { start: $start }
   ) {
     id
+    start
+  }
+}
+
+mutation SetPeriodLength($id: Int!, $length: interval!) {
+  update_lesson_periods_by_pk(
+    pk_columns: { id: $id }
+    _set: { length: $length }
+  ) {
+    id
   }
 }

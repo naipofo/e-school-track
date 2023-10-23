@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
@@ -30,10 +31,17 @@ class PeriodEditorScreen extends StatelessWidget {
   }
 }
 
-class PeriodsDataTable extends StatelessWidget {
+class PeriodsDataTable extends StatefulWidget {
   const PeriodsDataTable({super.key, required this.data});
 
   final List<GGetLessonPeriodsData_lesson_periods> data;
+
+  @override
+  State<PeriodsDataTable> createState() => _PeriodsDataTableState();
+}
+
+class _PeriodsDataTableState extends State<PeriodsDataTable> {
+  final lengthController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class PeriodsDataTable extends StatelessWidget {
         DataColumn(label: Text('Start')),
         DataColumn(label: Text('Length')),
       ],
-      rows: data
+      rows: widget.data
           .map(
             (p) => DataRow(
               cells: [
@@ -62,21 +70,19 @@ class PeriodsDataTable extends StatelessWidget {
                       ),
                     ),
                     context: context,
-                  ).then((value) {
-                    return context
-                        .read<ClientModel>()
-                        .client
-                        .request(
-                          GSetPeriodStartReq(
-                            (g) => g.vars
-                              ..id = p.id
-                              ..start = (GtimeBuilder()
-                                ..value = timeFormat.format(DateTime(
-                                    0, 0, 0, value!.hour, value.minute))),
-                          ),
-                        )
-                        .listen((event) {});
-                  }),
+                  ).then((value) => context
+                      .read<ClientModel>()
+                      .client
+                      .request(
+                        GSetPeriodStartReq(
+                          (g) => g.vars
+                            ..id = p.id
+                            ..start = (GtimeBuilder()
+                              ..value = timeFormat.format(DateTime(
+                                  0, 0, 0, value!.hour, value.minute))),
+                        ),
+                      )
+                      .listen((event) {})),
                 ),
                 DataCell(
                   Text(
@@ -89,7 +95,49 @@ class PeriodsDataTable extends StatelessWidget {
                         .toString(),
                   ),
                   showEditIcon: true,
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Change lesson ${p.id}'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: lengthController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                label: Text('Length'),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context
+                                    .read<ClientModel>()
+                                    .client
+                                    .request(GSetPeriodLengthReq(
+                                      (g) => g.vars
+                                        ..id = p.id
+                                        ..length = (GintervalBuilder()
+                                          ..value =
+                                              "${lengthController.text} minutes"),
+                                    ))
+                                    .listen((event) {});
+                                Navigator.pop(context);
+                                lengthController.clear();
+                              },
+                              child: const Text('Save'),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
