@@ -60,7 +60,16 @@ select_permissions:
 update_permissions:
   - role: teacher
     permission:
-      columns: []
+      columns:
+        - date
+        - class_id
+        - id
+        - period_id
+        - student_id
+        - techer_id
+        - comment
+        - created_at
+        - type
       filter:
         _and:
           - techer_id:

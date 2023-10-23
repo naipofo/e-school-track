@@ -80,9 +80,10 @@ class PeriodsDataTable extends StatelessWidget {
                 ),
                 DataCell(
                   Text(
-                    (parseTime(p.length.value)
+                    (timeFormat
+                            .parse(p.length.value)
                             .difference(
-                              parseTime("0:0:0"),
+                              timeFormat.parse("0:0:0"),
                             )
                             .inMinutes)
                         .toString(),

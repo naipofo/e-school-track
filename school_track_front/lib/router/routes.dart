@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/pages/attendance/attendance_dashboard.dart';
+import 'package:school_track_front/pages/attendance/batch_attendance.dart';
 import 'package:school_track_front/pages/calendar/add_event.dart';
 import 'package:school_track_front/pages/dashboard/admin.dart';
 import 'package:school_track_front/pages/dashboard/teacher.dart';
@@ -217,6 +218,14 @@ final routes = [
         builder: (BuildContext context, GoRouterState state) => role.editAgent
             ? const AttendanceDashboard()
             : const StudentAttendanceScreen(),
+        routes: [
+          GoRoute(
+            path: "batch/:id",
+            builder: (context, state) => BatchAttendanceScreen(
+              id: int.parse(state.pathParameters["id"]!),
+            ),
+          )
+        ],
       ),
     ],
   ),

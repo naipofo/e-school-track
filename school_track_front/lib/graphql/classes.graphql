@@ -41,3 +41,40 @@ subscription ClassDetail($id: Int!) {
     }
   }
 }
+
+query ClassAttendace($class_id: Int!, $date: date!) {
+  class: classes_by_pk(id: $class_id) {
+    subject {
+      title
+    }
+    group {
+      name
+      user_groups {
+        user {
+          id
+          full_name
+          attendances(
+            where: { class_id: { _eq: $class_id }, date: { _eq: $date } }
+          ) {
+            type
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation InsertAttendance($att: [attendance_insert_input!]!) {
+  insert_attendance(
+    objects: $att
+    on_conflict: {
+      constraint: attendance_student_id_date_period_id_key
+      update_columns: type
+    }
+  ) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
