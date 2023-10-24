@@ -1,0 +1,82 @@
+table:
+  name: inbox_entries
+  schema: public
+object_relationships:
+  - name: message
+    using:
+      foreign_key_constraint_on: message_id
+insert_permissions:
+  - role: student
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+    comment: ""
+  - role: teacher
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+    comment: ""
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: student
+    permission:
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - read_receipt
+        - id
+        - message_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

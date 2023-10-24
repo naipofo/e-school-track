@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/messages.req.gql.dart';
 
@@ -11,9 +12,13 @@ class SingleMessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GqlFetch(
-      operationRequest: GReadMessageReq((g) => g.vars..id = id),
+      operationRequest: GReadMessageReq(
+        (g) => g.vars
+          ..id = id
+          ..user_id = context.read<ClientModel>().userId,
+      ),
       builder: (context, data) {
-        final message = data.message!;
+        final message = data.inbox!.message;
         return Scaffold(
           appBar: AppBar(title: Text(message.title)),
           floatingActionButton: FloatingActionButton(

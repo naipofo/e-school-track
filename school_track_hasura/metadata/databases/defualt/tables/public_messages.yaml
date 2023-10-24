@@ -2,6 +2,15 @@ table:
   name: messages
   schema: public
 object_relationships:
+  - name: recipients
+    using:
+      manual_configuration:
+        column_mapping:
+          id: message_id
+        insertion_order: null
+        remote_table:
+          name: recipients
+          schema: public
   - name: sender
     using:
       manual_configuration:
@@ -11,34 +20,48 @@ object_relationships:
         remote_table:
           name: users
           schema: public
+array_relationships:
+  - name: inbox_entries
+    using:
+      foreign_key_constraint_on:
+        column: message_id
+        table:
+          name: inbox_entries
+          schema: public
+  - name: recipient_groups
+    using:
+      foreign_key_constraint_on:
+        column: message_id
+        table:
+          name: recipient_group
+          schema: public
+  - name: recipient_users
+    using:
+      foreign_key_constraint_on:
+        column: message_id
+        table:
+          name: recipient_user
+          schema: public
 insert_permissions:
   - role: student
     permission:
-      check:
-        sender_id:
-          _eq: X-Hasura-User-Id
+      check: {}
       columns:
-        - read_receipt
-        - id
-        - recipient_id
-        - sender_id
         - content
-        - title
+        - id
+        - sender_id
         - sent_on
+        - title
     comment: ""
   - role: teacher
     permission:
-      check:
-        sender_id:
-          _eq: X-Hasura-User-Id
+      check: {}
       columns:
-        - read_receipt
-        - id
-        - recipient_id
-        - sender_id
         - content
-        - title
+        - id
+        - sender_id
         - sent_on
+        - title
     comment: ""
 select_permissions:
   - role: student
@@ -46,45 +69,18 @@ select_permissions:
       columns:
         - content
         - id
-        - read_receipt
-        - recipient_id
         - sender_id
         - sent_on
         - title
-      filter:
-        recipient_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
     comment: ""
   - role: teacher
     permission:
       columns:
-        - read_receipt
-        - id
-        - recipient_id
-        - sender_id
         - content
-        - title
+        - id
+        - sender_id
         - sent_on
-      filter:
-        recipient_id:
-          _eq: X-Hasura-User-Id
-    comment: ""
-update_permissions:
-  - role: student
-    permission:
-      columns:
-        - read_receipt
-      filter:
-        recipient_id:
-          _eq: X-Hasura-User-Id
-      check: null
-    comment: ""
-  - role: teacher
-    permission:
-      columns:
-        - read_receipt
-      filter:
-        recipient_id:
-          _eq: X-Hasura-User-Id
-      check: null
+        - title
+      filter: {}
     comment: ""

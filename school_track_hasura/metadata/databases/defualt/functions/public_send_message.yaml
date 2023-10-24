@@ -1,0 +1,6 @@
+function:
+  name: send_message
+  schema: public
+configuration:
+  custom_root_fields: {}
+  exposed_as: mutation

@@ -1,10 +1,6 @@
 table:
   name: groups
   schema: public
-object_relationships:
-  - name: homeroom_teacher
-    using:
-      foreign_key_constraint_on: homeroom_teacher_id
 array_relationships:
   - name: user_groups
     using:
@@ -17,7 +13,6 @@ select_permissions:
   - role: student
     permission:
       columns:
-        - homeroom_teacher_id
         - id
         - name
       filter:
@@ -29,7 +24,6 @@ select_permissions:
   - role: teacher
     permission:
       columns:
-        - homeroom_teacher_id
         - id
         - name
       filter: {}

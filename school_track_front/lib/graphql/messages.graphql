@@ -1,24 +1,30 @@
-subscription GetMessages {
-  messages(order_by: { sent_on: desc }) {
+subscription GetMessages($user_id: Int!) {
+  messages(
+    order_by: { sent_on: desc }
+    where: { recipients: { user_id: { _eq: $user_id } } }
+  ) {
     id
     title
-    read_receipt
     sender {
       full_name
+    }
+    inbox_entries(where: { user_id: { _eq: $user_id } }) {
+      read_receipt
     }
   }
 }
 
-mutation ReadMessage($id: Int!) {
-  message: update_messages_by_pk(
-    pk_columns: { id: $id }
-    _set: { read_receipt: true }
+mutation ReadMessage($id: Int!, $user_id: Int!) {
+  inbox: insert_inbox_entries_one(
+    object: { message_id: $id, read_receipt: true, user_id: $user_id }
   ) {
-    title
-    content
-    sender {
-      id
-      full_name
+    message {
+      title
+      content
+      sender {
+        id
+        full_name
+      }
     }
   }
 }
@@ -28,20 +34,29 @@ query GetPossibleRecipients {
     id
     full_name
   }
+  groups {
+    id
+    name
+    user_groups {
+      user {
+        full_name
+      }
+    }
+  }
 }
 
 mutation SendMessage(
-  $sender_id: Int!
-  $recipient_id: Int!
+  $recipient_users: _int4!
+  $recipient_groups: _int4!
   $title: String!
   $content: String!
 ) {
-  insert_messages_one(
-    object: {
-      sender_id: $sender_id
-      recipient_id: $recipient_id
-      title: $title
+  send_message(
+    args: {
       content: $content
+      recepient_groups: $recipient_groups
+      recipient_users: $recipient_users
+      title: $title
     }
   ) {
     id

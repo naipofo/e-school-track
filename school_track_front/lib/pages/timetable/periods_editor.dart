@@ -51,98 +51,99 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
         DataColumn(label: Text('Start')),
         DataColumn(label: Text('Length')),
       ],
-      rows: widget.data
-          .map(
-            (p) => DataRow(
-              cells: [
-                DataCell(Text(p.id.toString())),
-                DataCell(
-                  Text(
-                    DateFormat.Hm().format(
-                      timeFormat.parse(p.start.value),
-                    ),
+      rows: widget.data.map(
+        (p) {
+          var minutes = timeFormat
+              .parse(p.length.value)
+              .difference(
+                timeFormat.parse("0:0:0"),
+              )
+              .inMinutes;
+          return DataRow(
+            cells: [
+              DataCell(Text(p.id.toString())),
+              DataCell(
+                Text(
+                  DateFormat.Hm().format(
+                    timeFormat.parse(p.start.value),
                   ),
-                  showEditIcon: true,
-                  onTap: () => showTimePicker(
-                    initialTime: TimeOfDay.fromDateTime(
-                      timeFormat.parse(
-                        p.start.value,
-                      ),
-                    ),
-                    context: context,
-                  ).then((value) => context
-                      .read<ClientModel>()
-                      .client
-                      .request(
-                        GSetPeriodStartReq(
-                          (g) => g.vars
-                            ..id = p.id
-                            ..start = (GtimeBuilder()
-                              ..value = timeFormat.format(DateTime(
-                                  0, 0, 0, value!.hour, value.minute))),
-                        ),
-                      )
-                      .listen((event) {})),
                 ),
-                DataCell(
-                  Text(
-                    (timeFormat
-                            .parse(p.length.value)
-                            .difference(
-                              timeFormat.parse("0:0:0"),
-                            )
-                            .inMinutes)
-                        .toString(),
+                showEditIcon: true,
+                onTap: () => showTimePicker(
+                  initialTime: TimeOfDay.fromDateTime(
+                    timeFormat.parse(
+                      p.start.value,
+                    ),
                   ),
-                  showEditIcon: true,
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Change lesson ${p.id}'),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              controller: lengthController,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                label: Text('Length'),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context
-                                    .read<ClientModel>()
-                                    .client
-                                    .request(GSetPeriodLengthReq(
-                                      (g) => g.vars
-                                        ..id = p.id
-                                        ..length = (GintervalBuilder()
-                                          ..value =
-                                              "${lengthController.text} minutes"),
-                                    ))
-                                    .listen((event) {});
-                                Navigator.pop(context);
-                                lengthController.clear();
-                              },
-                              child: const Text('Save'),
-                            )
-                          ],
-                        ),
+                  context: context,
+                ).then((value) => context
+                    .read<ClientModel>()
+                    .client
+                    .request(
+                      GSetPeriodStartReq(
+                        (g) => g.vars
+                          ..id = p.id
+                          ..start = (GtimeBuilder()
+                            ..value = timeFormat.format(
+                                DateTime(0, 0, 0, value!.hour, value.minute))),
                       ),
-                    );
-                  },
-                )
-              ],
-            ),
-          )
-          .toList(),
+                    )
+                    .listen((event) {})),
+              ),
+              DataCell(
+                Text(
+                  minutes.toString(),
+                ),
+                showEditIcon: true,
+                onTap: () {
+                  lengthController.text = minutes.toString();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Change lesson ${p.id}'),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: lengthController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              label: Text('Length'),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context
+                                  .read<ClientModel>()
+                                  .client
+                                  .request(GSetPeriodLengthReq(
+                                    (g) => g.vars
+                                      ..id = p.id
+                                      ..length = (GintervalBuilder()
+                                        ..value =
+                                            "${lengthController.text} minutes"),
+                                  ))
+                                  .listen((event) {});
+                              Navigator.pop(context);
+                              lengthController.clear();
+                            },
+                            child: const Text('Save'),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
+          );
+        },
+      ).toList(),
     );
   }
 }

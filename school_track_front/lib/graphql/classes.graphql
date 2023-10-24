@@ -22,9 +22,6 @@ subscription ClassDetail($id: Int!) {
     }
     group {
       name
-      homeroom_teacher {
-        full_name
-      }
       user_groups {
         user {
           id

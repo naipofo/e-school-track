@@ -19,16 +19,11 @@ class SingleClassScreen extends StatelessWidget {
       ),
       builder: (context, res) {
         final data = res.Gclass!;
-        final hrTeacher = data.group.homeroom_teacher;
         return Scaffold(
           appBar:
               AppBar(title: Text("${data.group.name} - ${data.subject.title}")),
           body: ListView(
             children: [
-              if (hrTeacher != null)
-                Text(
-                  "Homeroom teacher:${hrTeacher.full_name}",
-                ),
               GradesDataTable(
                 data: data,
                 classId: id,

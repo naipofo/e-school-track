@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/graphql/generated/messages.data.gql.dart';
 import 'package:school_track_front/graphql/generated/messages.req.gql.dart';
+import 'package:school_track_front/graphql/generated/schema.schema.gql.dart';
 
 import '../../gql_client.dart';
 
@@ -102,10 +103,11 @@ class _SendMessageFormState extends State<SendMessageForm> {
                     .request(
                       GSendMessageReq(
                         (g) => g.vars
-                          ..sender_id = clientModel.userId
-                          ..recipient_id = recepient
                           ..title = title ?? widget.title
-                          ..content = contentController.text,
+                          ..content = contentController.text
+                          ..recipient_groups = (G_int4Builder()..value = "{}")
+                          ..recipient_users =
+                              (G_int4Builder()..value = "{$recepient}"),
                       ),
                     )
                     .listen((event) {});
