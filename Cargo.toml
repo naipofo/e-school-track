@@ -1,0 +1,6 @@
+[workspace]
+members = ["auth_server", "rs_database_models"]
+
+[workspace.dependencies]
+diesel = { version = "2.1.0", features = ["postgres"]}
+database_models = { path = "rs_database_models" }

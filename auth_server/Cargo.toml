@@ -1,0 +1,8 @@
+[package]
+name = "auth_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diesel.workspace = true
+database_models.workspace = true
