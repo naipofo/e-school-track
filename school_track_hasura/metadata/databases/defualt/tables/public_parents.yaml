@@ -1,0 +1,11 @@
+table:
+  name: parents
+  schema: public
+select_permissions:
+  - role: teacher
+    permission:
+      columns:
+        - overseen_id
+        - user_id
+      filter: {}
+    comment: ""
