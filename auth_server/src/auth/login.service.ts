@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { compare } from "bcrypt";
+import { compare, hash as bHash } from "bcrypt";
 import { db } from "../database";
 import { makeJwt } from "./jwt";
 
 @Injectable()
 export class LoginService {
-  async login(username: string, password: string) {
+  async getAccountData(username: string) {
     const results = await db
       .selectFrom("auth")
-      .select(["user_id", "hash"])
+      .select(["user_id", "hash", "temporary"])
       .where("nickname", "=", username)
       .selectAll()
       .execute();
@@ -17,9 +17,15 @@ export class LoginService {
       throw new HttpException("Account not found", HttpStatus.NOT_FOUND);
     }
 
-    const { hash, user_id } = results[0];
+    return results[0];
+  }
 
-    if (!(await compare(password, hash))) {
+  async login(username: string, password: string) {
+    const { hash, user_id, temporary } = await this.getAccountData(username);
+
+    if (temporary && hash == password) {
+      throw new HttpException("Temporary password", HttpStatus.FORBIDDEN);
+    } else if (temporary || !(await compare(password, hash))) {
       throw new HttpException("Wrong password", HttpStatus.UNAUTHORIZED);
     }
 
@@ -34,5 +40,18 @@ export class LoginService {
     // TODO: teachers
 
     return await makeJwt(user_id, isAdmin ? "admin" : "student");
+  }
+
+  async setTemp(username: string, tempPassword: string, newPassword: string) {
+    const { hash, user_id, temporary } = await this.getAccountData(username);
+    if (!temporary) {
+      throw new HttpException("Not a temporary password", HttpStatus.FORBIDDEN);
+    } else if (hash != tempPassword) {
+      throw new HttpException("Wrong password", HttpStatus.UNAUTHORIZED);
+    }
+    db.updateTable("auth")
+      .set({ "temporary": false, "hash": await bHash(newPassword, 12) })
+      .where("user_id", "=", user_id)
+      .execute();
   }
 }

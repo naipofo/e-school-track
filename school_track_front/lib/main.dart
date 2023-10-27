@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/router/routes.dart';
 
@@ -10,6 +11,10 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => ClientModel(url: url)),
+      Provider(
+        create: (context) =>
+            DefaultApi(ApiClient(basePath: "http://localhost:3000")),
+      )
     ],
     child: const MainApp(),
   ));

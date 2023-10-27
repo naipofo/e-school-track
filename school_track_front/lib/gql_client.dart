@@ -16,9 +16,13 @@ class ClientModel extends ChangeNotifier {
   AccountType type = AccountType.guest;
   int userId = 0;
 
-  Future<void> login(String username, String password) async {
-    final api = DefaultApi(ApiClient(basePath: "http://localhost:3000"));
-    final jwt = await api
+  Future<void> login(
+    BuildContext context,
+    String username,
+    String password,
+  ) async {
+    final jwt = await context
+        .read<DefaultApi>()
         .loginControllerLogin(LoginDto(username: username, password: password));
     if (jwt == null) return;
 

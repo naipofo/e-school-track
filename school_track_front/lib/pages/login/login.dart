@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/pages/login/thin_from.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,13 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final clientModel = context.watch<ClientModel>();
-    if (clientModel.type != AccountType.guest) {
-      context.go("/dashboard");
-    }
 
     var noSpecialFormat =
         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9.]"));
-    var theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
@@ -35,72 +32,68 @@ class _LoginScreenState extends State<LoginScreen> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 300),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TextField(
-                  controller: loginController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text('Username'),
-                  ),
-                  inputFormatters: [noSpecialFormat],
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text('Password'),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                FilledButton(
-                  onPressed: () async {
-                    try {
-                      await clientModel.login(
-                        loginController.text,
-                        passwordController.text,
-                      );
-                    } on ApiException catch (e) {
-                      setState(() {
+      body: ThinForm(
+        errorMessage: errorMessage,
+        children: [
+          TextField(
+            controller: loginController,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text('Username'),
+            ),
+            inputFormatters: [noSpecialFormat],
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text('Password'),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FilledButton(
+                onPressed: () async {
+                  try {
+                    await clientModel
+                        .login(
+                      context,
+                      loginController.text,
+                      passwordController.text,
+                    )
+                        .whenComplete(
+                      () {
+                        if (clientModel.type != AccountType.guest) {
+                          context.go("/dashboard");
+                        }
+                      },
+                    );
+                  } on ApiException catch (e) {
+                    setState(() {
+                      if (e.code == 403) {
+                        context
+                            .go("/login/temporary?login=${loginController.text}"
+                                "&password=${passwordController.text}");
+                        passwordController.clear();
+                      } else {
                         errorMessage = switch (e.code) {
                           401 => "Wrong password",
                           404 => "Account not found",
                           _ => "Error: ${e.message}"
                         };
-                      });
-                    }
-                  },
-                  child: const Text('login'),
-                ),
-                const SizedBox(height: 8),
-                if (errorMessage != null)
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      elevation: 0,
-                      color: theme.colorScheme.error,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Error: ${errorMessage!}",
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(color: theme.colorScheme.onError),
-                        ),
-                      ),
-                    ),
-                  )
-              ],
-            ),
+                      }
+                    });
+                  }
+                },
+                child: const Text('login'),
+              ),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }

@@ -5,19 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/pages/attendance/attendance_dashboard.dart';
 import 'package:school_track_front/pages/attendance/batch_attendance.dart';
-import 'package:school_track_front/pages/calendar/add_event.dart';
-import 'package:school_track_front/pages/dashboard/admin.dart';
-import 'package:school_track_front/pages/dashboard/teacher.dart';
-import 'package:school_track_front/pages/grades/edit_single_grade.dart';
-import 'package:school_track_front/pages/login/login.dart';
 import 'package:school_track_front/pages/attendance/student_attendance.dart';
+import 'package:school_track_front/pages/calendar/add_event.dart';
 import 'package:school_track_front/pages/calendar/calendar.dart';
 import 'package:school_track_front/pages/calendar/event.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/single_class.dart';
+import 'package:school_track_front/pages/dashboard/admin.dart';
 import 'package:school_track_front/pages/dashboard/student.dart';
+import 'package:school_track_front/pages/dashboard/teacher.dart';
 import 'package:school_track_front/pages/grades/add_grade.dart';
+import 'package:school_track_front/pages/grades/edit_single_grade.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
+import 'package:school_track_front/pages/login/login.dart';
+import 'package:school_track_front/pages/login/temporary.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
 import 'package:school_track_front/pages/messages/inbox.dart';
 import 'package:school_track_front/pages/messages/single_message.dart';
@@ -251,6 +252,22 @@ final routes = [
   )
 ];
 
+final defaultRoutes = [
+  GoRoute(
+    path: '/login',
+    builder: (context, state) => const LoginScreen(),
+    routes: [
+      GoRoute(
+        path: 'temporary',
+        builder: (context, state) => TemporaryPasswordScreen(
+          login: state.uri.queryParameters["login"]!,
+          tempPassword: state.uri.queryParameters["password"]!,
+        ),
+      ),
+    ],
+  ),
+];
+
 typedef RouterBuilder = Widget Function(
   BuildContext context,
   RouterConfig<Object>? router,
@@ -284,10 +301,7 @@ class RouterConfigurator extends StatelessWidget {
                         StatefulShellBranch(routes: e.routes(value.type)))
                     .toList(),
               ),
-            GoRoute(
-              path: '/login',
-              builder: (context, state) => const LoginScreen(),
-            ),
+            ...defaultRoutes,
             ...routes
                 .where((r) => !r.check(value.type))
                 .expand((e) => e.routes(value.type))
@@ -300,10 +314,12 @@ class RouterConfigurator extends StatelessWidget {
               ),
             ),
           ),
-          redirect: (context, state) =>
-              context.read<ClientModel>().type == AccountType.guest
-                  ? "/login"
-                  : null,
+          redirect: (context, state) {
+            return context.read<ClientModel>().type == AccountType.guest &&
+                    !(state.fullPath?.startsWith("/login") ?? true)
+                ? "/login"
+                : null;
+          },
         );
         return builder(context, router);
       },
