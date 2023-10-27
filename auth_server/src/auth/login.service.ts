@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { compare } from "bcrypt";
-import { db } from "./database";
+import { db } from "../database";
 import { makeJwt } from "./jwt";
 
 @Injectable()
@@ -13,7 +13,6 @@ export class LoginService {
       .selectAll()
       .executeTakeFirstOrThrow();
 
-    console.log(password, hash);
     if (!(await compare(password, hash))) {
       throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
     }

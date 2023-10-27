@@ -43,8 +43,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# generated graphQL schema
+# generated api schemas
 /lib/graphql/schema.graphql
+/lib/openapi/schema.json
+
 # for now (?)
 /lib/graphql/generated
 /lib/**/*.freezed.dart
+/dart_openapi_api

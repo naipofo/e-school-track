@@ -1,10 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
+import { LoginDto } from "./login.dto";
 import { LoginService } from "./login.service";
-
-class LoginDto {
-  username: string;
-  password: string;
-}
 
 @Controller()
 export class LoginController {

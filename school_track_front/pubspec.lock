@@ -368,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.6"
   http_multi_server:
     dependency: transitive
     description:
@@ -388,10 +396,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.17.0"
   io:
     dependency: transitive
     description:
@@ -488,6 +496,37 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.2+1"
+  openapi:
+    dependency: "direct main"
+    description:
+      path: dart_openapi_api
+      relative: true
+    source: path
+    version: "1.0.0"
+  openapi_generator:
+    dependency: "direct dev"
+    description:
+      name: openapi_generator
+      sha256: "77d150d227677d9099f26b20dd2cf70f84265de952e9eec345bd201540964aaf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.13.1"
+  openapi_generator_annotations:
+    dependency: "direct main"
+    description:
+      name: openapi_generator_annotations
+      sha256: "46f1fb675029d78e19ce9143e70ce414d738b0f6c45c49c004b4b3afdb405a5c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.13.1"
+  openapi_generator_cli:
+    dependency: transitive
+    description:
+      name: openapi_generator_cli
+      sha256: e16968c99f7fbc02cfc06494a2eb93b68f95073b1b53010dc0709f8759657654
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.13.1"
   package_config:
     dependency: transitive
     description:

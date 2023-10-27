@@ -1,8 +1,9 @@
+import 'package:ferry/ferry.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:ferry/ferry.dart';
 import 'package:gql_websocket_link/gql_websocket_link.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
 
 enum AccountType { guest, student, teacher, admin }
@@ -15,17 +16,16 @@ class ClientModel extends ChangeNotifier {
   AccountType type = AccountType.guest;
   int userId = 0;
 
-  void login(String jwt, {AccountType? role}) {
-    client = buildClient(url, jwt: jwt);
+  Future<void> login(String username, String password) async {
+    final api = DefaultApi(ApiClient(basePath: "http://localhost:3000"));
+    final jwt = await api
+        .loginControllerLogin(LoginDto(username: username, password: password));
+    if (jwt == null) return;
+
+    client = buildClient(jwt);
     final claims = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"];
 
     type = typeFromString(claims["x-hasura-default-role"] as String);
-    if ((claims['x-hasura-allowed-roles'] as List<dynamic>)
-        .map((e) => typeFromString(e))
-        .contains(role)) {
-      type = role!;
-    }
-
     userId = int.parse(claims['X-Hasura-User-Id']);
 
     notifyListeners();
@@ -43,14 +43,14 @@ class ClientModel extends ChangeNotifier {
         _ => AccountType.guest
       };
 
-  static Client buildClient(String url, {String? jwt}) {
+  static Client buildClient(String jwt) {
     return Client(
       link: WebSocketLink(
         "ws://localhost:8080/v1/graphql",
         autoReconnect: true,
         reconnectInterval: const Duration(seconds: 1),
         initialPayload: {
-          if (jwt != null) 'headers': {'Authorization': "Bearer $jwt"}
+          'headers': {'Authorization': "Bearer $jwt"}
         },
       ),
     );
