@@ -6,15 +6,21 @@ import { makeJwt } from "./jwt";
 @Injectable()
 export class LoginService {
   async login(username: string, password: string) {
-    const { hash, user_id } = await db
+    const results = await db
       .selectFrom("auth")
       .select(["user_id", "hash"])
       .where("nickname", "=", username)
       .selectAll()
-      .executeTakeFirstOrThrow();
+      .execute();
+
+    if (results.length == 0) {
+      throw new HttpException("Account not found", HttpStatus.NOT_FOUND);
+    }
+
+    const { hash, user_id } = results[0];
 
     if (!(await compare(password, hash))) {
-      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Wrong password", HttpStatus.UNAUTHORIZED);
     }
 
     const isAdmin = (
