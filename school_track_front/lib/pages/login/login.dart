@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/pages/login/thin_from.dart';
+import 'package:school_track_front/util/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,8 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final clientModel = context.watch<ClientModel>();
 
-    var noSpecialFormat =
-        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9.]"));
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),

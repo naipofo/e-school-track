@@ -7,6 +7,7 @@ subscription GetAccounts {
     auth {
       temporary
       nickname
+      hash
     }
     user_groups {
       group {
@@ -54,5 +55,26 @@ mutation ModifyGroups(
     }
   ) {
     affected_rows
+  }
+}
+
+# auth
+mutation DeleteAuth($user_id: Int!) {
+  delete_auth(where: { user_id: { _eq: $user_id } }) {
+    affected_rows
+  }
+}
+
+mutation AddAuth($hash: String!, $nickname: String!, $user_id: Int = 10) {
+  insert_auth_one(
+    object: {
+      hash: $hash
+      nickname: $nickname
+      temporary: true
+      user_id: $user_id
+    }
+    on_conflict: { constraint: auth_pkey, update_columns: [hash, temporary] }
+  ) {
+    user_id
   }
 }

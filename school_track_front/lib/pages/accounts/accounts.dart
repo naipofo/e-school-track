@@ -7,6 +7,9 @@ import 'package:school_track_front/graphql/generated/accounts.data.gql.dart';
 import 'package:school_track_front/graphql/generated/accounts.req.gql.dart';
 import 'package:school_track_front/graphql/generated/schema.schema.gql.dart';
 import 'package:school_track_front/pages/accounts/add_account.dart';
+import 'package:school_track_front/pages/accounts/add_auth.dart';
+import 'package:school_track_front/util/auth.dart';
+import 'package:school_track_front/util/dialogs.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -154,30 +157,99 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child: Text(u.auth == null
-                                          ? "This account does not have a login."
-                                          : u.auth!.temporary
-                                              ? "This account has a temporary password set."
-                                              : "This account has a password."),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            u.auth == null
+                                                ? "This account does not have a login."
+                                                : u.auth!.temporary
+                                                    ? 'This account has a temporary password "${u.auth?.hash}" set.'
+                                                    : "This account has a password.",
+                                          ),
+                                          if (u.auth != null)
+                                            Text(
+                                              'Username: "${u.auth!.nickname}"',
+                                            )
+                                        ],
+                                      ),
                                     ),
                                     if (u.auth == null)
                                       SimpleDialogOption(
                                         child: const Text("Create login"),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context.pop();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                AddAuthDialog(userId: u.id),
+                                          );
+                                        },
                                       )
                                     else ...[
                                       SimpleDialogOption(
                                         child: const Text("Reset password"),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context.pop();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => ConfirmDialog(
+                                              title: 'Reset password',
+                                              message: Text(
+                                                'Are you sure you want to reset the password for ${u.first_name}?',
+                                              ),
+                                              onConfirm: () {
+                                                final pass =
+                                                    generateTempPassword();
+                                                context
+                                                    .read<ClientModel>()
+                                                    .client
+                                                    .request(
+                                                      GAddAuthReq(
+                                                        (g) => g.vars
+                                                          ..user_id = u.id
+                                                          ..hash = pass
+                                                          ..nickname =
+                                                              u.auth!.nickname,
+                                                      ),
+                                                    )
+                                                    .listen((event) {});
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      TempPasswordDialog(
+                                                    pass: pass,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
                                       ),
                                       SimpleDialogOption(
                                         child: const Text("Remove login"),
                                         onPressed: () {
                                           context.pop();
                                           showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  const Text('awe'));
+                                            context: context,
+                                            builder: (context) => ConfirmDialog(
+                                              title: 'Delete login',
+                                              message: Text(
+                                                'Are you sure you want to delete the login for ${u.first_name}?',
+                                              ),
+                                              onConfirm: () => context
+                                                  .read<ClientModel>()
+                                                  .client
+                                                  .request(
+                                                    GDeleteAuthReq(
+                                                      (g) => g.vars
+                                                        ..user_id = u.id,
+                                                    ),
+                                                  )
+                                                  .listen((event) {}),
+                                            ),
+                                          );
                                         },
                                       )
                                     ]
@@ -213,40 +285,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ConfirmDialog extends StatelessWidget {
-  const ConfirmDialog({
-    super.key,
-    required this.title,
-    required this.message,
-    required this.onConfirm,
-  });
-
-  final String title;
-  final Widget message;
-  final void Function() onConfirm;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(title),
-      content: message,
-      actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            context.pop();
-            onConfirm();
-          },
-          child: const Text('OK'),
-        ),
-      ],
     );
   }
 }
