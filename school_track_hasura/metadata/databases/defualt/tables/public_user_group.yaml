@@ -2,6 +2,9 @@ table:
   name: user_group
   schema: public
 object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
   - name: user
     using:
       foreign_key_constraint_on: user_id

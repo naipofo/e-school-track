@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
+import 'package:school_track_front/openapi/generated/schema.swagger.dart';
 import 'package:school_track_front/pages/login/thin_from.dart';
 
 class TemporaryPasswordScreen extends StatefulWidget {
@@ -71,9 +71,9 @@ class _TemporaryPasswordScreenState extends State<TemporaryPasswordScreen> {
                     return;
                   }
                   context
-                      .read<DefaultApi>()
-                      .loginControllerTemporary(
-                        UpdateTemporary(
+                      .read<Schema>()
+                      .temporaryPost(
+                        body: UpdateTemporary(
                           username: widget.login,
                           tempPassword: widget.tempPassword,
                           newPassword: passwordController.text,

@@ -11,3 +11,7 @@ targets:
         options:
           schema: school_track_front|lib/graphql/schema.graphql
           output_dir: "generated"
+      swagger_dart_code_generator:
+        options:
+          input_folder: "lib/openapi"
+          output_folder: "lib/openapi/generated"

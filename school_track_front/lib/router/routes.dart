@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/pages/accounts/accounts.dart';
 import 'package:school_track_front/pages/attendance/attendance_dashboard.dart';
 import 'package:school_track_front/pages/attendance/batch_attendance.dart';
 import 'package:school_track_front/pages/attendance/student_attendance.dart';
@@ -249,7 +250,20 @@ final routes = [
         ],
       )
     ],
-  )
+  ),
+  RouteInfo(
+    title: 'accounts',
+    outlineIcon: Icons.manage_accounts_outlined,
+    filledIcon: Icons.manage_accounts,
+    routes: (role) => [
+      GoRoute(
+        path: '/accounts',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AccountsScreen(),
+      )
+    ],
+    check: roleOnly(AccountType.admin),
+  ),
 ];
 
 final defaultRoutes = [

@@ -49,5 +49,6 @@ app.*.map.json
 
 # for now (?)
 /lib/graphql/generated
+/lib/openapi/generated
 /lib/**/*.freezed.dart
-/dart_openapi_api
+

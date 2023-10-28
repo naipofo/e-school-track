@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/pages/login/thin_from.dart';
@@ -58,36 +57,33 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               FilledButton(
                 onPressed: () async {
-                  try {
-                    await clientModel
-                        .login(
-                      context,
-                      loginController.text,
-                      passwordController.text,
-                    )
-                        .whenComplete(
-                      () {
-                        if (clientModel.type != AccountType.guest) {
-                          context.go("/dashboard");
-                        }
-                      },
-                    );
-                  } on ApiException catch (e) {
-                    setState(() {
-                      if (e.code == 403) {
-                        context
-                            .go("/login/temporary?login=${loginController.text}"
-                                "&password=${passwordController.text}");
-                        passwordController.clear();
-                      } else {
-                        errorMessage = switch (e.code) {
-                          401 => "Wrong password",
-                          404 => "Account not found",
-                          _ => "Error: ${e.message}"
-                        };
+                  final res = await clientModel
+                      .login(
+                    context,
+                    loginController.text,
+                    passwordController.text,
+                  )
+                      .whenComplete(
+                    () {
+                      if (clientModel.type != AccountType.guest) {
+                        context.go("/dashboard");
                       }
-                    });
-                  }
+                    },
+                  );
+                  setState(() {
+                    if (res == 403) {
+                      context
+                          .go("/login/temporary?login=${loginController.text}"
+                              "&password=${passwordController.text}");
+                      passwordController.clear();
+                    } else if (res != null && res >= 400) {
+                      errorMessage = switch (res) {
+                        401 => "Wrong password",
+                        404 => "Account not found",
+                        _ => "Error: $res"
+                      };
+                    }
+                  });
                 },
                 child: const Text('login'),
               ),

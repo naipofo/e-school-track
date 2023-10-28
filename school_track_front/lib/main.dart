@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:openapi/api.dart';
 import 'package:provider/provider.dart';
+import 'package:school_track_front/openapi/generated/client_index.dart';
+import 'package:school_track_front/openapi/generated/schema.swagger.dart';
 import 'package:school_track_front/router/routes.dart';
 
 import 'gql_client.dart';
@@ -13,7 +14,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ClientModel(url: url)),
       Provider(
         create: (context) =>
-            DefaultApi(ApiClient(basePath: "http://localhost:3000")),
+            Schema.create(baseUrl: Uri.parse("http://localhost:3000")),
       )
     ],
     child: const MainApp(),

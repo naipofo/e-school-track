@@ -1,0 +1,58 @@
+subscription GetAccounts {
+  users {
+    id
+    full_name
+    first_name
+    last_name
+    auth {
+      temporary
+      nickname
+    }
+    user_groups {
+      group {
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation AddUser($first_name: String!, $last_name: String!) {
+  insert_users_one(object: { first_name: $first_name, last_name: $last_name }) {
+    id
+  }
+}
+
+mutation DeleteUsers($ids: [Int!]!) {
+  delete_users(where: { id: { _in: $ids } }) {
+    affected_rows
+  }
+}
+
+query ListGroups {
+  groups {
+    id
+    name
+  }
+}
+
+mutation ModifyGroups(
+  $users: [Int!]!
+  $delete_groups: [Int!]!
+  $insert_objects: [user_group_insert_input!]!
+) {
+  delete_user_group(
+    where: { user_id: { _in: $users }, group_id: { _in: $delete_groups } }
+  ) {
+    affected_rows
+  }
+  insert_user_group(
+    objects: $insert_objects
+    on_conflict: {
+      constraint: user_group_user_id_group_id_key
+      update_columns: group_id
+    }
+  ) {
+    affected_rows
+  }
+}

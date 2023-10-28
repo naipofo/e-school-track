@@ -1,6 +1,14 @@
 table:
   name: users
   schema: public
+object_relationships:
+  - name: auth
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: auth
+          schema: public
 array_relationships:
   - name: attendances
     using:
@@ -15,6 +23,13 @@ array_relationships:
         column: student_id
         table:
           name: grades
+          schema: public
+  - name: user_groups
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_group
           schema: public
 computed_fields:
   - name: full_name

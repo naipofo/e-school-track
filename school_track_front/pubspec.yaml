@@ -4,7 +4,7 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ">=3.0.5 <4.0.0"
+  sdk: ">=3.1.4 <4.0.0"
 
 dependencies:
   ferry: ^0.14.2+1
@@ -19,8 +19,8 @@ dependencies:
   provider: ^6.0.5
   built_collection: ^5.1.1
   openapi_generator_annotations: ^4.13.1
-  openapi:
-    path: "dart_openapi_api"
+  chopper: ^6.1.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -28,8 +28,10 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   ferry_generator: ^0.8.1
   build_runner: ^2.4.6
+  chopper_generator: ^6.0.0
+  swagger_dart_code_generator: ^2.10.4
   freezed: ^2.4.5
-  openapi_generator: ^4.13.1
+  json_serializable: ^6.6.1
 
 flutter:
   uses-material-design: true
