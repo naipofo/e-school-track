@@ -39,6 +39,7 @@ query GetPossibleRecipients {
     name
     user_groups {
       user {
+        id
         full_name
       }
     }
@@ -46,19 +47,21 @@ query GetPossibleRecipients {
 }
 
 mutation SendMessage(
-  $recipient_users: _int4!
-  $recipient_groups: _int4!
+  $sender_id: Int!
   $title: String!
   $content: String!
+  $recipient_users: [recipient_user_insert_input!]!
+  $recipient_groups: [recipient_group_insert_input!]!
 ) {
-  send_message(
-    args: {
-      content: $content
-      recepient_groups: $recipient_groups
-      recipient_users: $recipient_users
+  insert_messages(
+    objects: {
+      sender_id: $sender_id
       title: $title
+      content: $content
+      recipient_groups: { data: $recipient_groups }
+      recipient_users: { data: $recipient_users }
     }
   ) {
-    id
+    affected_rows
   }
 }
