@@ -13,6 +13,7 @@
 - "!include public_recipient_group.yaml"
 - "!include public_recipient_user.yaml"
 - "!include public_recipients.yaml"
+- "!include public_rooms.yaml"
 - "!include public_subjects.yaml"
 - "!include public_user_group.yaml"
 - "!include public_users.yaml"

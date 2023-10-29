@@ -9,6 +9,12 @@ query GetTimetable {
         subject {
           title
         }
+        teacher {
+          full_name
+        }
+      }
+      room {
+        name
       }
     }
   }

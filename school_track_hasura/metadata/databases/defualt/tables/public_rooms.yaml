@@ -1,0 +1,18 @@
+table:
+  name: rooms
+  schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
+    comment: ""

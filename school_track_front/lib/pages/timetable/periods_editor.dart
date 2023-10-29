@@ -76,19 +76,22 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
                     ),
                   ),
                   context: context,
-                ).then((value) => context
-                    .read<ClientModel>()
-                    .client
-                    .request(
-                      GSetPeriodStartReq(
-                        (g) => g.vars
-                          ..id = p.id
-                          ..start = (GtimeBuilder()
-                            ..value = timeFormat.format(
-                                DateTime(0, 0, 0, value!.hour, value.minute))),
-                      ),
-                    )
-                    .listen((event) {})),
+                ).then((value) {
+                  if (value == null) return null;
+                  return context
+                      .read<ClientModel>()
+                      .client
+                      .request(
+                        GSetPeriodStartReq(
+                          (g) => g.vars
+                            ..id = p.id
+                            ..start = (GtimeBuilder()
+                              ..value = timeFormat.format(
+                                  DateTime(0, 0, 0, value.hour, value.minute))),
+                        ),
+                      )
+                      .listen((event) {});
+                }),
               ),
               DataCell(
                 Text(

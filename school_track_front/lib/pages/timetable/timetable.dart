@@ -35,10 +35,23 @@ class TimetableDataTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return DataTable(
+      showBottomBorder: true,
       columns: [
         const DataColumn(label: Text('')),
-        ...workingDaysOfWeek.map((e) => DataColumn(label: Text(e)))
+        ...workingDaysOfWeek.map(
+          (e) => DataColumn(
+            label: Expanded(
+              child: Text(
+                e,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+        ),
       ],
       rows: data
           .asMap()
@@ -53,9 +66,32 @@ class TimetableDataTable extends StatelessWidget {
                         .where((l) => l.weekday == e.key)
                         .firstOrNull;
                     return DataCell(
-                        Text(
-                          cClass == null ? "" : cClass.Gclass.subject.title,
-                        ),
+                        cClass == null
+                            ? Container()
+                            : Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    cClass.Gclass.subject.title,
+                                    style: theme.textTheme.bodyLarge,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        cClass.room?.name ?? "None",
+                                      ),
+                                      const SizedBox(width: 16.0),
+                                      Text(
+                                        cClass.Gclass.teacher?.full_name ??
+                                            "None",
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                         onTap: cClass == null
                             ? null
                             : () => context
