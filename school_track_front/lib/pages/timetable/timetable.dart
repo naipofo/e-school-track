@@ -97,7 +97,7 @@ class TimetableScreen extends StatelessWidget {
                         onTap: cClass == null
                             ? null
                             : () => context
-                                .push("/grades/class/${cClass.Gclass.id}"));
+                                .push("/classes/class/${cClass.Gclass.id}"));
                   },
                 )
               ],

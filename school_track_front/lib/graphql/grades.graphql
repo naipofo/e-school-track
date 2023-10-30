@@ -1,3 +1,5 @@
+# import './fragments.graphql'
+
 query GetGrades {
   classes {
     id
@@ -5,31 +7,7 @@ query GetGrades {
       title
     }
     grades {
-      id
-      value
-      weight
-      added_on
-      comment
-      teacher {
-        full_name
-      }
-    }
-  }
-}
-
-query ClassGrades($id: Int!) {
-  class: classes_by_pk(id: $id) {
-    grades {
-      id
-      value
-      weight
-      comment
-      teacher {
-        full_name
-      }
-    }
-    subject {
-      title
+      ...gradeChipData
     }
   }
 }

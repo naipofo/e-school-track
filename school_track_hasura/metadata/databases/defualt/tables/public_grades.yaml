@@ -56,6 +56,7 @@ select_permissions:
         - comment
         - added_on
       filter: {}
+      allow_aggregations: true
     comment: ""
 update_permissions:
   - role: teacher

@@ -1,3 +1,5 @@
+# import './fragments.graphql'
+
 query ClassesList {
   classes {
     id
@@ -22,16 +24,36 @@ subscription ClassDetail($id: Int!) {
     }
     group {
       name
+      user_groups_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+    grades_aggregate {
+      aggregate {
+        avg {
+          value
+        }
+        count
+      }
+    }
+  }
+}
+
+subscription ClassGrades($id: Int!) {
+  class: classes_by_pk(id: $id) {
+    subject {
+      title
+    }
+    group {
+      name
       user_groups {
         user {
           id
           full_name
           grades(where: { class_id: { _eq: $id } }) {
-            id
-            value
-            weight
-            added_on
-            comment
+            ...gradeChipData
           }
         }
       }

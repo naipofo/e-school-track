@@ -10,13 +10,16 @@ import 'package:school_track_front/pages/attendance/student_attendance.dart';
 import 'package:school_track_front/pages/calendar/add_event.dart';
 import 'package:school_track_front/pages/calendar/calendar.dart';
 import 'package:school_track_front/pages/calendar/event.dart';
+import 'package:school_track_front/pages/classes/class_grades.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
-import 'package:school_track_front/pages/classes/single_class.dart';
+import 'package:school_track_front/pages/classes/student_class.dart';
+import 'package:school_track_front/pages/classes/teacher_class.dart';
 import 'package:school_track_front/pages/dashboard/admin.dart';
 import 'package:school_track_front/pages/dashboard/student.dart';
 import 'package:school_track_front/pages/dashboard/teacher.dart';
 import 'package:school_track_front/pages/grades/add_grade.dart';
 import 'package:school_track_front/pages/grades/edit_single_grade.dart';
+import 'package:school_track_front/pages/grades/grades.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/login/login.dart';
 import 'package:school_track_front/pages/login/temporary.dart';
@@ -26,9 +29,6 @@ import 'package:school_track_front/pages/messages/single_message.dart';
 import 'package:school_track_front/pages/timetable/admin_dashboard.dart';
 import 'package:school_track_front/pages/timetable/periods_editor.dart';
 import 'package:school_track_front/pages/timetable/timetable.dart';
-
-import '../pages/grades/class_grades.dart';
-import '../pages/grades/grades.dart';
 
 part 'routes.freezed.dart';
 
@@ -238,16 +238,27 @@ final routes = [
     outlineIcon: Icons.groups_outlined,
     filledIcon: Icons.groups,
     check: roleOnly(AccountType.teacher),
-    routes: (_) => [
+    routes: (role) => [
       GoRoute(
         path: '/classes',
         builder: (context, state) => const ClassesScreen(),
         routes: [
           GoRoute(
             path: 'class/:id',
-            builder: (context, state) => SingleClassScreen(
-              id: int.parse(state.pathParameters["id"]!),
-            ),
+            builder: (context, state) {
+              var id = int.parse(state.pathParameters["id"]!);
+              return role == AccountType.student
+                  ? StudentClassScreen(id: id)
+                  : TeacherClassScreen(id: id);
+            },
+            routes: [
+              GoRoute(
+                path: 'grades',
+                builder: (context, state) => ClassGradesScreen(
+                  id: int.parse(state.pathParameters["id"]!),
+                ),
+              )
+            ],
           )
         ],
       )

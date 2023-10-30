@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:school_track_front/components/grade_chip.dart';
 import 'package:school_track_front/graphql/generated/classes.req.gql.dart';
 
 import '../../gql_client.dart';
 import '../../graphql/generated/classes.data.gql.dart';
-import '../../util/dates.dart';
 
-class SingleClassScreen extends StatelessWidget {
-  const SingleClassScreen({super.key, required this.id});
+class ClassGradesScreen extends StatelessWidget {
+  const ClassGradesScreen({super.key, required this.id});
 
   final int id;
 
   @override
   Widget build(BuildContext context) {
     return GqlFetch(
-      operationRequest: GClassDetailReq(
+      operationRequest: GClassGradesReq(
         (b) => b.vars..id = id,
       ),
       builder: (context, res) {
@@ -39,7 +39,7 @@ class SingleClassScreen extends StatelessWidget {
 class GradesDataTable extends StatelessWidget {
   const GradesDataTable({super.key, required this.data, required this.classId});
 
-  final GClassDetailData_class data;
+  final GClassGradesData_class data;
   final int classId;
 
   @override
@@ -86,26 +86,6 @@ class GradesDataTable extends StatelessWidget {
             ),
           )
           .toList(),
-    );
-  }
-}
-
-class GradeChip extends StatelessWidget {
-  const GradeChip({super.key, required this.data});
-
-  final GClassDetailData_class_group_user_groups_user_grades data;
-
-  @override
-  Widget build(BuildContext context) {
-    final date = formatFromTimestamp(data.added_on.value);
-    return Tooltip(
-      message: "Date: $date\n"
-          "Weight: ${data.weight}\n\n"
-          "Comment: ${data.comment}",
-      child: ActionChip(
-        label: Text(data.value.toString()),
-        onPressed: () => context.push("/grades/grade/${data.id}"),
-      ),
     );
   }
 }

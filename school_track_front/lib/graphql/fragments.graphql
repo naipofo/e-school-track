@@ -1,0 +1,10 @@
+fragment gradeChipData on grades {
+  id
+  value
+  weight
+  added_on
+  comment
+  teacher {
+    full_name
+  }
+}
