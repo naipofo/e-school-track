@@ -7,7 +7,12 @@ import '../../graphql/generated/timetable.data.gql.dart';
 import '../../util/dates.dart';
 
 class TimetableScreen extends StatelessWidget {
-  const TimetableScreen({super.key});
+  const TimetableScreen({
+    super.key,
+    required this.showGroupName,
+  });
+
+  final bool showGroupName;
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +23,17 @@ class TimetableScreen extends StatelessWidget {
         builder: (context, data) => SingleChildScrollView(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: TimetableDataTable(
-              data: data.lesson_periods.toList(),
-            ),
+            child: table(data.lesson_periods.toList(), context),
           ),
         ),
       ),
     );
   }
-}
 
-class TimetableDataTable extends StatelessWidget {
-  const TimetableDataTable({super.key, required this.data});
-
-  final List<GGetTimetableData_lesson_periods> data;
-
-  @override
-  Widget build(BuildContext context) {
+  DataTable table(
+    List<GGetTimetableData_lesson_periods> data,
+    BuildContext context,
+  ) {
     var theme = Theme.of(context);
     return DataTable(
       showBottomBorder: true,
@@ -85,8 +84,11 @@ class TimetableDataTable extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 16.0),
                                       Text(
-                                        cClass.Gclass.teacher?.full_name ??
-                                            "None",
+                                        showGroupName
+                                            ? cClass.Gclass.group.name
+                                            : cClass.Gclass.teacher
+                                                    ?.full_name ??
+                                                "None",
                                       ),
                                     ],
                                   ),

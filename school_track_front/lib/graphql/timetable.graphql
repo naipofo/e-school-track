@@ -12,6 +12,9 @@ query GetTimetable {
         teacher {
           full_name
         }
+        group {
+          name
+        }
       }
       room {
         name

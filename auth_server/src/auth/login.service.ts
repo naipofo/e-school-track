@@ -37,9 +37,15 @@ export class LoginService {
         .execute()
     ).length > 0;
 
+    const isTeacher = (
+      await db.selectFrom("classes").select(["teacher_id"]).execute()
+    )
+      .map((e) => e.teacher_id)
+      .includes(user_id);
+
     // TODO: teachers
 
-    return await makeJwt(user_id, isAdmin ? "admin" : "student");
+    return await makeJwt(user_id, isAdmin ? "admin" : isTeacher ? "teacher" : "student");
   }
 
   async setTemp(username: string, tempPassword: string, newPassword: string) {
@@ -50,7 +56,7 @@ export class LoginService {
       throw new HttpException("Wrong password", HttpStatus.UNAUTHORIZED);
     }
     db.updateTable("auth")
-      .set({ "temporary": false, "hash": await bHash(newPassword, 12) })
+      .set({ temporary: false, hash: await bHash(newPassword, 12) })
       .where("user_id", "=", user_id)
       .execute();
   }

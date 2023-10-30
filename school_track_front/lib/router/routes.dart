@@ -135,7 +135,9 @@ final routes = [
         path: '/timetable',
         builder: (BuildContext context, GoRouterState state) => switch (role) {
           AccountType.admin => const TimeTableAdminDashboardScreen(),
-          _ => const TimetableScreen()
+          _ => TimetableScreen(
+              showGroupName: role == AccountType.teacher,
+            )
         },
         routes: [
           GoRoute(
