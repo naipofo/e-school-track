@@ -10,3 +10,13 @@ query GetAttendance {
     }
   }
 }
+
+subscription CheckAttendance($class_id: Int!, $date: date) {
+  attendance_aggregate(
+    where: { class_id: { _eq: $class_id }, date: { _eq: $date } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

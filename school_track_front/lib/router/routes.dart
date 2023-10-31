@@ -13,7 +13,7 @@ import 'package:school_track_front/pages/calendar/event.dart';
 import 'package:school_track_front/pages/classes/class_grades.dart';
 import 'package:school_track_front/pages/classes/classes.dart';
 import 'package:school_track_front/pages/classes/student_class.dart';
-import 'package:school_track_front/pages/classes/teacher_class.dart';
+import 'package:school_track_front/pages/classes/teacher/class_overview.dart';
 import 'package:school_track_front/pages/dashboard/admin.dart';
 import 'package:school_track_front/pages/dashboard/student.dart';
 import 'package:school_track_front/pages/dashboard/teacher.dart';

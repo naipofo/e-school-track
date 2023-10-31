@@ -18,7 +18,7 @@ class GradeChip extends StatelessWidget {
           "Comment: ${data.comment}",
       child: ActionChip(
         label: Text(data.value.toString()),
-        onPressed: () => context.go("/grades/grade/${data.id}"),
+        onPressed: () => context.push("/grades/grade/${data.id}"),
       ),
     );
   }
