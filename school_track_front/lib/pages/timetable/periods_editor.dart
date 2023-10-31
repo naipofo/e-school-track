@@ -64,17 +64,11 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
               DataCell(Text(p.id.toString())),
               DataCell(
                 Text(
-                  DateFormat.Hm().format(
-                    timeFormat.parse(p.start.value),
-                  ),
+                  DateFormat.Hm().format(p.start.toDateTime()),
                 ),
                 showEditIcon: true,
                 onTap: () => showTimePicker(
-                  initialTime: TimeOfDay.fromDateTime(
-                    timeFormat.parse(
-                      p.start.value,
-                    ),
-                  ),
+                  initialTime: TimeOfDay.fromDateTime(p.start.toDateTime()),
                   context: context,
                 ).then((value) {
                   if (value == null) return null;
@@ -85,9 +79,7 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
                         GSetPeriodStartReq(
                           (g) => g.vars
                             ..id = p.id
-                            ..start = (GtimeBuilder()
-                              ..value = timeFormat.format(
-                                  DateTime(0, 0, 0, value.hour, value.minute))),
+                            ..start = value,
                         ),
                       )
                       .listen((event) {});

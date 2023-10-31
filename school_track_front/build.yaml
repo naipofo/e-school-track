@@ -5,12 +5,23 @@ targets:
         enabled: true
         options:
           schema: school_track_front|lib/graphql/schema.graphql
-          output_dir: "generated"
+          output_dir: "generated"     
+          type_overrides:
+            time:
+              name: TimeOfDay
+              import: package:flutter/material.dart
       ferry_generator|serializer_builder:
         enabled: true
         options:
           schema: school_track_front|lib/graphql/schema.graphql
           output_dir: "generated"
+          type_overrides:
+            time:
+              name: TimeOfDay
+              import: package:flutter/material.dart
+          custom_serializers:
+            - import: package:school_track_front/graphql/serializers/time_serializer.dart
+              name: TimeSerializer
       swagger_dart_code_generator:
         options:
           input_folder: "lib/openapi"

@@ -55,7 +55,7 @@ class TimetableScreen extends StatelessWidget {
       ],
       rows: data.asMap().entries.map(
         (p) {
-          final startTime = timeFormat.parse(p.value.start.value);
+          final startTime = p.value.start.toDateTime();
           var parse = timeFormat.parse(p.value.length.value);
           final endTime = startTime.add(
             Duration(minutes: parse.minute, hours: parse.hour),

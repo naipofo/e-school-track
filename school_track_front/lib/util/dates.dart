@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 List<String> daysOfWeek = List.generate(
@@ -14,3 +15,7 @@ String formatFromTimestamp(String ts) => DateFormat('yyyy-MM-dd').format(
     );
 
 DateFormat timeFormat = DateFormat("HH:mm:ss");
+
+extension ToDateTime on TimeOfDay {
+  DateTime toDateTime() => DateTime(0, 0, 0, hour, minute);
+}

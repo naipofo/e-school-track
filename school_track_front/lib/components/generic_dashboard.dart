@@ -31,7 +31,10 @@ class GenericDashboard extends StatelessWidget {
                 child: Divider(),
               ),
               const SizedBox(height: 8.0)
-            ],
+            ] else
+              const SizedBox(
+                height: 8.0,
+              ),
             if (aside != null)
               separateColumns
                   ? Row(
