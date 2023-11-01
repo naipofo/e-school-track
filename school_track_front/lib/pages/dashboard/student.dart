@@ -30,7 +30,7 @@ class StudnetDashboardScreen extends StatelessWidget {
           style: theme.textTheme.displaySmall,
         ),
         const SizedBox(height: 8.0),
-        const TimetableRow(),
+        const TimetableRow(showGroupName: false),
         const SizedBox(height: 8.0),
         recentGrades(context),
       ],

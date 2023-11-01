@@ -6,7 +6,9 @@ import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
 import 'package:school_track_front/pages/timetable/util.dart';
 
 class TimetableRow extends StatelessWidget {
-  const TimetableRow({super.key});
+  const TimetableRow({super.key, required this.showGroupName});
+
+  final bool showGroupName;
 
   @override
   Widget build(BuildContext context) {
@@ -72,27 +74,29 @@ class TimetableRow extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 140),
-            child: Column(
-              children: [
-                Text(
-                  lesson.Gclass.subject.title,
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.center,
-                ),
-                Text("From $start to $end"),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      lesson.room?.name ?? "None",
-                    ),
-                    const SizedBox(width: 16.0),
-                    Text(
-                      lesson.Gclass.teacher?.full_name ?? "",
-                    ),
-                  ],
-                )
-              ],
+            child: IntrinsicWidth(
+              child: Column(
+                children: [
+                  Text(
+                    lesson.Gclass.subject.title,
+                    style: theme.textTheme.titleMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  Text("From $start to $end"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(lesson.room?.name ?? "None"),
+                      const SizedBox(width: 16.0),
+                      Text(
+                        showGroupName
+                            ? lesson.Gclass.group.name
+                            : lesson.Gclass.teacher?.full_name ?? "None",
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
