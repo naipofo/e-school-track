@@ -26,3 +26,15 @@ fragment lessonPeriodsTimes on lesson_periods {
   start
   length
 }
+
+fragment eventCardData on events {
+  id
+  title
+  date
+  period_id
+  class {
+    subject {
+      title
+    }
+  }
+}

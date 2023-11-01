@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:school_track_front/components/event_card.dart';
+import 'package:school_track_front/components/generic_dashboard.dart';
+import 'package:school_track_front/components/grade_chip.dart';
+import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/graphql/generated/classes.req.gql.dart';
 
 class StudentClassScreen extends StatelessWidget {
   const StudentClassScreen({super.key, required this.id});
@@ -7,11 +12,48 @@ class StudentClassScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Student class information'),
+    var theme = Theme.of(context);
+    return GqlFetch(
+      operationRequest: GStudentClassDetailsReq(
+        (g) => g.vars
+          ..id = id
+          ..events_after = DateTime.now(),
       ),
-      body: const Placeholder(),
+      builder: (context, data) {
+        final c = data.Gclass!;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('${c.subject.title} with ${c.teacher?.full_name}'),
+          ),
+          body: GenericDashboard(
+            body: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Grades', style: theme.textTheme.titleLarge),
+              ),
+              Row(
+                children: [
+                  for (var g in c.grades)
+                    Row(
+                      children: [
+                        GradeChip(data: g),
+                        const SizedBox(
+                          width: 8,
+                        )
+                      ],
+                    ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text('Upcoming events', style: theme.textTheme.titleLarge),
+              ),
+              for (var e in c.events) EventCard(data: e),
+            ],
+          ),
+        );
+      },
     );
   }
 }

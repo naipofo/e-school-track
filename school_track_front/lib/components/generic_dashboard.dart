@@ -35,19 +35,24 @@ class GenericDashboard extends StatelessWidget {
               const SizedBox(
                 height: 8.0,
               ),
-            if (aside != null)
-              separateColumns
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(width: 8.0),
-                        panel(aside!, 2),
-                        const SizedBox(width: 8.0),
-                        panel(body, 7),
-                        const SizedBox(width: 8.0),
-                      ],
-                    )
-                  : Column(children: [...aside!, ...body])
+            separateColumns && aside != null
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(width: 8.0),
+                      panel(aside!, 2),
+                      const SizedBox(width: 8.0),
+                      panel(body, 7),
+                      const SizedBox(width: 8.0),
+                    ],
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [...(aside ?? []), ...body],
+                    ),
+                  )
           ],
         );
       },

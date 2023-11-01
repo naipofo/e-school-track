@@ -47,7 +47,7 @@ class GradesDataTable extends StatelessWidget {
               cells: [
                 DataCell(
                   Text(e.subject.title),
-                  onTap: () => context.go("/grades/class/${e.id}"),
+                  onTap: () => context.push("/classes/class/${e.id}"),
                 ),
                 DataCell(
                   Row(

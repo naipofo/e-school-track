@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:school_track_front/components/event_card.dart';
 import 'package:school_track_front/components/generic_dashboard.dart';
+import 'package:school_track_front/components/grade_card.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/calendar.req.gql.dart';
 import 'package:school_track_front/graphql/generated/grades.req.gql.dart';
@@ -55,31 +58,7 @@ class StudnetDashboardScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text("Events", style: theme.textTheme.titleLarge),
             ),
-            for (final e in data.events)
-              Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: theme.colorScheme.outline,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(e.title, style: theme.textTheme.titleMedium),
-                        Text(e.Gclass.subject.title),
-                        Text(dateFormat.format(e.date))
-                      ],
-                    ),
-                  ),
-                ),
-              )
+            for (final e in data.events) EventCard(data: e)
           ],
         );
       },
@@ -106,7 +85,7 @@ class StudnetDashboardScreen extends StatelessWidget {
             child: Row(
               children: [
                 for (var p in data.lesson_periods)
-                  if (p.lessons.isNotEmpty) timetableCard(theme, p)
+                  if (p.lessons.isNotEmpty) timetableCard(context, p)
               ],
             ),
           ),
@@ -115,7 +94,11 @@ class StudnetDashboardScreen extends StatelessWidget {
     );
   }
 
-  Card timetableCard(ThemeData theme, GGetDayTimetableData_lesson_periods p) {
+  Card timetableCard(
+    BuildContext context,
+    GGetDayTimetableData_lesson_periods p,
+  ) {
+    var theme = Theme.of(context);
     final lesson = p.lessons[0];
     final (:end, :start) = lessonPeriodTimeStrings(p);
     return Card(
@@ -128,7 +111,7 @@ class StudnetDashboardScreen extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {},
+        onTap: () => context.push("/classes/class/${lesson.Gclass.id}"),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ConstrainedBox(
@@ -174,48 +157,7 @@ class StudnetDashboardScreen extends StatelessWidget {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              for (var g in data.grades)
-                Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: theme.colorScheme.outline,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                g.comment ?? "Grade",
-                                style: theme.textTheme.titleLarge,
-                              ),
-                              Text(
-                                "added by: ${g.teacher.full_name}; "
-                                "added on: ${dateFormat.format(g.added_on)}",
-                              )
-                            ],
-                          ),
-                          const Spacer(),
-                          Text(
-                            g.value.toString(),
-                            style: theme.textTheme.displayLarge
-                                ?.copyWith(fontFamily: "monospace"),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-            ],
+            children: [for (var g in data.grades) GradeCard(data: g)],
           )
         ],
       ),

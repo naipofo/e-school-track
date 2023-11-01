@@ -19,12 +19,26 @@ array_relationships:
         table:
           name: attendance
           schema: public
+  - name: events
+    using:
+      foreign_key_constraint_on:
+        column: class_id
+        table:
+          name: events
+          schema: public
   - name: grades
     using:
       foreign_key_constraint_on:
         column: class_id
         table:
           name: grades
+          schema: public
+  - name: lessons
+    using:
+      foreign_key_constraint_on:
+        column: class_id
+        table:
+          name: lessons
           schema: public
 select_permissions:
   - role: student

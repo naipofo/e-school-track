@@ -97,3 +97,20 @@ mutation InsertAttendance($att: [attendance_insert_input!]!) {
     }
   }
 }
+
+query StudentClassDetails($id: Int!, $events_after: date!) {
+  class: classes_by_pk(id: $id) {
+    subject {
+      title
+    }
+    teacher {
+      full_name
+    }
+    grades {
+      ...gradeChipData
+    }
+    events(order_by: { date: asc }, where: { date: { _gt: $events_after } }) {
+      ...eventCardData
+    }
+  }
+}
