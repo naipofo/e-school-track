@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
-import 'package:school_track_front/graphql/generated/schema.schema.gql.dart';
 import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
 
 import '../../graphql/generated/timetable.data.gql.dart';
@@ -53,12 +52,7 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
       ],
       rows: widget.data.map(
         (p) {
-          var minutes = timeFormat
-              .parse(p.length.value)
-              .difference(
-                timeFormat.parse("0:0:0"),
-              )
-              .inMinutes;
+          var minutes = p.length.inMinutes;
           return DataRow(
             cells: [
               DataCell(Text(p.id.toString())),
@@ -119,9 +113,10 @@ class _PeriodsDataTableState extends State<PeriodsDataTable> {
                                   .request(GSetPeriodLengthReq(
                                     (g) => g.vars
                                       ..id = p.id
-                                      ..length = (GintervalBuilder()
-                                        ..value =
-                                            "${lengthController.text} minutes"),
+                                      ..length = Duration(
+                                        minutes:
+                                            int.parse(lengthController.text),
+                                      ),
                                   ))
                                   .listen((event) {});
                               Navigator.pop(context);

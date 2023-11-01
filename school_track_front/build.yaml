@@ -14,6 +14,8 @@ targets:
               name: DateTime
             timestamptz:
               name: DateTime
+            interval:
+              name: Duration
       ferry_generator|serializer_builder:
         enabled: true
         options:
@@ -27,11 +29,15 @@ targets:
               name: DateTime
             timestamptz:
               name: DateTime
+            interval:
+              name: Duration
           custom_serializers:
             - import: package:school_track_front/graphql/serializers/time_serializer.dart
               name: TimeSerializer
             - import: package:school_track_front/graphql/serializers/date_serializer.dart
               name: DateSerializer
+            - import: package:school_track_front/graphql/serializers/duration_serializer.dart
+              name: DurationSerializer
       swagger_dart_code_generator:
         options:
           input_folder: "lib/openapi"

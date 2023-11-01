@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
+import 'package:school_track_front/pages/timetable/util.dart';
 
 import '../../graphql/generated/timetable.data.gql.dart';
 import '../../util/dates.dart';

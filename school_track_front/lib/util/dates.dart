@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:school_track_front/graphql/generated/fragments.data.gql.dart';
 
 List<String> daysOfWeek = List.generate(
   7,
@@ -17,16 +16,4 @@ DateFormat timeFormat = DateFormat("HH:mm:ss");
 
 extension ToDateTime on TimeOfDay {
   DateTime toDateTime() => DateTime(0, 0, 0, hour, minute);
-}
-
-({String start, String end}) lessonPeriodTimeStrings(GlessonPeriodsTimes date) {
-  final startTime = date.start.toDateTime();
-  var parse = timeFormat.parse(date.length.value);
-  final endTime = startTime.add(
-    Duration(minutes: parse.minute, hours: parse.hour),
-  );
-  return (
-    start: DateFormat.Hm().format(startTime),
-    end: DateFormat.Hm().format(endTime),
-  );
 }
