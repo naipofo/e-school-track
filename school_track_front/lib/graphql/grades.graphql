@@ -64,3 +64,9 @@ mutation AddGrade(
     id
   }
 }
+
+query RecentGrades {
+  grades(limit: 5, order_by: { added_on: desc }) {
+    ...gradeChipData
+  }
+}

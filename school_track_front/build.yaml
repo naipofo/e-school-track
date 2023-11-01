@@ -10,6 +10,10 @@ targets:
             time:
               name: TimeOfDay
               import: package:flutter/material.dart
+            date:
+              name: DateTime
+            timestamptz:
+              name: DateTime
       ferry_generator|serializer_builder:
         enabled: true
         options:
@@ -19,9 +23,15 @@ targets:
             time:
               name: TimeOfDay
               import: package:flutter/material.dart
+            date:
+              name: DateTime
+            timestamptz:
+              name: DateTime
           custom_serializers:
             - import: package:school_track_front/graphql/serializers/time_serializer.dart
               name: TimeSerializer
+            - import: package:school_track_front/graphql/serializers/date_serializer.dart
+              name: DateSerializer
       swagger_dart_code_generator:
         options:
           input_folder: "lib/openapi"

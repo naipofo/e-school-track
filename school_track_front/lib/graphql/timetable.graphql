@@ -1,20 +1,12 @@
+# import './fragments.graphql'
+
 query GetTimetable {
   lesson_periods(order_by: { id: asc }) {
-    start
-    length
+    ...lessonPeriodsTimes
     lessons {
       weekday
       class {
-        id
-        subject {
-          title
-        }
-        teacher {
-          full_name
-        }
-        group {
-          name
-        }
+        ...timetableClassData
       }
       room {
         name
@@ -48,5 +40,19 @@ mutation SetPeriodLength($id: Int!, $length: interval!) {
     _set: { length: $length }
   ) {
     id
+  }
+}
+
+query GetDayTimetable($weekday: Int!) {
+  lesson_periods(order_by: { id: asc }) {
+    ...lessonPeriodsTimes
+    lessons(where: { weekday: { _eq: $weekday } }) {
+      class {
+        ...timetableClassData
+      }
+      room {
+        name
+      }
+    }
   }
 }

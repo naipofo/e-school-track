@@ -33,7 +33,7 @@ class StudentAttendanceScreen extends StatelessWidget {
                           tiles: c.attendances.map(
                             (a) => ListTile(
                               title: Text(
-                                "${formatFromTimestamp(a.date.value)} period ${a.period_id} "
+                                "${dateFormat.format(a.date)} period ${a.period_id} "
                                 "- ${a.type.value}",
                               ),
                             ),

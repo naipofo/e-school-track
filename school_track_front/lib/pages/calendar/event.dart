@@ -27,7 +27,7 @@ class SingleEventScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("By: ${data.user.full_name}"),
-                Text("On: ${formatFromTimestamp(data.date.value)}"),
+                Text("On: ${dateFormat.format(data.date)}"),
                 Text(data.comment),
               ],
             ),

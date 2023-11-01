@@ -23,7 +23,7 @@ class SingleGradeScreen extends StatelessWidget {
       ),
       builder: (context, res) {
         final data = res.grade!;
-        final date = formatFromTimestamp(data.added_on.value);
+        final date = dateFormat.format(data.added_on);
 
         return Scaffold(
           appBar: AppBar(title: Text(data.Gclass.subject.title)),

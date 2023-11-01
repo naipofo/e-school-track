@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
 
@@ -55,11 +54,7 @@ class TimetableScreen extends StatelessWidget {
       ],
       rows: data.asMap().entries.map(
         (p) {
-          final startTime = p.value.start.toDateTime();
-          var parse = timeFormat.parse(p.value.length.value);
-          final endTime = startTime.add(
-            Duration(minutes: parse.minute, hours: parse.hour),
-          );
+          final (:start, :end) = lessonPeriodTimeStrings(p.value);
           return DataRow(
             cells: [
               DataCell(
@@ -78,11 +73,11 @@ class TimetableScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            DateFormat.Hm().format(startTime),
+                            start,
                             style: theme.textTheme.labelMedium,
                           ),
                           Text(
-                            DateFormat.Hm().format(endTime),
+                            end,
                             style: theme.textTheme.labelMedium,
                           ),
                         ],

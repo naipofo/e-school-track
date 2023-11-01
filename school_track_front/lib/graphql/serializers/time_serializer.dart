@@ -25,5 +25,5 @@ class TimeSerializer implements PrimitiveSerializer<TimeOfDay> {
   Iterable<Type> get types => [TimeOfDay];
 
   @override
-  String get wireName => "Date";
+  String get wireName => "time";
 }

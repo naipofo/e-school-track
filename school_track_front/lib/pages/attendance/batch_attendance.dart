@@ -19,7 +19,7 @@ class BatchAttendanceScreen extends StatelessWidget {
       operationRequest: GClassAttendaceReq(
         (g) => g.vars
           ..class_id = id
-          ..date = (GdateBuilder()..value = DateTime.now().toIso8601String()),
+          ..date = DateTime.now(),
       ),
       builder: (context, req) {
         final data = req.Gclass!;
@@ -188,7 +188,7 @@ class _AttendaceDataTableState extends State<AttendaceDataTable> {
             ..techer_id = clientModel.userId
             ..class_id = widget.classId
             // TODO: take from url
-            ..date = (GdateBuilder()..value = DateTime.now().toIso8601String())
+            ..date = DateTime.now()
             ..period_id = 1
             ..student_id = userId
             ..type = (Gattendance_typeBuilder()

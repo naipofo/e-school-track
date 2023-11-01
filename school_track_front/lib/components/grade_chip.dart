@@ -10,7 +10,7 @@ class GradeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = formatFromTimestamp(data.added_on.value);
+    final date = dateFormat.format(data.added_on);
     return Tooltip(
       message: "Date: $date\n"
           "Teacher: ${data.teacher.full_name}\n"

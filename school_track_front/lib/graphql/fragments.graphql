@@ -8,3 +8,21 @@ fragment gradeChipData on grades {
     full_name
   }
 }
+
+fragment timetableClassData on classes {
+  id
+  subject {
+    title
+  }
+  teacher {
+    full_name
+  }
+  group {
+    name
+  }
+}
+
+fragment lessonPeriodsTimes on lesson_periods {
+  start
+  length
+}

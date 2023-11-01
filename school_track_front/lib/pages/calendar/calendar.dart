@@ -76,7 +76,7 @@ class _CalendarState extends State<Calendar> {
     final now = DateTime.now();
     final baseYear = now.year - 1;
 
-    widget.events.where((e) => DateTime.parse(e.date.value) == DateTime.now());
+    widget.events.where((e) => e.date == DateTime.now());
 
     return Column(
       children: [
@@ -161,9 +161,7 @@ class CalendarRender extends StatelessWidget {
       var cellDate = DateTime(year, month, day);
       return DayCell(
         date: cellDate,
-        events: events
-            .where((e) => DateTime.parse(e.date.value) == cellDate)
-            .toList(),
+        events: events.where((e) => e.date == cellDate).toList(),
       );
     }
 

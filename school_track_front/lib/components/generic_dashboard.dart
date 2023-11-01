@@ -38,6 +38,7 @@ class GenericDashboard extends StatelessWidget {
             if (aside != null)
               separateColumns
                   ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(width: 8.0),
                         panel(aside!, 2),

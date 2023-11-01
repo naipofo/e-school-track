@@ -25,3 +25,17 @@ query GetSingleEvent($id: Int!) {
     }
   }
 }
+
+query EventRange($after: date!, $before: date!) {
+  events(where: { _and: { date: { _gte: $after, _lte: $before } } }) {
+    id
+    title
+    date
+    period_id
+    class {
+      subject {
+        title
+      }
+    }
+  }
+}
