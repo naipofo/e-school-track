@@ -10,6 +10,7 @@
 - "!include public_lessons.yaml"
 - "!include public_messages.yaml"
 - "!include public_parents.yaml"
+- "!include public_qr_auth.yaml"
 - "!include public_recipient_group.yaml"
 - "!include public_recipient_user.yaml"
 - "!include public_recipients.yaml"

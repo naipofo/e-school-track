@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { LoginDto } from "./login.dto";
 import { LoginService } from "./login.service";
+import { TryQr } from "./try-qr.dto";
 import { UpdateTemporary } from "./update-temporary.dto";
 
 @Controller()
@@ -16,5 +17,10 @@ export class LoginController {
   @Post("temporary")
   async temporary(@Body() { username, tempPassword, newPassword }: UpdateTemporary): Promise<void> {
     await this.appService.setTemp(username, tempPassword, newPassword);
+  }
+
+  @Post("qr")
+  qr(@Body() { hash, uuid }: TryQr): Promise<string> {
+    return this.appService.tryQr(hash, uuid);
   }
 }

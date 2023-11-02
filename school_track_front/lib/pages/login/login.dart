@@ -26,7 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text("Login"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code))
+          IconButton(
+            onPressed: () => context.go("/login/qr"),
+            icon: const Icon(Icons.qr_code),
+          )
         ],
       ),
       body: ThinForm(

@@ -26,7 +26,7 @@ class TimetableRow extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (currentLesson != null) ...[
+            if (currentLesson != null && currentLesson.lessons.isNotEmpty) ...[
               Text(
                 "Lesson now",
                 style: theme.textTheme.titleLarge,

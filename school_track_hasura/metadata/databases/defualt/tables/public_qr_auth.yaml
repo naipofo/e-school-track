@@ -1,0 +1,13 @@
+table:
+  name: qr_auth
+  schema: public
+insert_permissions:
+  - role: teacher
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - hash
+        - user_id
+    comment: ""

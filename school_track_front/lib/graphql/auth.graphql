@@ -1,0 +1,5 @@
+mutation InsertQrAuth($hash: String, $user_id: Int) {
+  insert_qr_auth(objects: { hash: $hash, user_id: $user_id }) {
+    affected_rows
+  }
+}

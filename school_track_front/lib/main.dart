@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_track_front/conf.dart';
 import 'package:school_track_front/openapi/generated/client_index.dart';
 import 'package:school_track_front/openapi/generated/schema.swagger.dart';
 import 'package:school_track_front/router/routes.dart';
 
 import 'gql_client.dart';
 
-const url = "ws://localhost:8080/v1/graphql";
-
 void main() async {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => ClientModel(url: url)),
+      ChangeNotifierProvider(create: (context) => ClientModel(url: gqlApiUri)),
       Provider(
-        create: (context) =>
-            Schema.create(baseUrl: Uri.parse("http://localhost:3000")),
+        create: (context) {
+          return Schema.create(baseUrl: Uri.parse(openApiUri));
+        },
       )
     ],
     child: const MainApp(),

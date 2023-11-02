@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gql_websocket_link/gql_websocket_link.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
+import 'package:school_track_front/conf.dart';
 import 'package:school_track_front/openapi/generated/schema.swagger.dart';
 
 enum AccountType { guest, student, teacher, admin }
@@ -27,9 +28,12 @@ class ClientModel extends ChangeNotifier {
     if (res.base.statusCode > 400) {
       return res.base.statusCode;
     }
+    loginJwt(res.body);
+    return null;
+  }
 
-    final jwt = res.body;
-    if (jwt == null) return null;
+  Future<void> loginJwt(String? jwt) async {
+    if (jwt == null || jwt.isEmpty) return;
 
     client = buildClient(jwt);
     final claims = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"];
@@ -38,7 +42,6 @@ class ClientModel extends ChangeNotifier {
     userId = int.parse(claims['X-Hasura-User-Id']);
 
     notifyListeners();
-    return null;
   }
 
   void logOut() {
@@ -56,7 +59,7 @@ class ClientModel extends ChangeNotifier {
   static Client buildClient(String jwt) {
     return Client(
       link: WebSocketLink(
-        "ws://localhost:8080/v1/graphql",
+        gqlApiUri,
         autoReconnect: true,
         reconnectInterval: const Duration(seconds: 1),
         initialPayload: {

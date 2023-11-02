@@ -29,23 +29,7 @@ export class LoginService {
       throw new HttpException("Wrong password", HttpStatus.UNAUTHORIZED);
     }
 
-    const isAdmin = (
-      await db
-        .selectFrom("admins")
-        .select(["user_id"])
-        .where("user_id", "=", user_id)
-        .execute()
-    ).length > 0;
-
-    const isTeacher = (
-      await db.selectFrom("classes").select(["teacher_id"]).execute()
-    )
-      .map((e) => e.teacher_id)
-      .includes(user_id);
-
-    // TODO: teachers
-
-    return await makeJwt(user_id, isAdmin ? "admin" : isTeacher ? "teacher" : "student");
+    return await makeJwt(user_id);
   }
 
   async setTemp(username: string, tempPassword: string, newPassword: string) {
@@ -59,5 +43,18 @@ export class LoginService {
       .set({ temporary: false, hash: await bHash(newPassword, 12) })
       .where("user_id", "=", user_id)
       .execute();
+  }
+
+  async tryQr(reqHash: string, uuid: string): Promise<string | null> {
+    if (!await compare(uuid, reqHash)) {
+      throw new HttpException("wrong uuid", HttpStatus.UNAUTHORIZED);
+    }
+    const user = await db.selectFrom("qr_auth")
+      .select(["user_id"])
+      .where("hash", "=", reqHash as any)
+      .execute();
+
+    if (user.length == 0) return "";
+    return await makeJwt(user[0].user_id);
   }
 }

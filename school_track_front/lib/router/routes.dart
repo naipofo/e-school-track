@@ -22,6 +22,7 @@ import 'package:school_track_front/pages/grades/edit_single_grade.dart';
 import 'package:school_track_front/pages/grades/grades.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/login/login.dart';
+import 'package:school_track_front/pages/login/qr_login.dart';
 import 'package:school_track_front/pages/login/temporary.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
 import 'package:school_track_front/pages/messages/inbox.dart';
@@ -290,6 +291,10 @@ final defaultRoutes = [
           login: state.uri.queryParameters["login"]!,
           tempPassword: state.uri.queryParameters["password"]!,
         ),
+      ),
+      GoRoute(
+        path: 'qr',
+        builder: (context, state) => const QrLoginScreen(),
       ),
     ],
   ),
