@@ -4,11 +4,17 @@ import 'package:school_track_front/components/generic_dashboard.dart';
 import 'package:school_track_front/components/grade_chip.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/classes.req.gql.dart';
+import 'package:school_track_front/pages/timetable/class_lessons.dart';
 
 class StudentClassScreen extends StatelessWidget {
-  const StudentClassScreen({super.key, required this.id});
+  const StudentClassScreen({
+    super.key,
+    required this.id,
+    required this.now,
+  });
 
   final int id;
+  final bool now;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,10 @@ class StudentClassScreen extends StatelessWidget {
             title: Text('${c.subject.title} with ${c.teacher?.full_name}'),
           ),
           body: GenericDashboard(
+            aside: [
+              if (data.Gclass!.lessons.length > 1)
+                ClassLessonsSection(data: data.Gclass!.lessons.toList()),
+            ],
             body: [
               Padding(
                 padding: const EdgeInsets.all(8.0),

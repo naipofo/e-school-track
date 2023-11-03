@@ -11,9 +11,17 @@ query GetAttendance {
   }
 }
 
-subscription CheckAttendance($class_id: Int!, $date: date) {
+subscription CheckAttendanceCount(
+  $class_id: Int!
+  $date: date!
+  $period_id: Int!
+) {
   attendance_aggregate(
-    where: { class_id: { _eq: $class_id }, date: { _eq: $date } }
+    where: {
+      class_id: { _eq: $class_id }
+      date: { _eq: $date }
+      period_id: { _eq: $period_id }
+    }
   ) {
     aggregate {
       count

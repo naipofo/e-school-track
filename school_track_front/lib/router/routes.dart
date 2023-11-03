@@ -90,12 +90,6 @@ final routes = [
             const GradesScreen(),
         routes: [
           GoRoute(
-            path: "class/:id",
-            builder: (context, state) => ClassGradesScreen(
-              id: int.parse(state.pathParameters["id"]!),
-            ),
-          ),
-          GoRoute(
               path: "grade/:id",
               builder: (context, state) => SingleGradeScreen(
                     id: int.parse(state.pathParameters["id"]!),
@@ -228,6 +222,8 @@ final routes = [
             path: "batch/:id",
             builder: (context, state) => BatchAttendanceScreen(
               id: int.parse(state.pathParameters["id"]!),
+              date: DateTime.parse(state.uri.queryParameters["date"]!),
+              period: int.parse(state.uri.queryParameters["period"]!),
             ),
           )
         ],
@@ -248,9 +244,12 @@ final routes = [
             path: 'class/:id',
             builder: (context, state) {
               var id = int.parse(state.pathParameters["id"]!);
+              var now = bool.parse(
+                state.uri.queryParameters["now"] ?? "false",
+              );
               return role == AccountType.student
-                  ? StudentClassScreen(id: id)
-                  : TeacherClassScreen(id: id);
+                  ? StudentClassScreen(id: id, now: now)
+                  : TeacherClassScreen(id: id, now: now);
             },
             routes: [
               GoRoute(

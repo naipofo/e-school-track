@@ -38,8 +38,12 @@ query ClassDetail($id: Int!, $events_after: date!) {
         count
       }
     }
-    events(order_by: { date: asc }, where: { date: { _gt: $events_after } }) {
+    events(order_by: { date: asc }, where: { date: { _gte: $events_after } }) {
       ...eventCardData
+    }
+    lessons {
+      id
+      ...classLessonsData
     }
   }
 }
@@ -64,7 +68,7 @@ subscription ClassGrades($id: Int!) {
   }
 }
 
-query ClassAttendace($class_id: Int!, $date: date!) {
+query ClassAttendace($class_id: Int!, $date: date!, $period_id: Int!) {
   class: classes_by_pk(id: $class_id) {
     subject {
       title
@@ -76,7 +80,11 @@ query ClassAttendace($class_id: Int!, $date: date!) {
           id
           full_name
           attendances(
-            where: { class_id: { _eq: $class_id }, date: { _eq: $date } }
+            where: {
+              class_id: { _eq: $class_id }
+              date: { _eq: $date }
+              period_id: { _eq: $period_id }
+            }
           ) {
             type
           }
@@ -112,8 +120,11 @@ query StudentClassDetails($id: Int!, $events_after: date!) {
     grades {
       ...gradeChipData
     }
-    events(order_by: { date: asc }, where: { date: { _gt: $events_after } }) {
+    events(order_by: { date: asc }, where: { date: { _gte: $events_after } }) {
       ...eventCardData
+    }
+    lessons {
+      ...classLessonsData
     }
   }
 }

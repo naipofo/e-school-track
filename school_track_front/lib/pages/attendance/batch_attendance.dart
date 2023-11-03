@@ -9,9 +9,16 @@ import 'package:school_track_front/graphql/generated/classes.var.gql.dart';
 import 'package:school_track_front/graphql/generated/schema.schema.gql.dart';
 
 class BatchAttendanceScreen extends StatelessWidget {
-  const BatchAttendanceScreen({super.key, required this.id});
+  const BatchAttendanceScreen({
+    super.key,
+    required this.id,
+    required this.date,
+    required this.period,
+  });
 
   final int id;
+  final DateTime date;
+  final int period;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +26,21 @@ class BatchAttendanceScreen extends StatelessWidget {
       operationRequest: GClassAttendaceReq(
         (g) => g.vars
           ..class_id = id
-          ..date = DateTime.now(),
+          ..date = date
+          ..period_id = period,
       ),
       builder: (context, req) {
         final data = req.Gclass!;
         return Scaffold(
+          appBar: AppBar(
+            title: const Text('Batch attendance'),
+          ),
           body: SingleChildScrollView(
             child: AttendaceDataTable(
               data: data.group.user_groups.toList(),
               classId: id,
+              date: date,
+              period: period,
             ),
           ),
         );
@@ -37,11 +50,19 @@ class BatchAttendanceScreen extends StatelessWidget {
 }
 
 class AttendaceDataTable extends StatefulWidget {
-  const AttendaceDataTable(
-      {super.key, required this.data, required this.classId});
+  const AttendaceDataTable({
+    super.key,
+    required this.data,
+    required this.classId,
+    required this.date,
+    required this.period,
+  });
 
   final List<GClassAttendaceData_class_group_user_groups> data;
+
   final int classId;
+  final DateTime date;
+  final int period;
 
   @override
   State<AttendaceDataTable> createState() => _AttendaceDataTableState();
@@ -187,9 +208,8 @@ class _AttendaceDataTableState extends State<AttendaceDataTable> {
           return Gattendance_insert_input((b) => b
             ..techer_id = clientModel.userId
             ..class_id = widget.classId
-            // TODO: take from url
-            ..date = DateTime.now()
-            ..period_id = 1
+            ..date = widget.date
+            ..period_id = widget.period
             ..student_id = userId
             ..type = (Gattendance_typeBuilder()
               ..value = (changes[userId] ??

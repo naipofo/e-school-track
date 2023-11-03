@@ -53,7 +53,7 @@ class StudnetDashboardScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Events", style: theme.textTheme.titleLarge),
+              child: Text("Upcoming events", style: theme.textTheme.titleLarge),
             ),
             for (final e in data.events) EventCard(data: e)
           ],
