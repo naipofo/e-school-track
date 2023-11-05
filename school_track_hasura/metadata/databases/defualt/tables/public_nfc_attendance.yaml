@@ -1,0 +1,41 @@
+table:
+  name: nfc_attendance
+  schema: public
+insert_permissions:
+  - role: student
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - date
+        - class_id
+        - id
+        - period_id
+        - user_id
+    comment: ""
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - date
+        - class_id
+        - id
+        - period_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - date
+        - class_id
+        - id
+        - period_id
+        - user_id
+      filter: {}
+      allow_aggregations: true
+    comment: ""

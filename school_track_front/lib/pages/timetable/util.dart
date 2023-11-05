@@ -16,6 +16,7 @@ int? getCurrentLessonIndex(
 }) {
   // var fullNow = DateTime.now();
   // final now = DateTime(0, 0, 0, fullNow.hour, fullNow.minute);
+  // TODO: real date
   final now = DateTime(0, 0, 0, 9, 35);
   for (var i = 0; i < lessons.length; i++) {
     var lesson = lessons[i];
@@ -37,4 +38,16 @@ int? getCurrentLessonIndex(
         couldRetroactive) return i;
   }
   return null;
+}
+
+GclassLessonsData? getCurrentLesson(
+  List<GclassLessonsData> data,
+) {
+  // final nowWd = DateTime.now().weekday;
+  const nowWd = 1;
+  final lessonsToday = data.where((e) => e.weekday == nowWd - 1);
+  final cr = getCurrentLessonIndex(
+    lessonsToday.map((e) => e.period).toList(),
+  );
+  return cr != null ? lessonsToday.toList()[cr] : null;
 }

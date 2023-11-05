@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_track_front/components/alert.dart';
 import 'package:school_track_front/components/event_card.dart';
 import 'package:school_track_front/components/generic_dashboard.dart';
 import 'package:school_track_front/components/grade_chip.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/graphql/generated/attendance.req.gql.dart';
+import 'package:school_track_front/graphql/generated/classes.data.gql.dart';
 import 'package:school_track_front/graphql/generated/classes.req.gql.dart';
+import 'package:school_track_front/pages/attendance/nfc_attendance_check_dialog.dart';
 import 'package:school_track_front/pages/timetable/class_lessons.dart';
+import 'package:school_track_front/pages/timetable/util.dart';
 
 class StudentClassScreen extends StatelessWidget {
   const StudentClassScreen({
@@ -18,52 +24,139 @@ class StudentClassScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     return GqlFetch(
       operationRequest: GStudentClassDetailsReq(
         (g) => g.vars
           ..id = id
           ..events_after = DateTime.now(),
       ),
-      builder: (context, data) {
-        final c = data.Gclass!;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('${c.subject.title} with ${c.teacher?.full_name}'),
+      builder: (context, data) => InnerStudentClass(
+        id: id,
+        data: data.Gclass!,
+      ),
+    );
+  }
+}
+
+class InnerStudentClass extends StatefulWidget {
+  const InnerStudentClass({
+    super.key,
+    required this.id,
+    required this.data,
+  });
+
+  final int id;
+  final GStudentClassDetailsData_class data;
+
+  @override
+  State<InnerStudentClass> createState() => _InnerStudentClassState();
+}
+
+class _InnerStudentClassState extends State<InnerStudentClass> {
+  ({int period, String room})? showNfcAttendance;
+
+  @override
+  void initState() {
+    final currentLesson = getCurrentLesson(
+      widget.data.lessons.toList(),
+    );
+
+    context
+        .read<ClientModel>()
+        .client
+        .request(
+          GCheckAttendanceStudentReq(
+            (g) => g.vars
+              ..date = DateTime.now()
+              ..class_id = widget.id
+              ..period_id = currentLesson?.period.id,
           ),
-          body: GenericDashboard(
-            aside: [
-              if (data.Gclass!.lessons.length > 1)
-                ClassLessonsSection(data: data.Gclass!.lessons.toList()),
-            ],
-            body: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Grades', style: theme.textTheme.titleLarge),
-              ),
-              Row(
-                children: [
-                  for (var g in c.grades)
-                    Row(
-                      children: [
-                        GradeChip(data: g),
-                        const SizedBox(
-                          width: 8,
-                        )
-                      ],
-                    ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:
-                    Text('Upcoming events', style: theme.textTheme.titleLarge),
-              ),
-              for (var e in c.events) EventCard(data: e),
-            ],
-          ),
-        );
+        )
+        .listen(
+      (event) {
+        if (event.data!.attendance_aggregate.aggregate!.count == 0 &&
+            event.data!.nfc_attendance_aggregate.aggregate!.count == 0) {
+          setState(
+            () => showNfcAttendance = (
+              period: currentLesson!.period.id,
+              room: currentLesson.room!.name,
+            ),
+          );
+        }
       },
+    );
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '${widget.data.subject.title} with '
+          '${widget.data.teacher?.full_name}',
+        ),
+      ),
+      body: GenericDashboard(
+        alerts: showNfcAttendance != null
+            ? [
+                WarningAlert(
+                  message: "Missing attendance for current lesson!",
+                  buttonMessage: "Check attendance",
+                  onAction: () => showDialog(
+                    context: context,
+                    builder: (context) => NfcAttendaceCheckDialog(
+                      roomCode: showNfcAttendance!.room,
+                    ),
+                  ).then((value) {
+                    if (value is bool && value) {
+                      var clientModel = context.read<ClientModel>();
+                      clientModel.client
+                          .request(GInsertNfcAttendanceReq(
+                            (g) => g.vars
+                              ..user_id = clientModel.userId
+                              ..class_id = widget.id
+                              ..date = DateTime.now()
+                              ..period_id = showNfcAttendance!.period,
+                          ))
+                          .listen((event) {});
+                      setState(() => showNfcAttendance = null);
+                    }
+                  }),
+                )
+              ]
+            : null,
+        aside: [
+          if (widget.data.lessons.length > 1)
+            ClassLessonsSection(data: widget.data.lessons.toList()),
+        ],
+        body: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Grades', style: theme.textTheme.titleLarge),
+          ),
+          Row(
+            children: [
+              for (var g in widget.data.grades)
+                Row(
+                  children: [
+                    GradeChip(data: g),
+                    const SizedBox(
+                      width: 8,
+                    )
+                  ],
+                ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Upcoming events', style: theme.textTheme.titleLarge),
+          ),
+          for (var e in widget.data.events) EventCard(data: e),
+        ],
+      ),
     );
   }
 }

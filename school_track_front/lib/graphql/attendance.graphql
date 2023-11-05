@@ -28,3 +28,62 @@ subscription CheckAttendanceCount(
     }
   }
 }
+
+query CheckAttendanceStudent($class_id: Int!, $date: date!, $period_id: Int!) {
+  attendance_aggregate(
+    where: {
+      class_id: { _eq: $class_id }
+      date: { _eq: $date }
+      period_id: { _eq: $period_id }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nfc_attendance_aggregate(
+    where: {
+      class_id: { _eq: $class_id }
+      date: { _eq: $date }
+      period_id: { _eq: $period_id }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+mutation InsertNfcAttendance(
+  $date: date!
+  $class_id: Int!
+  $period_id: Int!
+  $user_id: Int!
+) {
+  insert_nfc_attendance(
+    objects: {
+      date: $date
+      class_id: $class_id
+      period_id: $period_id
+      user_id: $user_id
+    }
+  ) {
+    affected_rows
+  }
+}
+
+subscription NfcAttendanceSub($date: date!, $class_id: Int!, $period_id: Int!) {
+  nfc_attendance(
+    where: {
+      class_id: { _eq: $class_id }
+      date: { _eq: $date }
+      period_id: { _eq: $period_id }
+    }
+  ) {
+    date
+    class_id
+    id
+    period_id
+    user_id
+  }
+}

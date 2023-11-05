@@ -42,6 +42,7 @@ select_permissions:
       filter:
         student_id:
           _eq: X-Hasura-User-Id
+      allow_aggregations: true
     comment: ""
   - role: teacher
     permission:

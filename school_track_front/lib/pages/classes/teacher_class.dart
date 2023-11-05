@@ -29,13 +29,10 @@ class TeacherClassScreen extends StatelessWidget {
           ..events_after = DateTime.now(),
       ),
       builder: (context, data) {
-        final nowWd = DateTime.now().weekday;
-        final lessonsToday = (data.Gclass?.lessons.toList() ?? [])
-            .where((e) => e.weekday == nowWd - 1);
-        final cr = getCurrentLessonIndex(
-          lessonsToday.map((e) => e.period).toList(),
+        final currentLesson = getCurrentLesson(
+          data.Gclass?.lessons.toList() ?? [],
         );
-        final currentLesson = cr != null ? lessonsToday.toList()[cr] : null;
+
         body([
           bool attendanceAlert = false,
         ]) =>

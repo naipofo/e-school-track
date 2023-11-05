@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/graphql/generated/attendance.req.gql.dart';
 import 'package:school_track_front/graphql/generated/classes.data.gql.dart';
 import 'package:school_track_front/graphql/generated/classes.req.gql.dart';
 import 'package:school_track_front/graphql/generated/classes.var.gql.dart';
@@ -99,8 +102,51 @@ extension on AttendanceType {
   }
 }
 
+const defaultAttendance = AttendanceType.absent;
+
 class _AttendaceDataTableState extends State<AttendaceDataTable> {
   Map<int, AttendanceType> changes = {};
+
+  List<int> nfcConfirmed = [];
+  StreamSubscription? nfcSub;
+
+  @override
+  void initState() {
+    nfcSub = context
+        .read<ClientModel>()
+        .client
+        .request(
+          GNfcAttendanceSubReq(
+            (g) => g.vars
+              ..class_id = widget.classId
+              ..date = widget.date
+              ..period_id = widget.period,
+          ),
+        )
+        .listen(
+      (event) {
+        setState(
+          () {
+            nfcConfirmed = (event.data?.nfc_attendance.toList() ?? [])
+                .map((e) => (e.user_id))
+                .toList();
+            for (var u in nfcConfirmed) {
+              if (!changes.containsKey(u)) {
+                changes[u] = AttendanceType.present;
+              }
+            }
+          },
+        );
+      },
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nfcSub?.cancel();
+    super.dispose();
+  }
 
   void updateWith(int id, AttendanceType type) => setState(() {
         changes[id] = type;
@@ -117,37 +163,38 @@ class _AttendaceDataTableState extends State<AttendaceDataTable> {
             DataColumn(label: Text('Name')),
             DataColumn(label: Text('Type')),
             DataColumn(label: Text('')),
+            DataColumn(label: Text('')),
           ],
           rows: widget.data.asMap().entries.map(
             (e) {
               final originalAttendance = e.value.user.attendances.firstOrNull;
               var userId = e.value.user.id;
+              var displaiedAttendance = (changes[userId] ??
+                  (originalAttendance != null
+                      ? attendanceFromStr(originalAttendance.type.value)
+                      : defaultAttendance));
               return DataRow(
                 cells: [
                   DataCell(Text((e.key + 1).toString())),
                   DataCell(Text(e.value.user.full_name!)),
                   DataCell(
-                    Text((changes[userId] ??
-                            (originalAttendance != null
-                                ? attendanceFromStr(
-                                    originalAttendance.type.value)
-                                : AttendanceType.present))
-                        .toStringEnum()),
+                    Text(displaiedAttendance.toStringEnum()),
                     showEditIcon: true,
                     onTap: () {
-                      final el = changes[userId];
                       setState(() {
-                        changes[userId] = (el == null &&
-                                    (originalAttendance == null ||
-                                        attendanceFromStr(originalAttendance
-                                                .type.value) !=
-                                            AttendanceType.absent)) ||
-                                el == AttendanceType.present
-                            ? AttendanceType.absent
-                            : AttendanceType.present;
+                        changes[userId] =
+                            displaiedAttendance == AttendanceType.absent
+                                ? AttendanceType.present
+                                : AttendanceType.absent;
                       });
                     },
                   ),
+                  DataCell(nfcConfirmed.contains(userId)
+                      ? const Icon(
+                          Icons.nfc,
+                          color: Colors.green,
+                        )
+                      : Container()),
                   DataCell(
                     MenuAnchor(
                       menuChildren: [
@@ -217,7 +264,7 @@ class _AttendaceDataTableState extends State<AttendaceDataTable> {
                           ? attendanceFromStr(
                               e.user.attendances[0].type.value,
                             )
-                          : AttendanceType.present))
+                          : defaultAttendance))
                   .toStringEnum()));
         }))));
   }
