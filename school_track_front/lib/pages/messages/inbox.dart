@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/graphql/generated/messages.req.gql.dart';
@@ -11,7 +12,11 @@ class MessageInboxScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Inbox')),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.inbox,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go("/messages/compose"),
         child: const Icon(Icons.create),

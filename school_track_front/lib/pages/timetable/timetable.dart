@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/timetable.req.gql.dart';
@@ -18,7 +19,11 @@ class TimetableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Timetable')),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.timetable,
+        ),
+      ),
       body: GqlFetch(
         operationRequest: GGetTimetableReq(),
         builder: (context, data) => SingleChildScrollView(

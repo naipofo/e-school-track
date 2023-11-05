@@ -1,0 +1,118 @@
+{
+  "@@locale": "en",
+
+  "login": "Login",
+  "@login": {
+    "description": "App bar on the login screen"
+  },
+
+  "username": "Username",
+  "@username": {
+    "description": "login form"
+  },
+
+  "password": "Password",
+  "@password": {
+    "description": "login form"
+  },
+
+  "confirmPassword": "Confirm password",
+  "@confirmPassword": {
+    "description": "login form"
+  },
+
+  "wrongPassword": "Wrong password",
+  "noAccount": "Account not found",
+
+  "loginAction": "Login",
+  "@loginAction": {
+    "description": "login form"
+  },
+
+  "scanQrCode": "Scan QR Code",
+  "qrCodeLogin": "QR Code Login",
+
+  "temporaryPassword": "Temporary password",
+  "@temporaryPassword": {
+    "description": "App bar on the temp pass"
+  },
+  "setNewPass": "Set your new password:",
+  "passNoMatch": "Passwords do not match",
+  "setPassAction": "set password",
+
+  "welcomeStudent": "Welcome student 🧑‍🎓",
+  "logOut": "Log out",
+  "upcomingEvents": "Upcoming events",
+  "recentGrades": "Recent grades",
+
+  "yourGrades": "Your Grades",
+  "subject": "Subject",
+  "grades": "Grades",
+
+  "newMessage": "New Message",
+  "recepients": "Recepients",
+  "recepientsSave": "Save",
+  "messageTitle": "Title",
+  "messageContent": "Content",
+  "messageSendAction": "Send",
+  "inbox": "Inbox",
+
+  "calendar": "Calendar",
+  "eventBy": "By: {name}",
+  "@eventBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "eventOn": "On: {date}",
+  "@eventOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "attendance": "Attendance",
+  "nfcScan": "Scan Tag",
+  "nfcScanMessage": "Scan attendance tag",
+  "nfcError": "Error scanning tag",
+  "nfcNotAvalable": "NFC not avalable",
+
+  "studentClassHeader": "{title} with {teacher}",
+  "@studentClassHeader": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "teacher": {
+        "type": "String"
+      }
+    }
+  },
+  "classGrades": "Grades",
+  "classUpcomingEvents": "Upcoming events",
+  "missingAttendance": "Missing attendance for current lesson!",
+  "missingAttendanceAction": "Check attendance",
+
+  "allLessonsForClass": "All lessons",
+  "timetable": "Timetable",
+  "timetableFor": "Timetable for {day}",
+  "@timetableFor": {
+    "placeholders": {
+      "day":{
+        "type": "String"
+      }
+    }
+  },
+  "lessonNow": "LessonNow",
+
+  "routeDashboard": "Dashboard",
+  "routeAttendance": "Attendance",
+  "routeMessages": "Messages",
+  "routeCalendar": "Calendar",
+  "routeTimetable": "Timetable",
+  "routeGrades": "Grades"
+}

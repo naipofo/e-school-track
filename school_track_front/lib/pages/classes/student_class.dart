@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/components/alert.dart';
 import 'package:school_track_front/components/event_card.dart';
@@ -97,16 +98,19 @@ class _InnerStudentClassState extends State<InnerStudentClass> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.data.subject.title} with '
-          '${widget.data.teacher?.full_name}',
+          AppLocalizations.of(context)!.studentClassHeader(
+            widget.data.subject.title,
+            widget.data.teacher?.full_name ?? "",
+          ),
         ),
       ),
       body: GenericDashboard(
         alerts: showNfcAttendance != null
             ? [
                 WarningAlert(
-                  message: "Missing attendance for current lesson!",
-                  buttonMessage: "Check attendance",
+                  message: AppLocalizations.of(context)!.missingAttendance,
+                  buttonMessage:
+                      AppLocalizations.of(context)!.missingAttendanceAction,
                   onAction: () => showDialog(
                     context: context,
                     builder: (context) => NfcAttendaceCheckDialog(
@@ -137,7 +141,10 @@ class _InnerStudentClassState extends State<InnerStudentClass> {
         body: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Grades', style: theme.textTheme.titleLarge),
+            child: Text(
+              AppLocalizations.of(context)!.classGrades,
+              style: theme.textTheme.titleLarge,
+            ),
           ),
           Row(
             children: [
@@ -154,7 +161,10 @@ class _InnerStudentClassState extends State<InnerStudentClass> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Upcoming events', style: theme.textTheme.titleLarge),
+            child: Text(
+              AppLocalizations.of(context)!.classUpcomingEvents,
+              style: theme.textTheme.titleLarge,
+            ),
           ),
           for (var e in widget.data.events) EventCard(data: e),
         ],

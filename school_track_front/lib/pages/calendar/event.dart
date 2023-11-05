@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:school_track_front/graphql/generated/calendar.req.gql.dart';
 import 'package:school_track_front/util/dates.dart';
 
@@ -26,8 +27,14 @@ class SingleEventScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("By: ${data.user.full_name}"),
-                Text("On: ${dateFormat.format(data.date)}"),
+                Text(
+                  AppLocalizations.of(context)!
+                      .eventBy(data.user.full_name ?? ""),
+                ),
+                Text(
+                  AppLocalizations.of(context)!
+                      .eventOn(dateFormat.format(data.date)),
+                ),
                 Text(data.comment),
               ],
             ),

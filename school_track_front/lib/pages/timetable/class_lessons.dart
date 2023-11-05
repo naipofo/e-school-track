@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:school_track_front/graphql/generated/fragments.data.gql.dart';
 import 'package:school_track_front/pages/timetable/util.dart';
@@ -15,7 +16,7 @@ class ClassLessonsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          "All lessons",
+          AppLocalizations.of(context)!.allLessonsForClass,
           style: theme.textTheme.titleLarge,
         ),
         for (var l in data) timetableCard(context, l)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class QrLoginScannerDialog extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Scan QR Code'),
+            title: Text(AppLocalizations.of(context)!.scanQrCode),
             centerTitle: false,
             leading: IconButton(
               icon: const Icon(Icons.close),

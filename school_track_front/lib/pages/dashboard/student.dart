@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/components/event_card.dart';
 import 'package:school_track_front/components/generic_dashboard.dart';
@@ -19,14 +20,14 @@ class StudnetDashboardScreen extends StatelessWidget {
       aside: [
         ElevatedButton(
           onPressed: () => context.read<ClientModel>().logOut(),
-          child: const Text('Log out'),
+          child: Text(AppLocalizations.of(context)!.logOut),
         ),
         const Divider(),
         events(context),
       ],
       body: [
         Text(
-          "Welcome student 🧑‍🎓",
+          AppLocalizations.of(context)!.welcomeStudent,
           style: theme.textTheme.displaySmall,
         ),
         const SizedBox(height: 8.0),
@@ -53,7 +54,10 @@ class StudnetDashboardScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Upcoming events", style: theme.textTheme.titleLarge),
+              child: Text(
+                AppLocalizations.of(context)!.upcomingEvents,
+                style: theme.textTheme.titleLarge,
+              ),
             ),
             for (final e in data.events) EventCard(data: e)
           ],
@@ -70,7 +74,7 @@ class StudnetDashboardScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            "Recent grades",
+            AppLocalizations.of(context)!.recentGrades,
             style: theme.textTheme.titleLarge,
           ),
           Column(

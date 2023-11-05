@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/openapi/generated/schema.swagger.dart';
@@ -29,31 +30,31 @@ class _TemporaryPasswordScreenState extends State<TemporaryPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Temporary password"),
+        title: Text(AppLocalizations.of(context)!.temporaryPassword),
       ),
       body: ThinForm(
         errorMessage: errorMessage,
         children: [
           Text(
-            "Set your new password: ",
+            "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 8),
           TextField(
             obscureText: true,
             controller: passwordController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text('Password'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text(AppLocalizations.of(context)!.password),
             ),
           ),
           const SizedBox(height: 8),
           TextField(
             obscureText: true,
             controller: confirmPasswordController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text('Confirm password'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text(AppLocalizations.of(context)!.confirmPassword),
             ),
           ),
           const SizedBox(height: 8),
@@ -66,7 +67,7 @@ class _TemporaryPasswordScreenState extends State<TemporaryPasswordScreen> {
                       passwordController.text !=
                           confirmPasswordController.text) {
                     setState(() {
-                      errorMessage = "Passwords do not match";
+                      errorMessage = AppLocalizations.of(context)!.passNoMatch;
                     });
                     return;
                   }
@@ -81,7 +82,7 @@ class _TemporaryPasswordScreenState extends State<TemporaryPasswordScreen> {
                       )
                       .then((_) => context.pop());
                 },
-                child: const Text('set password'),
+                child: Text(AppLocalizations.of(context)!.setPassAction),
               ),
             ],
           )

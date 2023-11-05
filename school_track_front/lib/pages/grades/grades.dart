@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/components/grade_chip.dart';
 import 'package:school_track_front/graphql/generated/grades.data.gql.dart';
@@ -12,7 +13,11 @@ class GradesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Grades')),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.yourGrades,
+        ),
+      ),
       body: ListView(
         children: [
           GqlFetch(
@@ -33,12 +38,12 @@ class GradesDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataTable(
-      columns: const [
+      columns: [
         DataColumn(
-          label: Text('Subject'),
+          label: Text(AppLocalizations.of(context)!.subject),
         ),
         DataColumn(
-          label: Text('Grades'),
+          label: Text(AppLocalizations.of(context)!.grades),
         ),
       ],
       rows: data.classes

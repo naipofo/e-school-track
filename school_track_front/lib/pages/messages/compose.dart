@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/graphql/generated/messages.data.gql.dart';
@@ -22,7 +23,7 @@ class MessageComposeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New Message')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.newMessage)),
       body: GqlFetch(
         operationRequest: GGetPossibleRecipientsReq(),
         builder: (context, data) => SendMessageForm(
@@ -98,7 +99,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
               child: Row(
                 children: [
                   if (noRecepients)
-                    const Text("Recepients")
+                    Text(AppLocalizations.of(context)!.recepients)
                   else
                     ...recepientGroups.map(
                       (gId) => Chip(
@@ -128,9 +129,9 @@ class _SendMessageFormState extends State<SendMessageForm> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               initialValue: widget.title,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text('Title'),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                label: Text(AppLocalizations.of(context)!.messageTitle),
               ),
               onChanged: (value) => title = value,
             ),
@@ -142,9 +143,9 @@ class _SendMessageFormState extends State<SendMessageForm> {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               minLines: null,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text('Content'),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                label: Text(AppLocalizations.of(context)!.messageContent),
               ),
             ),
           ),
@@ -169,7 +170,7 @@ class _SendMessageFormState extends State<SendMessageForm> {
                     ))
                     .listen((event) {});
               },
-              child: const Text('Send'),
+              child: Text(AppLocalizations.of(context)!.messageSendAction),
             ),
           )
         ],
@@ -237,7 +238,7 @@ class RecepientsDialogState extends State<RecepientsDialog> {
         padding: const EdgeInsets.all(20.0),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Recepients'),
+            title: Text(AppLocalizations.of(context)!.recepients),
             centerTitle: false,
             leading: IconButton(
               icon: const Icon(Icons.close),
@@ -248,7 +249,7 @@ class RecepientsDialogState extends State<RecepientsDialog> {
                 onPressed: () => context.pop<RecepientsDialogResult>(
                   (users: recepientUsers, groups: recepientGroups),
                 ),
-                child: const Text("Save"),
+                child: Text(AppLocalizations.of(context)!.recepientsSave),
               )
             ],
           ),

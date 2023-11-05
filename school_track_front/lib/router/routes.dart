@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +42,12 @@ bool Function(AccountType) roleOnly(AccountType allowedRole) =>
 bool noGuests(AccountType role) => role != AccountType.guest;
 
 typedef RoleAwareRouteBuilder = List<RouteBase> Function(AccountType);
+typedef LocalTitleBuilder = String Function(AppLocalizations);
 
 @freezed
 class RouteInfo with _$RouteInfo {
   const factory RouteInfo({
-    required String title,
+    required LocalTitleBuilder title,
     required IconData outlineIcon,
     required IconData filledIcon,
     @Default(noGuests) PermissionCheck check,
@@ -62,7 +64,7 @@ extension on AccountType {
 
 final routes = [
   RouteInfo(
-    title: 'dashboard',
+    title: (l) => l.routeDashboard,
     outlineIcon: Icons.dashboard_outlined,
     filledIcon: Icons.dashboard,
     routes: (role) => [
@@ -78,7 +80,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'grades',
+    title: (l) => l.routeGrades,
     outlineIcon: Icons.star_outline,
     filledIcon: Icons.star,
     check: roleOnly(AccountType.student),
@@ -122,7 +124,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'timetable',
+    title: (l) => l.routeTimetable,
     outlineIcon: Icons.calendar_view_day_outlined,
     filledIcon: Icons.calendar_view_day,
     routes: (role) => [
@@ -144,7 +146,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'calendar',
+    title: (l) => l.calendar,
     outlineIcon: Icons.event_outlined,
     filledIcon: Icons.event,
     routes: (role) => [
@@ -173,7 +175,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'messages',
+    title: (l) => l.routeMessages,
     outlineIcon: Icons.mail_outline,
     filledIcon: Icons.mail,
     routes: (_) => [
@@ -208,7 +210,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'attendance',
+    title: (l) => l.routeAttendance,
     outlineIcon: Icons.event_available_outlined,
     filledIcon: Icons.event_available,
     routes: (role) => [
@@ -231,7 +233,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'classes',
+    title: (l) => 'classes',
     outlineIcon: Icons.groups_outlined,
     filledIcon: Icons.groups,
     check: roleOnly(AccountType.teacher),
@@ -265,7 +267,7 @@ final routes = [
     ],
   ),
   RouteInfo(
-    title: 'accounts',
+    title: (l) => 'accounts',
     outlineIcon: Icons.manage_accounts_outlined,
     filledIcon: Icons.manage_accounts,
     routes: (role) => [
@@ -386,7 +388,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   .map((e) => NavigationRailDestination(
                         icon: Icon(e.outlineIcon),
                         selectedIcon: Icon(e.filledIcon),
-                        label: Text(e.title),
+                        label: Text(e.title(AppLocalizations.of(context)!)),
                       ))
                   .toList(),
             ),

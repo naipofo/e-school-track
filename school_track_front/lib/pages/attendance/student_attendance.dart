@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:school_track_front/graphql/generated/attendance.req.gql.dart';
 import 'package:school_track_front/util/dates.dart';
 
@@ -10,7 +11,7 @@ class StudentAttendanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Attendance')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.attendance)),
       body: GqlFetch(
         operationRequest: GGetAttendanceReq(),
         builder: (context, data) => ListView(

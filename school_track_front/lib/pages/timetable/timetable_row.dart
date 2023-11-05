@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:school_track_front/gql_client.dart';
 import 'package:school_track_front/graphql/generated/timetable.data.gql.dart';
@@ -28,13 +29,15 @@ class TimetableRow extends StatelessWidget {
           children: [
             if (currentLesson != null && currentLesson.lessons.isNotEmpty) ...[
               Text(
-                "Lesson now",
+                AppLocalizations.of(context)!.lessonNow,
                 style: theme.textTheme.titleLarge,
               ),
               timetableCard(context, currentLesson)
             ],
             Text(
-              "Timetable for ${skipToMonday ? "monday" : "today"}",
+              AppLocalizations.of(context)!.timetableFor(
+                skipToMonday ? "monday" : "today",
+              ),
               style: theme.textTheme.titleLarge,
             ),
             SingleChildScrollView(

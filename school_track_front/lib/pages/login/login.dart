@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: Text(AppLocalizations.of(context)!.login),
         actions: [
           IconButton(
             onPressed: () => context.go("/login/qr"),
@@ -37,9 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           TextField(
             controller: loginController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text('Username'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text(AppLocalizations.of(context)!.username),
             ),
             inputFormatters: [noSpecialFormat],
           ),
@@ -47,9 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
           TextField(
             controller: passwordController,
             obscureText: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              label: Text('Password'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text(AppLocalizations.of(context)!.password),
             ),
           ),
           const SizedBox(height: 8),
@@ -79,14 +80,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       passwordController.clear();
                     } else if (res != null && res >= 400) {
                       errorMessage = switch (res) {
-                        401 => "Wrong password",
-                        404 => "Account not found",
+                        401 => AppLocalizations.of(context)!.wrongPassword,
+                        404 => AppLocalizations.of(context)!.noAccount,
                         _ => "Error: $res"
                       };
                     }
                   });
                 },
-                child: const Text('login'),
+                child: Text(AppLocalizations.of(context)!.loginAction),
               ),
             ],
           ),

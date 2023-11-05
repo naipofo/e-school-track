@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:school_track_front/graphql/generated/calendar.data.gql.dart';
@@ -20,7 +21,7 @@ class CalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Calendar')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.calendar)),
       floatingActionButton: canAdd
           ? FloatingActionButton(
               onPressed: () => context.go("/calendar/add"),

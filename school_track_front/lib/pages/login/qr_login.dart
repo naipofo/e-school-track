@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -27,7 +28,7 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
     loginUuid = const Uuid().v4();
     loginHash = BCrypt.hashpw(loginUuid, BCrypt.gensalt());
 
-    timer = Timer.periodic(const Duration(seconds: 2), (_) => tryLogin());
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => tryLogin());
 
     super.initState();
   }
@@ -47,7 +48,7 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("QR Code Login"),
+        title: Text(AppLocalizations.of(context)!.qrCodeLogin),
         actions: [
           IconButton(
             onPressed: () => context.pop(),

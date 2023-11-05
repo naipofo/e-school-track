@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndef/ndef.dart';
@@ -59,7 +60,7 @@ class _NfcAttendaceCheckDialogState extends State<NfcAttendaceCheckDialog> {
         padding: const EdgeInsets.all(20.0),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Scan Tag'),
+            title: Text(AppLocalizations.of(context)!.nfcScan),
             centerTitle: false,
             leading: IconButton(
               icon: const Icon(Icons.close),
@@ -76,10 +77,10 @@ class _NfcAttendaceCheckDialogState extends State<NfcAttendaceCheckDialog> {
               ),
               Text(
                 scanError
-                    ? 'Error scanning tag'
+                    ? AppLocalizations.of(context)!.nfcError
                     : !hasNfc
-                        ? 'NFC not avalable'
-                        : 'Scan attendance tag',
+                        ? AppLocalizations.of(context)!.nfcNotAvalable
+                        : AppLocalizations.of(context)!.nfcScanMessage,
                 textAlign: TextAlign.center,
               ),
               Text(test),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/conf.dart';
 import 'package:school_track_front/openapi/generated/client_index.dart';
@@ -29,6 +31,17 @@ class MainApp extends StatelessWidget {
     return RouterConfigurator(
       builder: (context, router) => MaterialApp.router(
         theme: ThemeData.light(useMaterial3: true),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale("en"),
+          Locale("pl"),
+          Locale("uk"),
+          Locale("ja"),
+        ],
         routerConfig: router,
       ),
     );
