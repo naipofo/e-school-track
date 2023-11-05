@@ -79,7 +79,9 @@ class _InnerStudentClassState extends State<InnerStudentClass> {
           setState(
             () => showNfcAttendance = (
               period: currentLesson!.period.id,
-              room: currentLesson.room!.name,
+              // bug: https://github.com/dart-lang/sdk/issues/53961
+              // ignore: unnecessary_non_null_assertion
+              room: currentLesson!.room!.name,
             ),
           );
         }
