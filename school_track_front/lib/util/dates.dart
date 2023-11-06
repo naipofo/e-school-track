@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-List<String> daysOfWeek = List.generate(
-  7,
-  (index) => DateFormat('EEEE').format(
-    DateTime(2000, 1, index + 3),
-  ),
-);
+List<String> daysOfWeek(BuildContext context) =>
+    DateFormat("", AppLocalizations.of(context)!.localeName)
+        .dateSymbols
+        .WEEKDAYS;
 
-List<String> workingDaysOfWeek = daysOfWeek.sublist(0, 5);
+List<String> workingDaysOfWeek(BuildContext context) =>
+    daysOfWeek(context).sublist(0, 5);
 
 DateFormat dateFormat = DateFormat('yyyy-MM-dd');
 

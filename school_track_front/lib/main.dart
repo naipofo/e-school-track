@@ -40,7 +40,6 @@ class MainApp extends StatelessWidget {
           Locale("en"),
           Locale("pl"),
           Locale("uk"),
-          Locale("ja"),
         ],
         routerConfig: router,
       ),

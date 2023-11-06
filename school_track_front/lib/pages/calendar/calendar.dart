@@ -89,9 +89,10 @@ class _CalendarState extends State<Calendar> {
                 12,
                 (index) => DropdownMenuEntry(
                   value: index + 1,
-                  label: DateFormat('MMMM').format(
-                    DateTime(2000, index + 1, 1),
-                  ),
+                  label:
+                      DateFormat("", AppLocalizations.of(context)!.localeName)
+                          .dateSymbols
+                          .MONTHS[index],
                 ),
               ),
               initialSelection: now.month,
@@ -173,7 +174,7 @@ class CalendarRender extends StatelessWidget {
       ),
       children: [
         TableRow(
-          children: daysOfWeek
+          children: daysOfWeek(context)
               .map(
                 (e) => TableCell(
                   child: Padding(

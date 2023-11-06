@@ -45,7 +45,7 @@ class TimetableScreen extends StatelessWidget {
       showBottomBorder: true,
       columns: [
         const DataColumn(label: Text('')),
-        ...workingDaysOfWeek.map(
+        ...workingDaysOfWeek(context).map(
           (e) => DataColumn(
             label: Expanded(
               child: Text(
@@ -92,7 +92,7 @@ class TimetableScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ...workingDaysOfWeek.asMap().entries.map(
+              ...workingDaysOfWeek(context).asMap().entries.map(
                 (e) {
                   final cClass = p.value.lessons
                       .where((l) => l.weekday == e.key)
