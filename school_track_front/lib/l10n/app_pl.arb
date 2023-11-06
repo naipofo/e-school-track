@@ -1,118 +1,118 @@
 {
-  "@@locale": "en",
-  "login": "Login",
+  "@@locale": "pl",
+  "login": "Zaloguj się",
   "@login": {
     "description": "App bar on the login screen"
   },
-  "username": "Username",
+  "username": "Nazwa użytkownika",
   "@username": {
     "description": "login form"
   },
-  "password": "Password",
+  "password": "Hasło",
   "@password": {
     "description": "login form"
   },
-  "confirmPassword": "Confirm password",
+  "confirmPassword": "Potwierdź hasło",
   "@confirmPassword": {
     "description": "login form"
   },
-  "wrongPassword": "Wrong password",
+  "wrongPassword": "Nieprawidłowe hasło",
   "@wrongPassword": {
     "description": "Message displayed when auth fails"
   },
-  "noAccount": "Account not found",
+  "noAccount": "Nie znaleziono konta",
   "@noAccount": {
     "description": "Message displayed when auth fails"
   },
-  "loginAction": "Login",
+  "loginAction": "Zaloguj się",
   "@loginAction": {
     "description": "login form"
   },
-  "scanQrCode": "Scan QR Code",
+  "scanQrCode": "Skanuj kod QR",
   "@scanQrCode": {
     "description": "App bar on the QR scanning screen"
   },
-  "qrCodeLogin": "QR Code Login",
+  "qrCodeLogin": "Logowanie kodem QR",
   "@qrCodeLogin": {
     "description": "App bar on the QR login screen. Displayed without auth."
   },
-  "temporaryPassword": "Temporary password",
+  "temporaryPassword": "Hasło tymczasowe",
   "@temporaryPassword": {
     "description": "App bar on the temp pass"
   },
-  "setNewPass": "Set your new password:",
+  "setNewPass": "Ustaw nowe hasło:",
   "@setNewPass": {
     "description": "Form label for setting a passowrd after reset / temp pass"
   },
-  "passNoMatch": "Passwords do not match",
+  "passNoMatch": "Hasła się nie zgadzają",
   "@passNoMatch": {
     "description": "Error if repeated password when setting new one does not match"
   },
-  "setPassAction": "set password",
+  "setPassAction": "Ustaw hasło",
   "@setPassAction": {
     "description": "Button for setting a new password"
   },
-  "welcomeStudent": "Welcome student 🧑‍🎓",
+  "welcomeStudent": "Witaj uczniu 🧑‍🎓",
   "@welcomeStudent": {
     "description": "Header for the student dashboard"
   },
-  "logOut": "Log out",
+  "logOut": "Wyloguj się",
   "@logOut": {
     "description": "Log out button"
   },
-  "upcomingEvents": "Upcoming events",
+  "upcomingEvents": "Nadchodzące wydarzenia",
   "@upcomingEvents": {
     "description": "Header in a event section of the dashboard"
   },
-  "recentGrades": "Recent grades",
+  "recentGrades": "Ostatnie oceny",
   "@recentGrades": {
     "description": "Header in a grades section of the dashboard"
   },
-  "yourGrades": "Your Grades",
+  "yourGrades": "Twoje oceny",
   "@yourGrades": {
     "description": "App bar on the grades screen"
   },
-  "subject": "Subject",
+  "subject": "Przedmiot",
   "@subject": {
     "description": "Table header in grades"
   },
-  "grades": "Grades",
+  "grades": "Oceny",
   "@grades": {
     "description": "Table header in grades"
   },
-  "newMessage": "New Message",
+  "newMessage": "Nowa wiadomość",
   "@newMessage": {
     "description": "App bar on the compose screen"
   },
-  "recepients": "Recepients",
+  "recepients": "Odbiorcy",
   "@recepients": {
     "description": "Placeholder for the recepients field in the compose screen"
   },
-  "recepientsSave": "Save",
+  "recepientsSave": "Zapisz",
   "@recepientsSave": {
     "description": "Save button when choosing the recepeients"
   },
-  "messageTitle": "Title",
+  "messageTitle": "Tytuł",
   "@messageTitle": {
     "description": "Placeholder for the title field in the compose screen"
   },
-  "messageContent": "Content",
+  "messageContent": "Treść",
   "@messageContent": {
     "description": "Placeholder for the content in the compose screen"
   },
-  "messageSendAction": "Send",
+  "messageSendAction": "Wyślij",
   "@messageSendAction": {
     "description": "Button to send a message"
   },
-  "inbox": "Inbox",
+  "inbox": "Skrzynka odbiorcza",
   "@inbox": {
     "description": "App bar on the inbox screen"
   },
-  "calendar": "Calendar",
+  "calendar": "Kalendarz",
   "@calendar": {
     "description": "App bar on the calendar screen"
   },
-  "eventBy": "By: {name}",
+  "eventBy": "Przez: {name}",
   "@eventBy": {
     "description": "Used in event description",
     "placeholders": {
@@ -121,7 +121,7 @@
       }
     }
   },
-  "eventOn": "On: {date}",
+  "eventOn": "Data: {date}",
   "@eventOn": {
     "description": "Used in event description",
     "placeholders": {
@@ -130,27 +130,27 @@
       }
     }
   },
-  "attendance": "Attendance",
+  "attendance": "Obecność",
   "@attendance": {
     "description": "App bar on the attendance screen"
   },
-  "nfcScan": "Scan Tag",
+  "nfcScan": "Skanuj tag",
   "@nfcScan": {
     "description": "App bar on the NFC attendance checking dialog"
   },
-  "nfcScanMessage": "Scan attendance tag",
+  "nfcScanMessage": "Zeskanuj tag obecności",
   "@nfcScanMessage": {
     "description": "message displayed on the NFC attendance checking dialog"
   },
-  "nfcError": "Error scanning tag",
+  "nfcError": "Błąd podczas skanowania tagu",
   "@nfcError": {
     "description": "error displayed on the NFC attendance checking dialog if the tag scan failed"
   },
-  "nfcNotAvalable": "NFC not avalable",
+  "nfcNotAvalable": "NFC niedostępne",
   "@nfcNotAvalable": {
     "description": "error displayed on the NFC attendance checking dialog if NFC is turned off"
   },
-  "studentClassHeader": "{title} with {teacher}",
+  "studentClassHeader": "{title} z {teacher}",
   "@studentClassHeader": {
     "description": "App bar on the single class view",
     "placeholders": {
@@ -162,31 +162,31 @@
       }
     }
   },
-  "classGrades": "Grades",
+  "classGrades": "Oceny",
   "@classGrades": {
     "description": "Header for grades in a single class"
   },
-  "classUpcomingEvents": "Upcoming events",
+  "classUpcomingEvents": "Nadchodzące wydarzenia",
   "@classUpcomingEvents": {
     "description": "Upcomming events for a class"
   },
-  "missingAttendance": "Missing attendance for current lesson!",
+  "missingAttendance": "Brak obecności na aktualnej lekcji!",
   "@missingAttendance": {
     "description": "Alert for when you don't have your attendance checked yet and you can verify it with NFC"
   },
-  "missingAttendanceAction": "Check attendance",
+  "missingAttendanceAction": "Sprawdź obecność",
   "@missingAttendanceAction": {
     "description": "Action for checking your own attendance with nfc"
   },
-  "allLessonsForClass": "All lessons",
+  "allLessonsForClass": "Wszystkie lekcje",
   "@allLessonsForClass": {
     "description": "list of all lessons during the week for a class"
   },
-  "timetable": "Timetable",
+  "timetable": "Plan lekcji",
   "@timetable": {
     "description": "App bar on the timetable screen"
   },
-  "timetableFor": "Timetable for {day}",
+  "timetableFor": "Plan na {day}",
   "@timetableFor": {
     "description": "Header for lessons today or on monday on the dashboard",
     "placeholders": {
@@ -195,31 +195,31 @@
       }
     }
   },
-  "lessonNow": "Lesson Now",
+  "lessonNow": "Obecna lekcja",
   "@lessonNow": {
     "description": "Header in the dashboard displaying the current lesson"
   },
-  "routeDashboard": "Dashboard",
+  "routeDashboard": "Pulpit",
   "@routeDashboard": {
     "description": "route on the navigation bar"
   },
-  "routeAttendance": "Attendance",
+  "routeAttendance": "Obecność",
   "@routeAttendance": {
     "description": "route on the navigation bar"
   },
-  "routeMessages": "Messages",
+  "routeMessages": "Wiadomości",
   "@routeMessages": {
     "description": "route on the navigation bar"
   },
-  "routeCalendar": "Calendar",
+  "routeCalendar": "Kalendarz",
   "@routeCalendar": {
     "description": "route on the navigation bar"
   },
-  "routeTimetable": "Timetable",
+  "routeTimetable": "Plan lekcji",
   "@routeTimetable": {
     "description": "route on the navigation bar"
   },
-  "routeGrades": "Grades",
+  "routeGrades": "Oceny",
   "@routeGrades": {
     "description": "route on the navigation bar"
   }

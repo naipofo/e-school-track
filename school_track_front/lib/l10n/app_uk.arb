@@ -1,118 +1,118 @@
 {
-  "@@locale": "en",
-  "login": "Login",
+  "@@locale": "uk",
+  "login": "Вхід",
   "@login": {
     "description": "App bar on the login screen"
   },
-  "username": "Username",
+  "username": "Ім''я користувача",
   "@username": {
     "description": "login form"
   },
-  "password": "Password",
+  "password": "Пароль",
   "@password": {
     "description": "login form"
   },
-  "confirmPassword": "Confirm password",
+  "confirmPassword": "Підтвердити пароль",
   "@confirmPassword": {
     "description": "login form"
   },
-  "wrongPassword": "Wrong password",
+  "wrongPassword": "Неправильний пароль",
   "@wrongPassword": {
     "description": "Message displayed when auth fails"
   },
-  "noAccount": "Account not found",
+  "noAccount": "Користувача не знайдено",
   "@noAccount": {
     "description": "Message displayed when auth fails"
   },
-  "loginAction": "Login",
+  "loginAction": "Увійти",
   "@loginAction": {
     "description": "login form"
   },
-  "scanQrCode": "Scan QR Code",
+  "scanQrCode": "Сканувати QR-код",
   "@scanQrCode": {
     "description": "App bar on the QR scanning screen"
   },
-  "qrCodeLogin": "QR Code Login",
+  "qrCodeLogin": "Вхід через QR-код",
   "@qrCodeLogin": {
     "description": "App bar on the QR login screen. Displayed without auth."
   },
-  "temporaryPassword": "Temporary password",
+  "temporaryPassword": "Тимчасовий пароль",
   "@temporaryPassword": {
     "description": "App bar on the temp pass"
   },
-  "setNewPass": "Set your new password:",
+  "setNewPass": "Встановіть новий пароль:",
   "@setNewPass": {
     "description": "Form label for setting a passowrd after reset / temp pass"
   },
-  "passNoMatch": "Passwords do not match",
+  "passNoMatch": "Паролі не співпадають",
   "@passNoMatch": {
     "description": "Error if repeated password when setting new one does not match"
   },
-  "setPassAction": "set password",
+  "setPassAction": "Встановити пароль",
   "@setPassAction": {
     "description": "Button for setting a new password"
   },
-  "welcomeStudent": "Welcome student 🧑‍🎓",
+  "welcomeStudent": "Ласкаво просимо, учень 🧑‍🎓",
   "@welcomeStudent": {
     "description": "Header for the student dashboard"
   },
-  "logOut": "Log out",
+  "logOut": "Вийти",
   "@logOut": {
     "description": "Log out button"
   },
-  "upcomingEvents": "Upcoming events",
+  "upcomingEvents": "Майбутні події",
   "@upcomingEvents": {
     "description": "Header in a event section of the dashboard"
   },
-  "recentGrades": "Recent grades",
+  "recentGrades": "Нещодавно додані оцінки",
   "@recentGrades": {
     "description": "Header in a grades section of the dashboard"
   },
-  "yourGrades": "Your Grades",
+  "yourGrades": "Ваші оцінки",
   "@yourGrades": {
     "description": "App bar on the grades screen"
   },
-  "subject": "Subject",
+  "subject": "Предмет",
   "@subject": {
     "description": "Table header in grades"
   },
-  "grades": "Grades",
+  "grades": "Оцінки",
   "@grades": {
     "description": "Table header in grades"
   },
-  "newMessage": "New Message",
+  "newMessage": "Нове повідомлення",
   "@newMessage": {
     "description": "App bar on the compose screen"
   },
-  "recepients": "Recepients",
+  "recepients": "Одержувачі",
   "@recepients": {
     "description": "Placeholder for the recepients field in the compose screen"
   },
-  "recepientsSave": "Save",
+  "recepientsSave": "Зберегти",
   "@recepientsSave": {
     "description": "Save button when choosing the recepeients"
   },
-  "messageTitle": "Title",
+  "messageTitle": "Назва",
   "@messageTitle": {
     "description": "Placeholder for the title field in the compose screen"
   },
-  "messageContent": "Content",
+  "messageContent": "Вміст",
   "@messageContent": {
     "description": "Placeholder for the content in the compose screen"
   },
-  "messageSendAction": "Send",
+  "messageSendAction": "Надіслати",
   "@messageSendAction": {
     "description": "Button to send a message"
   },
-  "inbox": "Inbox",
+  "inbox": "Вхідні",
   "@inbox": {
     "description": "App bar on the inbox screen"
   },
-  "calendar": "Calendar",
+  "calendar": "Календар",
   "@calendar": {
     "description": "App bar on the calendar screen"
   },
-  "eventBy": "By: {name}",
+  "eventBy": "Від: {name}",
   "@eventBy": {
     "description": "Used in event description",
     "placeholders": {
@@ -121,7 +121,7 @@
       }
     }
   },
-  "eventOn": "On: {date}",
+  "eventOn": "До: {date}",
   "@eventOn": {
     "description": "Used in event description",
     "placeholders": {
@@ -130,27 +130,27 @@
       }
     }
   },
-  "attendance": "Attendance",
+  "attendance": "Присутність",
   "@attendance": {
     "description": "App bar on the attendance screen"
   },
-  "nfcScan": "Scan Tag",
+  "nfcScan": "Сканувати тег",
   "@nfcScan": {
     "description": "App bar on the NFC attendance checking dialog"
   },
-  "nfcScanMessage": "Scan attendance tag",
+  "nfcScanMessage": "Зіскануй тег присутності",
   "@nfcScanMessage": {
     "description": "message displayed on the NFC attendance checking dialog"
   },
-  "nfcError": "Error scanning tag",
+  "nfcError": "Помилка під час сканування тегу",
   "@nfcError": {
     "description": "error displayed on the NFC attendance checking dialog if the tag scan failed"
   },
-  "nfcNotAvalable": "NFC not avalable",
+  "nfcNotAvalable": "NFC недоступне",
   "@nfcNotAvalable": {
     "description": "error displayed on the NFC attendance checking dialog if NFC is turned off"
   },
-  "studentClassHeader": "{title} with {teacher}",
+  "studentClassHeader": "{title} з {teacher}",
   "@studentClassHeader": {
     "description": "App bar on the single class view",
     "placeholders": {
@@ -162,31 +162,31 @@
       }
     }
   },
-  "classGrades": "Grades",
+  "classGrades": "Оцінки",
   "@classGrades": {
     "description": "Header for grades in a single class"
   },
-  "classUpcomingEvents": "Upcoming events",
+  "classUpcomingEvents": "Наступні події",
   "@classUpcomingEvents": {
     "description": "Upcomming events for a class"
   },
-  "missingAttendance": "Missing attendance for current lesson!",
+  "missingAttendance": "Відсутність присутності на даному уроці!",
   "@missingAttendance": {
     "description": "Alert for when you don't have your attendance checked yet and you can verify it with NFC"
   },
-  "missingAttendanceAction": "Check attendance",
+  "missingAttendanceAction": "Перевірити відвідуваність",
   "@missingAttendanceAction": {
     "description": "Action for checking your own attendance with nfc"
   },
-  "allLessonsForClass": "All lessons",
+  "allLessonsForClass": "Всі уроки для класу",
   "@allLessonsForClass": {
     "description": "list of all lessons during the week for a class"
   },
-  "timetable": "Timetable",
+  "timetable": "Розклад уроків",
   "@timetable": {
     "description": "App bar on the timetable screen"
   },
-  "timetableFor": "Timetable for {day}",
+  "timetableFor": "Розклад на {day}",
   "@timetableFor": {
     "description": "Header for lessons today or on monday on the dashboard",
     "placeholders": {
@@ -195,31 +195,31 @@
       }
     }
   },
-  "lessonNow": "Lesson Now",
+  "lessonNow": "Урок зараз",
   "@lessonNow": {
     "description": "Header in the dashboard displaying the current lesson"
   },
-  "routeDashboard": "Dashboard",
+  "routeDashboard": "Головна",
   "@routeDashboard": {
     "description": "route on the navigation bar"
   },
-  "routeAttendance": "Attendance",
+  "routeAttendance": "Присутність",
   "@routeAttendance": {
     "description": "route on the navigation bar"
   },
-  "routeMessages": "Messages",
+  "routeMessages": "Скринька",
   "@routeMessages": {
     "description": "route on the navigation bar"
   },
-  "routeCalendar": "Calendar",
+  "routeCalendar": "Календар",
   "@routeCalendar": {
     "description": "route on the navigation bar"
   },
-  "routeTimetable": "Timetable",
+  "routeTimetable": "Розклад",
   "@routeTimetable": {
     "description": "route on the navigation bar"
   },
-  "routeGrades": "Grades",
+  "routeGrades": "Оцінки",
   "@routeGrades": {
     "description": "route on the navigation bar"
   }
