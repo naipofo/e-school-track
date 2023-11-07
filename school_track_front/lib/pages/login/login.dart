@@ -30,6 +30,18 @@ class _LoginScreenState extends State<LoginScreen> {
           IconButton(
             onPressed: () => context.go("/login/qr"),
             icon: const Icon(Icons.qr_code),
+          ),
+          IconButton(
+            onPressed: () => showAboutDialog(
+              context: context,
+              applicationName: "E School track",
+              applicationVersion: "dev",
+              applicationIcon: const Text(
+                "📏",
+                style: TextStyle(fontSize: 26.0),
+              ),
+            ),
+            icon: const Icon(Icons.info),
           )
         ],
       ),

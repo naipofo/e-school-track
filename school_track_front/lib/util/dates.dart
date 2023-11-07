@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-List<String> daysOfWeek(BuildContext context) =>
-    DateFormat("", AppLocalizations.of(context)!.localeName)
+List<String> daysOfWeek(BuildContext context) {
+  final days = [
+    ...DateFormat("", AppLocalizations.of(context)!.localeName)
         .dateSymbols
-        .WEEKDAYS;
+        .WEEKDAYS,
+  ];
+  days.add(days.removeAt(0));
+  return days;
+}
 
 List<String> workingDaysOfWeek(BuildContext context) =>
     daysOfWeek(context).sublist(0, 5);
