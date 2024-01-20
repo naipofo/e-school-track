@@ -9,20 +9,25 @@ array_relationships:
         table:
           name: lessons
           schema: public
+  - name: period_times
+    using:
+      foreign_key_constraint_on:
+        column: period_id
+        table:
+          name: period_times
+          schema: public
 select_permissions:
   - role: student
     permission:
       columns:
         - id
-        - length
-        - start
+        - name
       filter: {}
     comment: ""
   - role: teacher
     permission:
       columns:
         - id
-        - length
-        - start
+        - name
       filter: {}
     comment: ""

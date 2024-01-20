@@ -1,0 +1,24 @@
+table:
+  name: period_times
+  schema: public
+select_permissions:
+  - role: student
+    permission:
+      columns:
+        - id
+        - period_id
+        - schedule_id
+        - length
+        - start
+      filter: {}
+    comment: ""
+  - role: teacher
+    permission:
+      columns:
+        - id
+        - period_id
+        - schedule_id
+        - length
+        - start
+      filter: {}
+    comment: ""

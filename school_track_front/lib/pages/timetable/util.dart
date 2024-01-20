@@ -3,10 +3,10 @@ import 'package:school_track_front/graphql/generated/fragments.data.gql.dart';
 import 'package:school_track_front/util/dates.dart';
 
 ({String start, String end}) lessonPeriodTimeStrings(GlessonPeriodsTimes date) {
-  final startTime = date.start.toDateTime();
+  final startTime = date.period_times[0].start.toDateTime();
   return (
     start: DateFormat.Hm().format(startTime),
-    end: DateFormat.Hm().format(startTime.add(date.length)),
+    end: DateFormat.Hm().format(startTime.add(date.period_times[0].length)),
   );
 }
 
@@ -20,15 +20,17 @@ int? getCurrentLessonIndex(
   final now = DateTime(0, 0, 0, 9, 35);
   for (var i = 0; i < lessons.length; i++) {
     var lesson = lessons[i];
-    var difference = now.difference(lesson.start.toDateTime());
+    var difference = now.difference(lesson.period_times[0].start.toDateTime());
 
     var afterStart = difference.inMinutes >= 0;
-    var during = difference.inMinutes < lesson.length.inMinutes;
+    var during = difference.inMinutes < lesson.period_times[0].length.inMinutes;
 
-    var couldExtend =
-        difference.inMinutes < lesson.length.inMinutes + maxExtend;
+    var couldExtend = difference.inMinutes <
+        lesson.period_times[0].length.inMinutes + maxExtend;
     var safeToExtend = lessons.length > (i + 1)
-        ? now.difference(lessons[i + 1].start.toDateTime()).inMinutes <
+        ? now
+                .difference(lessons[i + 1].period_times[0].start.toDateTime())
+                .inMinutes <
             -maxExtend
         : true;
     var couldRetroactive =

@@ -16,26 +16,35 @@ query GetTimetable {
 }
 
 # Editing
-subscription GetLessonPeriods {
+subscription getSchedules {
+  schedules {
+    id
+    name
+  }
+}
+
+subscription getLessonTimes() {
   lesson_periods(order_by: { id: asc }) {
     id
-    length
-    start
+    name
+    period_times {
+      schedule_id
+      id
+      start
+      length
+    }
   }
 }
 
 mutation SetPeriodStart($id: Int!, $start: time!) {
-  update_lesson_periods_by_pk(
-    pk_columns: { id: $id }
-    _set: { start: $start }
-  ) {
+  update_period_times_by_pk(pk_columns: { id: $id }, _set: { start: $start }) {
     id
     start
   }
 }
 
 mutation SetPeriodLength($id: Int!, $length: interval!) {
-  update_lesson_periods_by_pk(
+  update_period_times_by_pk(
     pk_columns: { id: $id }
     _set: { length: $length }
   ) {

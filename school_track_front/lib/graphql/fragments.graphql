@@ -23,8 +23,13 @@ fragment timetableClassData on classes {
 }
 
 fragment lessonPeriodsTimes on lesson_periods {
-  start
-  length
+  id
+  name
+  period_times(where: { period_id: { _is_null: false } }) {
+    id
+    length
+    start
+  }
 }
 
 fragment eventCardData on events {

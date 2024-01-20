@@ -61,33 +61,34 @@ class _InnerStudentClassState extends State<InnerStudentClass> {
     final currentLesson = getCurrentLesson(
       widget.data.lessons.toList(),
     );
-
-    context
-        .read<ClientModel>()
-        .client
-        .request(
-          GCheckAttendanceStudentReq(
-            (g) => g.vars
-              ..date = DateTime.now()
-              ..class_id = widget.id
-              ..period_id = currentLesson?.period.id,
-          ),
-        )
-        .listen(
-      (event) {
-        if (event.data!.attendance_aggregate.aggregate!.count == 0 &&
-            event.data!.nfc_attendance_aggregate.aggregate!.count == 0) {
-          setState(
-            () => showNfcAttendance = (
-              period: currentLesson!.period.id,
-              // bug: https://github.com/dart-lang/sdk/issues/53961
-              // ignore: unnecessary_non_null_assertion
-              room: currentLesson!.room!.name,
+    if (currentLesson != null) {
+      context
+          .read<ClientModel>()
+          .client
+          .request(
+            GCheckAttendanceStudentReq(
+              (g) => g.vars
+                ..date = DateTime.now()
+                ..class_id = widget.id
+                ..period_id = currentLesson.period.id,
             ),
-          );
-        }
-      },
-    );
+          )
+          .listen(
+        (event) {
+          if (event.data!.attendance_aggregate.aggregate!.count == 0 &&
+              event.data!.nfc_attendance_aggregate.aggregate!.count == 0) {
+            setState(
+              () => showNfcAttendance = (
+                period: currentLesson.period.id,
+                // bug: https://github.com/dart-lang/sdk/issues/53961
+                // ignore: unnecessary_non_null_assertion
+                room: currentLesson!.room!.name,
+              ),
+            );
+          }
+        },
+      );
+    }
 
     super.initState();
   }
