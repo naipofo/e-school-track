@@ -15,36 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final clientModel = context.watch<ClientModel>();
-
-    return FutureBuilder(
-      future: getSavedLogins(),
-      builder: (context, data) {
-        if (data.data == null) {
-          return const Placeholder();
-        } else if (data.data!.length == 1) {
-          clientModel.loginJwt(data.data!.values.firstOrNull);
-          return const Placeholder();
-        } else {
-          return LoginPrompt(logins: data.data ?? {});
-        }
-      },
-    );
-  }
-}
-
-class LoginPrompt extends StatefulWidget {
-  const LoginPrompt({super.key, required this.logins});
-
-  final Map<String, String> logins;
-
-  @override
-  State<LoginPrompt> createState() => _LoginPromptState();
-}
-
-class _LoginPromptState extends State<LoginPrompt> {
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
   var rememberPassword = false;
@@ -79,7 +49,6 @@ class _LoginPromptState extends State<LoginPrompt> {
       body: ThinForm(
         errorMessage: errorMessage,
         children: [
-          // TODO: show saved logins
           TextField(
             controller: loginController,
             decoration: InputDecoration(

@@ -24,6 +24,8 @@ import 'package:school_track_front/pages/grades/grades.dart';
 import 'package:school_track_front/pages/grades/single_grade.dart';
 import 'package:school_track_front/pages/login/login.dart';
 import 'package:school_track_front/pages/login/qr_login.dart';
+import 'package:school_track_front/pages/login/saved_accounts.dart';
+import 'package:school_track_front/pages/login/saved_logins.dart';
 import 'package:school_track_front/pages/login/temporary.dart';
 import 'package:school_track_front/pages/messages/compose.dart';
 import 'package:school_track_front/pages/messages/inbox.dart';
@@ -283,6 +285,10 @@ final routes = [
 
 final defaultRoutes = [
   GoRoute(
+    path: '/saved-accounts',
+    builder: (context, state) => const SavedAccountsScreen(),
+  ),
+  GoRoute(
     path: '/login',
     builder: (context, state) => const LoginScreen(),
     routes: [
@@ -349,8 +355,11 @@ class RouterConfigurator extends StatelessWidget {
           ),
           redirect: (context, state) {
             return context.read<ClientModel>().type == AccountType.guest &&
-                    !(state.fullPath?.startsWith("/login") ?? true)
-                ? "/login"
+                    !defaultRoutes
+                        .any((e) => state.fullPath?.startsWith(e.path) ?? false)
+                ? (() async => (await getSavedLogins()).isEmpty
+                    ? "/login"
+                    : "/saved-accounts")()
                 : null;
           },
         );
