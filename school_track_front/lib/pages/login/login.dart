@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:school_track_front/gql_client.dart';
+import 'package:school_track_front/pages/login/saved_logins.dart';
 import 'package:school_track_front/pages/login/thin_from.dart';
 import 'package:school_track_front/util/auth.dart';
 
@@ -14,15 +15,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final clientModel = context.watch<ClientModel>();
+
+    return FutureBuilder(
+      future: getSavedLogins(),
+      builder: (context, data) {
+        if (data.data == null) {
+          return const Placeholder();
+        } else if (data.data!.length == 1) {
+          clientModel.loginJwt(data.data!.values.firstOrNull);
+          return const Placeholder();
+        } else {
+          return LoginPrompt(logins: data.data ?? {});
+        }
+      },
+    );
+  }
+}
+
+class LoginPrompt extends StatefulWidget {
+  const LoginPrompt({super.key, required this.logins});
+
+  final Map<String, String> logins;
+
+  @override
+  State<LoginPrompt> createState() => _LoginPromptState();
+}
+
+class _LoginPromptState extends State<LoginPrompt> {
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
+  var rememberPassword = false;
 
   String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
     final clientModel = context.watch<ClientModel>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.login),
@@ -48,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ThinForm(
         errorMessage: errorMessage,
         children: [
+          // TODO: show saved logins
           TextField(
             controller: loginController,
             decoration: InputDecoration(
@@ -67,6 +99,18 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 8),
           Row(
+            children: [
+              const Expanded(child: Text("Remember account")),
+              Checkbox(
+                value: rememberPassword,
+                onChanged: (b) => setState(() {
+                  rememberPassword = b ?? false;
+                }),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FilledButton(
@@ -78,9 +122,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     passwordController.text,
                   )
                       .whenComplete(
-                    () {
+                    () async {
                       if (clientModel.type != AccountType.guest) {
                         context.go("/dashboard");
+                        if (rememberPassword &&
+                            clientModel.currentJwt != null) {
+                          saveLogin(
+                            loginController.text,
+                            clientModel.currentJwt!,
+                          );
+                        }
                       }
                     },
                   );

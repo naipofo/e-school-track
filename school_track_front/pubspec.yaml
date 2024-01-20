@@ -30,6 +30,7 @@ dependencies:
   mobile_scanner: ^3.5.2
   flutter_nfc_kit: ^3.3.3
   ndef: ^0.3.1
+  shared_preferences: ^2.2.2
   
 dev_dependencies:
   flutter_test:

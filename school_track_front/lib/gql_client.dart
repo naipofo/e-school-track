@@ -16,6 +16,7 @@ class ClientModel extends ChangeNotifier {
   Client client;
   AccountType type = AccountType.guest;
   int userId = 0;
+  String? currentJwt;
 
   Future<int?> login(
     BuildContext context,
@@ -35,6 +36,7 @@ class ClientModel extends ChangeNotifier {
   Future<void> loginJwt(String? jwt) async {
     if (jwt == null || jwt.isEmpty) return;
 
+    currentJwt = jwt;
     client = buildClient(jwt);
     final claims = JwtDecoder.decode(jwt)["https://hasura.io/jwt/claims"];
 
